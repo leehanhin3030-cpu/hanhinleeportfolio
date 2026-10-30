@@ -203,6 +203,25 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .post figcaption a{ color:var(--ink2); width:max-content; border-bottom:1px solid rgba(17,19,21,.25); transition:color .2s, border-color .2s; }
 .post figcaption a:hover{ color:var(--ink); border-color:var(--ink); }
 .sheet h2:focus{ outline:none; }
+/* the works, one long sheet: HANHIN's dark stage first, then paper to the end; between works only white space and the head's hairline */
+.reel{ z-index:7; background:var(--paper); }
+.dusk{ height:clamp(120px, 26vh, 280px); background:linear-gradient(#04060A, var(--paper)); }
+.reel .proj h2{ font-size:clamp(38px, 5.4vw, 84px); word-break:keep-all; line-height:1.08; }
+.reel h2:focus{ outline:none; }
+/* where you are: a thin line of type over the work, light on the dark stage and dark on paper */
+.wbar{ position:sticky; top:0; z-index:8; height:0; mix-blend-mode:difference; }
+.wbar-in{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; padding:calc(18px + env(safe-area-inset-top, 0px)) var(--gr) 0 var(--gl); color:#F8F8F5; }
+.wbar-in .mono{ color:inherit; }
+.wnow{ all:unset; cursor:pointer; font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; white-space:nowrap; }
+.wnow:focus-visible, .wbar-in a:focus-visible{ outline:1px solid currentColor; outline-offset:4px; }
+.wmenu{ position:fixed; z-index:9; top:calc(44px + env(safe-area-inset-top, 0px)); right:var(--gr); width:min(340px, calc(100vw - 32px));
+  background:var(--paper); box-shadow:0 0 0 1px rgba(17,19,21,.14), 0 18px 40px rgba(17,19,21,.12); padding:6px 16px; }
+.wmenu a{ display:grid; grid-template-columns:34px minmax(0,1fr); gap:10px; align-items:baseline; padding:9px 0; border-bottom:1px solid rgba(17,19,21,.08); color:var(--ink2); }
+.wmenu a:last-child{ border-bottom:0; }
+.wmenu a:hover, .wmenu a[aria-current="true"]{ color:var(--ink); }
+.wmenu .k{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; color:var(--ink3); }
+.reel-end{ padding-bottom:calc(clamp(48px,8vh,96px) + env(safe-area-inset-bottom, 0px)); }
+.reel-end .proj-head{ margin-bottom:clamp(40px,8vh,80px); }
 /* about: the tools, three quiet columns under the write-up */
 .skills{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:clamp(24px,4vw,56px); margin-top:clamp(48px,8vh,88px); border-top:1px solid rgba(17,19,21,.18); padding-top:16px; }
 .skills .k{ margin:0 0 14px; font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); }
@@ -305,36 +324,41 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </div>
 </section>
 
-<section class="view room" id="v-hanhin" aria-label="HANHIN">
+<!-- the works: one long sheet, 01 to 07. One click opens it at that work; after that it is only scrolling -->
+<section class="view reel" id="v-reel" aria-label="작업">
+  <div class="wbar"><div class="wbar-in">
+    <a class="mono" href="#">&larr; 처음으로</a>
+    <button type="button" class="mono wnow" id="wnow" aria-expanded="false" aria-controls="wmenu"><span id="wnum">01 / 07</span> <span id="wname">HANHIN</span> <span aria-hidden="true">&#9662;</span></button>
+  </div></div>
+  <nav class="wmenu" id="wmenu" aria-label="작업 바로가기" hidden></nav>
+
+  <article class="work" id="w-hanhin" data-work="hanhin" aria-label="HANHIN">
   <div class="stage" id="stage-car">
     <img id="car" src="curvature-car.jpg" alt="HANHIN — 청새치의 유선형에서 가져온 차량, 사이드 뷰">
     <!-- the same light, for keys and screen readers: arrows push it along the line -->
     <input type="range" class="rail-range" id="rail-range" min="0" max="100" step="1" value="6" aria-label="스트립 라이트 위치, 노즈에서 테일까지">
     <canvas id="veil-car"></canvas>
     <div class="ghost" aria-hidden="true">Hanhin</div>
-    <div class="room-top">
-      <a class="mono" href="#works">&larr; 작업 목록</a>
-      <span class="mono">01 / 2026</span>
-    </div>
     <div class="stage-hud">
       <span class="mono" id="hint-car">빛을 밀어 차체 라인을 따라가세요 &middot; 키보드는 &larr; &rarr;</span>
       <button type="button" class="illum" id="illum-car" aria-pressed="false">Illuminate</button>
       <span class="mono">Scroll &darr;</span>
     </div>
   </div>
+  <div class="dusk" aria-hidden="true"></div>
 
   <div class="proj">
     <div class="proj-head">
       <span class="mono">01 / 2026</span>
       <span class="mono">Brand identity &mdash; 개인 작업</span>
     </div>
-    <h2>HANHIN</h2>
+    <h2 tabindex="-1">HANHIN</h2>
     <p class="en">형태 그 자체로 말하는 것</p>
     <div class="gal" style="--cols:1fr 1.78fr">
-      <img class="wide" src="w/hanhin-car.jpg" alt="HANHIN 차량 비주얼, 흙먼지 속을 달리는 파란 차" loading="lazy">
-      <img src="w/hanhin-logo.jpg" alt="HANHIN 로고 — 'ㅎ'에 전기 회로의 흐르는 선을 결합" loading="lazy">
-      <img src="w/hanhin-guideline.jpg" alt="HANHIN Brand Identity Guidelines 표지" loading="lazy">
-      <img class="wide" src="w/hanhin-book.jpg" alt="HANHIN 브랜드북 펼친 면" loading="lazy">
+      <img class="wide" src="w/hanhin-car.jpg" width="1600" height="893" alt="HANHIN 차량 비주얼, 흙먼지 속을 달리는 파란 차" loading="lazy">
+      <img src="w/hanhin-logo.jpg" width="1254" height="1254" alt="HANHIN 로고 — 'ㅎ'에 전기 회로의 흐르는 선을 결합" loading="lazy">
+      <img src="w/hanhin-guideline.jpg" width="1600" height="900" alt="HANHIN Brand Identity Guidelines 표지" loading="lazy">
+      <img class="wide" src="w/hanhin-book.jpg" width="1536" height="1024" alt="HANHIN 브랜드북 펼친 면" loading="lazy">
     </div>
     <div class="proj-body">
       <div>
@@ -350,23 +374,17 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
         <div class="fact"><span>역할</span><b>개인 작업 · 전 과정 단독</b></div>
       </div>
     </div>
-    <div class="room-foot">
-      <a class="mono" href="#works">&larr; 작업 목록</a>
-      <span class="mono">01</span>
-    </div>
   </div>
-</section>
+  </article>
 
-<!-- the paper rooms: each work keeps its own images; the page around them is the same sheet every time -->
-<section class="view sheet" id="v-relic" aria-label="슈퍼카도 언젠가는 유물이 된다">
-  <div class="vtop"><a class="mono" href="#works">&larr; 작업 목록</a><p class="mono">02 / 2024</p></div>
+  <article class="work" id="w-relic" data-work="relic" aria-label="슈퍼카도 언젠가는 유물이 된다">
   <div class="proj">
     <div class="proj-head"><span class="mono">Sculpture &mdash; 조각</span><span class="mono">개인 작업 &middot; 졸업작품</span></div>
     <h2 tabindex="-1">슈퍼카도 언젠가는 유물이 된다</h2>
     <p class="en">Relic</p>
     <div class="gal" style="--cols:1fr 1fr">
-      <img src="w/relic-metal.jpg" alt="메탈릭 표면 처리를 한 석고 캐스팅 자동차 — 현재" loading="lazy">
-      <img src="w/relic-rust.jpg" alt="러스트 표면 처리를 한 같은 원형 — 미래의 유물" loading="lazy">
+      <img src="w/relic-metal.jpg" width="1289" height="967" alt="메탈릭 표면 처리를 한 석고 캐스팅 자동차 — 현재" loading="lazy">
+      <img src="w/relic-rust.jpg" width="1375" height="1031" alt="러스트 표면 처리를 한 같은 원형 — 미래의 유물" loading="lazy">
     </div>
     <div class="proj-body">
       <div>
@@ -381,20 +399,18 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
         <div class="fact"><span>역할</span><b>개인 작업 · 졸업작품</b></div>
       </div>
     </div>
-    <div class="room-foot"><a class="mono" href="#works">&larr; 작업 목록</a><span class="mono">02</span></div>
   </div>
-</section>
+  </article>
 
-<section class="view sheet" id="v-speaker" aria-label="기왓장에 떨어진 빗물, 스피커가 되다">
-  <div class="vtop"><a class="mono" href="#works">&larr; 작업 목록</a><p class="mono">03 / 2026</p></div>
+  <article class="work" id="w-speaker" data-work="speaker" aria-label="기왓장에 떨어진 빗물, 스피커가 되다">
   <div class="proj">
     <div class="proj-head"><span class="mono">Product concept &mdash; 제품 컨셉</span><span class="mono">개인 작업</span></div>
     <h2 tabindex="-1">기왓장에 떨어진 빗물, 스피커가 되다</h2>
     <p class="en">Rain Speaker</p>
     <div class="gal" style="--cols:1fr 1fr">
-      <img src="w/speaker-1.jpg" alt="창가 벽면에 놓인 메탈릭 스피커, 물결 파동 모양의 그릴" loading="lazy">
-      <img src="w/speaker-2.jpg" alt="스피커 그릴 중심부 확대 — 동심원 파동" loading="lazy">
-      <img class="wide" src="w/speaker-3.jpg" alt="석재 벽 앞에 설치된 스피커 전경" loading="lazy">
+      <img src="w/speaker-1.jpg" width="1024" height="1024" alt="창가 벽면에 놓인 메탈릭 스피커, 물결 파동 모양의 그릴" loading="lazy">
+      <img src="w/speaker-2.jpg" width="1024" height="1024" alt="스피커 그릴 중심부 확대 — 동심원 파동" loading="lazy">
+      <img class="wide" src="w/speaker-3.jpg" width="1375" height="768" alt="석재 벽 앞에 설치된 스피커 전경" loading="lazy">
     </div>
     <div class="proj-body">
       <div>
@@ -409,21 +425,19 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
         <div class="fact"><span>역할</span><b>개인 작업</b></div>
       </div>
     </div>
-    <div class="room-foot"><a class="mono" href="#works">&larr; 작업 목록</a><span class="mono">03</span></div>
   </div>
-</section>
+  </article>
 
-<section class="view sheet" id="v-bag" aria-label="스친 장면 하나, 가방이 되다">
-  <div class="vtop"><a class="mono" href="#works">&larr; 작업 목록</a><p class="mono">04 / 2025</p></div>
+  <article class="work" id="w-bag" data-work="bag" aria-label="스친 장면 하나, 가방이 되다">
   <div class="proj">
     <div class="proj-head"><span class="mono">Fashion accessory &mdash; 패션 소품</span><span class="mono">개인 작업</span></div>
     <h2 tabindex="-1">스친 장면 하나, 가방이 되다</h2>
     <p class="en">Tweed &amp; Pearl</p>
     <div class="gal" style="--cols:1fr 1fr">
-      <img src="w/bag-model.jpg" alt="트위드 셋업을 입은 모델이 바스켓 백을 든 모습" loading="lazy">
-      <img src="w/bag-3.jpg" alt="진주 소품과 함께 놓인 트위드 바스켓 백" loading="lazy">
-      <img src="w/bag-2.jpg" alt="드로스트링을 연 가방 내부" loading="lazy">
-      <img src="w/bag-1.jpg" alt="진주가 달린 손잡이와 트위드 질감" loading="lazy">
+      <img src="w/bag-model.jpg" width="896" height="1195" alt="트위드 셋업을 입은 모델이 바스켓 백을 든 모습" loading="lazy">
+      <img src="w/bag-3.jpg" width="1199" height="1600" alt="진주 소품과 함께 놓인 트위드 바스켓 백" loading="lazy">
+      <img src="w/bag-2.jpg" width="1200" height="1600" alt="드로스트링을 연 가방 내부" loading="lazy">
+      <img src="w/bag-1.jpg" width="384" height="512" alt="진주가 달린 손잡이와 트위드 질감" loading="lazy">
     </div>
     <div class="proj-body">
       <div>
@@ -438,84 +452,10 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
         <div class="fact"><span>역할</span><b>개인 작업</b></div>
       </div>
     </div>
-    <div class="room-foot"><a class="mono" href="#works">&larr; 작업 목록</a><span class="mono">04</span></div>
   </div>
-</section>
+  </article>
 
-<section class="view sheet" id="v-ediya" aria-label="이디야 컬러 이벤트">
-  <div class="vtop"><a class="mono" href="#works">&larr; 작업 목록</a><p class="mono">06 / 2026</p></div>
-  <div class="proj">
-    <div class="proj-head"><span class="mono">Campaign &mdash; 캠페인 · 캐릭터</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
-    <h2 tabindex="-1">이디야, 14일의 컬러를 찾아라</h2>
-    <p class="en">Ediya &mdash; Color Hunt</p>
-    <div class="gal" style="--cols:1fr 1fr">
-      <img class="wide" src="w/ediya-banner.jpg" alt="'이디야 컬러를 찾아라' 이벤트 배너, 파란 토끼 캐릭터" loading="lazy">
-      <img src="w/ediya-a.jpg" alt="황금 리워드 이벤트 카드" loading="lazy">
-      <img src="w/ediya-d.jpg" alt="'참여할수록 확률 UP' 카드" loading="lazy">
-    </div>
-    <div class="gal tall" style="--cols:1fr 1fr 1fr">
-      <img src="w/ediya-ar.jpg" alt="AR 카메라로 컬러를 찾는 화면" loading="lazy">
-      <img src="w/ediya-b.jpg" alt="이벤트 랜딩페이지 상단" loading="lazy">
-      <img src="w/ediya-c.jpg" alt="이벤트 랜딩페이지 참여 안내" loading="lazy">
-    </div>
-    <div class="proj-body">
-      <div>
-        <p class="lead">최근 매출이 줄고 있고, 특히 젊은 층에게는 잘 찾지 않는 브랜드라는 문제에서 시작했습니다.</p>
-        <p>젊은 세대가 자연스럽게 참여할 수 있도록, 14일 동안 매일 다른 컬러를 AR 카메라로 찾아내는 인터랙션을 중심으로 컬러 이벤트를 기획했습니다.</p>
-        <p>캐릭터는 새로운 형태를 만들기보다, 누구에게나 익숙한 토끼를 선택해 진입장벽을 낮추는 쪽을 택했습니다. 여기에 이디야 고유의 블루 컬러를 입히고, 전체적으로 귀여운 톤으로 디자인해 '친근함'이라는 브랜드 키워드를 자연스럽게 전달하고자 했습니다. 랜딩페이지·카드뉴스·포스터로 결과물을 만들었고, 그중 캐릭터 초기 디자인과 배너·랜딩페이지 제작을 담당했습니다.</p>
-      </div>
-      <div class="facts">
-        <div class="fact"><span>연도</span><b>2026.05</b></div>
-        <div class="fact"><span>분류</span><b>캠페인 · 캐릭터</b></div>
-        <div class="fact"><span>형태</span><b>팀 프로젝트 (교육과정)</b></div>
-        <div class="fact"><span>담당</span><b>캐릭터 초기 디자인 · 배너 · 랜딩페이지</b></div>
-        <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
-      </div>
-    </div>
-    <div class="room-foot"><a class="mono" href="#works">&larr; 작업 목록</a><span class="mono">06</span></div>
-  </div>
-</section>
-
-<section class="view sheet" id="v-emart" aria-label="이마트 장난감 기부 캠페인">
-  <div class="vtop"><a class="mono" href="#works">&larr; 작업 목록</a><p class="mono">07 / 2026</p></div>
-  <div class="proj">
-    <div class="proj-head"><span class="mono">Card news &mdash; 카드뉴스 8장</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
-    <h2 tabindex="-1">이마트, 장난감의 두 번째 생일</h2>
-    <p class="en">E-mart &mdash; Toy Donation</p>
-    <div class="gal" style="--cols:repeat(4, 1fr)">
-      <img src="w/emart-1.jpg" alt="1/8 장난감의 두 번째 생일, 토이킹덤 기사단 모집" loading="lazy">
-      <img src="w/emart-2.jpg" alt="2/8 아이가 자랄수록 장난감은 쌓인다" loading="lazy">
-      <img src="w/emart-3.jpg" alt="3/8 낡은 장난감이 선물로 변신합니다" loading="lazy">
-      <img src="w/emart-4.jpg" alt="4/8 기부 가능한 장난감과 어려운 장난감" loading="lazy">
-      <img src="w/emart-5.jpg" alt="5/8 장난감의 여행이 시작됩니다" loading="lazy">
-      <img src="w/emart-6.jpg" alt="6/8 이렇게 참여하세요" loading="lazy">
-      <img src="w/emart-7.jpg" alt="7/8 기부하면 드리는 선물" loading="lazy">
-      <img src="w/emart-8.jpg" alt="8/8 장난감에게 두 번째 생일을 선물하세요" loading="lazy">
-    </div>
-    <div class="proj-body">
-      <div>
-        <p class="lead">원래 있던 중고 장난감 기부 캠페인을 분석하면서 시작했습니다.</p>
-        <p>실제 반응을 살펴보니 "어디에 기부하면 되는지 모르겠다", "어떤 품목은 기부가 안 되는지 명확하지 않다"는 문제들이 보였고, 이 부분을 카드뉴스에서 명확하게 짚어주는 방향으로 디벨롭했습니다. 여기에 기부하는 양이 많을수록 보상도 커지는 구조를 더해서, 한 번이 아니라 계속 참여하고 싶어지도록 만들었습니다.</p>
-        <p>비주얼은 픽셀 그래픽 스타일로 표현했는데, 실제로 기부를 결정하는 주 타겟이 부모님 세대인 만큼, 어린 시절 게임 화면을 떠올리게 하는 픽셀 그래픽이 딱딱하지 않고 친근하게 다가갈 수 있다고 판단했습니다. 이 흐름을 카드뉴스 8장에 담았고, 디자인 방향은 팀원들과 의견을 나누며 잡았고 최종 카드뉴스를 만들었습니다.</p>
-      </div>
-      <div class="facts">
-        <div class="fact"><span>연도</span><b>2026.05</b></div>
-        <div class="fact"><span>분류</span><b>캠페인 · 카드뉴스</b></div>
-        <div class="fact"><span>형태</span><b>팀 프로젝트 (교육과정)</b></div>
-        <div class="fact"><span>담당</span><b>최종 카드뉴스 디자인</b></div>
-        <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
-      </div>
-    </div>
-    <div class="room-foot"><a class="mono" href="#works">&larr; 작업 목록</a><span class="mono">07</span></div>
-  </div>
-</section>
-
-<!-- 카드뉴스: no dark room; the work stays on paper, as it was published, in its own feed -->
-<section class="view sheet" id="v-cardnews" aria-label="카드뉴스">
-  <div class="vtop">
-    <a class="mono" href="#works">&larr; 작업 목록</a>
-    <p class="mono">05 / 2026</p>
-  </div>
+  <article class="work" id="w-cardnews" data-work="cardnews" aria-label="카드뉴스">
   <div class="proj">
     <div class="proj-head">
       <span class="mono">Client &mdash; 서울경제진흥원(SBA)</span>
@@ -556,12 +496,87 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
         <div class="fact"><span>수치</span><b>인스타그램 인사이트 · 09.28 기준</b></div>
       </div>
     </div>
-    <div class="room-foot">
-      <a class="mono" href="#works">&larr; 작업 목록</a>
-      <span class="mono">05</span>
+  </div>
+  </article>
+
+  <article class="work" id="w-ediya" data-work="ediya" aria-label="이디야 컬러 이벤트">
+  <div class="proj">
+    <div class="proj-head"><span class="mono">Campaign &mdash; 캠페인 · 캐릭터</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
+    <h2 tabindex="-1">이디야, 14일의 컬러를 찾아라</h2>
+    <p class="en">Ediya &mdash; Color Hunt</p>
+    <div class="gal" style="--cols:1fr 1fr">
+      <img class="wide" src="w/ediya-banner.jpg" width="1600" height="759" alt="'이디야 컬러를 찾아라' 이벤트 배너, 파란 토끼 캐릭터" loading="lazy">
+      <img src="w/ediya-a.jpg" width="1440" height="1440" alt="황금 리워드 이벤트 카드" loading="lazy">
+      <img src="w/ediya-d.jpg" width="1440" height="1139" alt="'참여할수록 확률 UP' 카드" loading="lazy">
+    </div>
+    <div class="gal tall" style="--cols:1fr 1fr 1fr">
+      <img src="w/ediya-ar.jpg" width="736" height="1436" alt="AR 카메라로 컬러를 찾는 화면" loading="lazy">
+      <img src="w/ediya-b.jpg" width="762" height="1600" alt="이벤트 랜딩페이지 상단" loading="lazy">
+      <img src="w/ediya-c.jpg" width="768" height="1394" alt="이벤트 랜딩페이지 참여 안내" loading="lazy">
+    </div>
+    <div class="proj-body">
+      <div>
+        <p class="lead">최근 매출이 줄고 있고, 특히 젊은 층에게는 잘 찾지 않는 브랜드라는 문제에서 시작했습니다.</p>
+        <p>젊은 세대가 자연스럽게 참여할 수 있도록, 14일 동안 매일 다른 컬러를 AR 카메라로 찾아내는 인터랙션을 중심으로 컬러 이벤트를 기획했습니다.</p>
+        <p>캐릭터는 새로운 형태를 만들기보다, 누구에게나 익숙한 토끼를 선택해 진입장벽을 낮추는 쪽을 택했습니다. 여기에 이디야 고유의 블루 컬러를 입히고, 전체적으로 귀여운 톤으로 디자인해 '친근함'이라는 브랜드 키워드를 자연스럽게 전달하고자 했습니다. 랜딩페이지·카드뉴스·포스터로 결과물을 만들었고, 그중 캐릭터 초기 디자인과 배너·랜딩페이지 제작을 담당했습니다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>연도</span><b>2026.05</b></div>
+        <div class="fact"><span>분류</span><b>캠페인 · 캐릭터</b></div>
+        <div class="fact"><span>형태</span><b>팀 프로젝트 (교육과정)</b></div>
+        <div class="fact"><span>담당</span><b>캐릭터 초기 디자인 · 배너 · 랜딩페이지</b></div>
+        <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
+      </div>
     </div>
   </div>
+  </article>
+
+  <article class="work" id="w-emart" data-work="emart" aria-label="이마트 장난감 기부 캠페인">
+  <div class="proj">
+    <div class="proj-head"><span class="mono">Card news &mdash; 카드뉴스 8장</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
+    <h2 tabindex="-1">이마트, 장난감의 두 번째 생일</h2>
+    <p class="en">E-mart &mdash; Toy Donation</p>
+    <div class="gal" style="--cols:repeat(4, 1fr)">
+      <img src="w/emart-1.jpg" width="960" height="960" alt="1/8 장난감의 두 번째 생일, 토이킹덤 기사단 모집" loading="lazy">
+      <img src="w/emart-2.jpg" width="960" height="960" alt="2/8 아이가 자랄수록 장난감은 쌓인다" loading="lazy">
+      <img src="w/emart-3.jpg" width="960" height="960" alt="3/8 낡은 장난감이 선물로 변신합니다" loading="lazy">
+      <img src="w/emart-4.jpg" width="960" height="960" alt="4/8 기부 가능한 장난감과 어려운 장난감" loading="lazy">
+      <img src="w/emart-5.jpg" width="960" height="960" alt="5/8 장난감의 여행이 시작됩니다" loading="lazy">
+      <img src="w/emart-6.jpg" width="960" height="960" alt="6/8 이렇게 참여하세요" loading="lazy">
+      <img src="w/emart-7.jpg" width="960" height="960" alt="7/8 기부하면 드리는 선물" loading="lazy">
+      <img src="w/emart-8.jpg" width="960" height="960" alt="8/8 장난감에게 두 번째 생일을 선물하세요" loading="lazy">
+    </div>
+    <div class="proj-body">
+      <div>
+        <p class="lead">원래 있던 중고 장난감 기부 캠페인을 분석하면서 시작했습니다.</p>
+        <p>실제 반응을 살펴보니 "어디에 기부하면 되는지 모르겠다", "어떤 품목은 기부가 안 되는지 명확하지 않다"는 문제들이 보였고, 이 부분을 카드뉴스에서 명확하게 짚어주는 방향으로 디벨롭했습니다. 여기에 기부하는 양이 많을수록 보상도 커지는 구조를 더해서, 한 번이 아니라 계속 참여하고 싶어지도록 만들었습니다.</p>
+        <p>비주얼은 픽셀 그래픽 스타일로 표현했는데, 실제로 기부를 결정하는 주 타겟이 부모님 세대인 만큼, 어린 시절 게임 화면을 떠올리게 하는 픽셀 그래픽이 딱딱하지 않고 친근하게 다가갈 수 있다고 판단했습니다. 이 흐름을 카드뉴스 8장에 담았고, 디자인 방향은 팀원들과 의견을 나누며 잡았고 최종 카드뉴스를 만들었습니다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>연도</span><b>2026.05</b></div>
+        <div class="fact"><span>분류</span><b>캠페인 · 카드뉴스</b></div>
+        <div class="fact"><span>형태</span><b>팀 프로젝트 (교육과정)</b></div>
+        <div class="fact"><span>담당</span><b>최종 카드뉴스 디자인</b></div>
+        <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
+      </div>
+    </div>
+  </div>
+  </article>
+
+  <footer class="proj reel-end">
+    <div class="proj-head"><span class="mono">End &mdash; 끝까지 봐주셔서 감사합니다</span><span class="mono">07 / 07</span></div>
+    <a class="mail" href="mailto:leehanhin3030@gmail.com">leehanhin3030@gmail.com</a>
+    <p class="cnote">메일로 연락 주세요.</p>
+    <button class="copy" type="button" data-copy="leehanhin3030@gmail.com">주소 복사</button>
+    <div class="room-foot"><a class="mono" href="#">&larr; 처음으로</a><a class="mono" href="#about">About &rarr;</a></div>
+  </footer>
 </section>
+
+
+
+
+
+
 
 <script id="vs" type="x-shader/x-vertex">
 attribute vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }
@@ -859,9 +874,15 @@ void main(){
   if (mq.addEventListener) mq.addEventListener("change", function(e){ reduce = e.matches; });
   var coarse = window.matchMedia("(pointer: coarse)").matches;
   var ui = document.querySelector(".ui"), cover = document.getElementById("cover");
-  var VIEWS = {};
-  ["about", "hanhin", "relic", "speaker", "bag", "cardnews", "ediya", "emart"].forEach(function(k){ VIEWS[k] = document.getElementById("v-" + k); });
+  var VIEWS = { about:document.getElementById("v-about"), reel:document.getElementById("v-reel") };
+  var reel = VIEWS.reel;
+  /* the works are places on one long sheet, not pages: each address opens the sheet at that work */
+  var WORKS = ["hanhin", "relic", "speaker", "bag", "cardnews", "ediya", "emart"], ART = {}, NAMES = {};
   var panel = document.getElementById("works-panel");
+  WORKS.forEach(function(k){
+    ART[k] = document.getElementById("w-" + k);
+    NAMES[k] = panel.querySelector('a.irow[href="#' + k + '"] b').textContent;
+  });
   var PANELS = {
     works:   { panel:panel, toggle:document.getElementById("works-toggle") },
     contact: { panel:document.getElementById("contact-panel"), toggle:document.getElementById("contact-toggle") }
@@ -1053,14 +1074,29 @@ void main(){
   function nameOf(hash){
     var h = (hash || "").replace(/^#/, "");
     if (h === "curvature") h = "hanhin";   /* the room's old address still finds it */
-    return PANELS[h] || VIEWS[h] ? h : "";
+    return PANELS[h] || VIEWS[h] && h !== "reel" || ART[h] ? h : "";
+  }
+  function viewOf(name){ return ART[name] ? "reel" : name; }
+
+  /* bring a work to the top of the long sheet; a jump inside the sheet glides, an arrival is instant */
+  function show(k, smooth, quiet){
+    var top = ART[k].offsetTop;
+    if (smooth && !reduce) reel.scrollTo({ top:top, behavior:"smooth" }); else reel.scrollTop = top;
+    current = k; mark(k);
+    document.title = TITLES[k];
+    if (location.hash !== "#" + k) history.replaceState(null, "", "#" + k);
+    if (quiet) return;
+    if (k === "hanhin") rail.focus(); else ART[k].querySelector("h2").focus({ preventScroll:true });
   }
 
   function go(name){
     if (pending){ clearTimeout(pending); pending = null; }
     panel.classList.remove("leaving");
     if (name === current) return;
-    var prev = current; current = name;
+    var prev = current, view = viewOf(name);
+    /* already on the long sheet: moving to another work is only a scroll */
+    if (ART[name] && prev !== null && ART[prev]){ show(name, true); return; }
+    current = name;
     var sheet = name === "" || !!PANELS[name];
     document.title = TITLES[name];
     ui.classList.toggle("away", !sheet);
@@ -1072,20 +1108,18 @@ void main(){
       p.toggle.setAttribute("aria-expanded", k === name ? "true" : "false");
     });
     Object.keys(VIEWS).forEach(function(k){
-      VIEWS[k].classList.toggle("on", k === name);
+      VIEWS[k].classList.toggle("on", k === view);
       VIEWS[k].classList.remove("leaving");
-      VIEWS[k].inert = k !== name;
+      VIEWS[k].inert = k !== view;
     });
-    if (name === "hanhin"){ VIEWS.hanhin.scrollTop = 0; rail.enter(); rail.focus(); } else rail.leave();
-    /* a paper room opens at its top; Instagram is only asked for once someone opens that sheet */
-    var v = VIEWS[name];
-    if (v && v.classList.contains("sheet")){
-      v.scrollTop = 0;
-      v.querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
-      if (prev !== null) v.querySelector("h2").focus({ preventScroll:true });
+    menu(false);
+    if (view === "reel"){ rail.enter(); show(name, false, prev === null); } else rail.leave();
+    if (view === "about"){
+      VIEWS.about.scrollTop = 0;
+      if (prev !== null) VIEWS.about.querySelector("h2").focus({ preventScroll:true });
     }
-    /* leaving a room: the flood dries under the fading room, and the first sheet gets its marks back */
-    if (name !== "hanhin" && poured){ poured = false; flood.dry(); }
+    /* leaving the works: the flood dries under the fading sheet, and the first sheet gets its marks back */
+    if (view !== "reel" && poured){ poured = false; flood.dry(); }
     if (prev === null) return;
     if (name === "works") (lastRow || panel.querySelector("a.irow")).focus({ preventScroll:true });
     if (name === "contact") PANELS.contact.panel.querySelector(".mail").focus({ preventScroll:true });
@@ -1125,6 +1159,56 @@ void main(){
     });
   });
 
+  /* ===== the long sheet: the bar says where you are, and can take you to any work ===== */
+  var wnow = document.getElementById("wnow"), wmenu = document.getElementById("wmenu");
+  var wnum = document.getElementById("wnum"), wname = document.getElementById("wname");
+  WORKS.forEach(function(k, i){
+    var a = document.createElement("a");
+    a.href = "#" + k;
+    a.innerHTML = '<span class="k">' + String(i + 1).padStart(2, "0") + '</span><span>' + NAMES[k] + '</span>';
+    a.addEventListener("click", function(e){ e.preventDefault(); menu(false); show(k, true); });
+    wmenu.appendChild(a);
+  });
+  function menu(open){
+    wmenu.hidden = !open;
+    wnow.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) (wmenu.querySelector('[aria-current="true"]') || wmenu.firstChild).focus();
+  }
+  wnow.addEventListener("click", function(){ menu(wmenu.hidden); });
+  document.addEventListener("pointerdown", function(e){ if (!wmenu.hidden && !wmenu.contains(e.target) && !wnow.contains(e.target)) menu(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !wmenu.hidden){ menu(false); wnow.focus(); } });
+
+  function mark(k){
+    var i = WORKS.indexOf(k);
+    wnum.textContent = String(i + 1).padStart(2, "0") + " / 07";
+    wname.textContent = NAMES[k];
+    wmenu.querySelectorAll("a").forEach(function(a, j){ a.setAttribute("aria-current", j === i ? "true" : "false"); });
+  }
+  /* the address follows the reading without adding history: back still means back to the first sheet */
+  function spied(k){
+    if (WORKS.indexOf(current) < 0 || k === current) return;
+    current = k; mark(k);
+    document.title = TITLES[k];
+    history.replaceState(null, "", "#" + k);
+  }
+  if ("IntersectionObserver" in window){
+    /* the work crossing the middle of the screen is the one being read */
+    var spy = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) spied(e.target.getAttribute("data-work")); });
+    }, { root:reel, rootMargin:"-45% 0px -54% 0px" });
+    /* Instagram is only asked for when its work comes near */
+    var near = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
+        near.unobserve(e.target);
+      });
+    }, { root:reel, rootMargin:"800px 0px" });
+    WORKS.forEach(function(k){ spy.observe(ART[k]); near.observe(ART[k]); });
+  } else {
+    reel.querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
+  }
+
   /* coming back to the list returns focus to the work that was opened */
   document.querySelectorAll("a.irow").forEach(function(a){ a.addEventListener("click", function(){ lastRow = a; }); });
 
@@ -1136,5 +1220,4 @@ void main(){
   /* a deep link arrives straight in the room, no flood */
   go(nameOf(location.hash));
 })();
-</script>
 </script>
