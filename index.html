@@ -225,6 +225,54 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .wmenu .k{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; color:var(--ink3); }
 .reel-end{ padding-bottom:calc(clamp(48px,8vh,96px) + env(safe-area-inset-bottom, 0px)); }
 .reel-end .proj-head{ margin-bottom:clamp(40px,8vh,80px); }
+
+/* one work at a time: the sheet keeps its bar, the work in it changes; a change is a short fade, never another flood */
+.work{ display:none; transition:opacity .22s ease; }
+.work.on{ display:block; }
+.reel.swap .work.on{ opacity:0; }
+.reel-end{ display:none; }
+.reel[data-at="emart"] .reel-end{ display:block; }
+.wnav{ display:flex; align-items:baseline; gap:18px; }
+.wstep{ padding:4px 2px; }
+.wstep[aria-disabled="true"]{ opacity:.3; pointer-events:none; }
+
+/* each work's first screen, composed for that work */
+.hero{ position:relative; height:100vh; height:100svh; min-height:480px; overflow:hidden; background:#ECECE8; }
+.hero img{ display:block; width:100%; height:100%; object-fit:cover; }
+.hero-diptych{ display:grid; grid-template-columns:1fr 1fr; }
+.hero-split{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); background:var(--paper); }
+.hero-side{ display:flex; flex-direction:column; justify-content:center; padding:0 var(--gr) 0 clamp(32px,6vw,96px);
+  font-weight:200; font-size:clamp(56px, 8vw, 132px); letter-spacing:-.05em; line-height:.95; color:var(--ink); }
+.hero-side span + span{ padding-left:.6em; color:var(--ink3); }
+.hero-band{ height:auto; min-height:0; }
+.hero-band img{ height:auto; }
+.hero-wall{ display:grid; grid-template-columns:repeat(4, 1fr); }
+.hero-cap{ position:absolute; left:0; right:0; bottom:calc(26px + env(safe-area-inset-bottom, 0px)); margin:0; display:flex; justify-content:space-between; gap:24px;
+  padding:0 var(--gr) 0 var(--gl); color:#F8F8F5; mix-blend-mode:difference; }
+.hero-cap .mono{ color:inherit; }
+@media (max-width:720px){
+  .hero-split{ grid-template-columns:1fr; }
+  .hero-side{ display:none; }
+  .wnav{ gap:12px; }
+  #wname{ display:none; }
+}
+
+/* the next work, waiting under a wash of ink: a slit of it shows through where the ink is thin */
+.tease{ display:block; margin-top:clamp(72px,12vh,140px); border-top:1px solid rgba(17,19,21,.18); padding-top:16px; color:var(--ink); cursor:pointer; }
+.tease .row2{ display:flex; justify-content:space-between; gap:24px; }
+.tease .k{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); }
+.slit{ position:relative; display:block; height:clamp(120px, 24vh, 240px); margin:18px 0 22px; overflow:hidden; background:#ECECE8; }
+.slit img{ width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(.9); transform:scale(1.04); transition:filter .45s ease, transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.slit-type{ display:grid; place-items:center; height:100%; font-weight:200; font-size:clamp(40px,6vw,96px); letter-spacing:-.04em; color:#B9BCBE; white-space:nowrap; }
+.slit::after{ content:""; position:absolute; inset:-12%;
+  background:radial-gradient(42% 80% at 34% 56%, rgba(4,6,10,.32), rgba(4,6,10,.8) 58%, rgba(4,6,10,.93) 100%);
+  transition:opacity .45s ease, transform .45s ease; }
+.tease:hover .slit::after, .tease:focus-visible .slit::after{ opacity:.55; transform:scale(1.1); }
+.tease:hover .slit img, .tease:focus-visible .slit img{ transform:scale(1.01); }
+.tease.lift .slit::after{ opacity:0; transform:scale(1.25); }
+.tease.lift .slit img{ filter:none; transform:none; }
+.tease b{ display:block; font-weight:200; font-size:clamp(34px, 4.6vw, 72px); letter-spacing:-.04em; line-height:1.05; word-break:keep-all; }
+.tease:focus-visible{ outline:2px solid var(--ink); outline-offset:6px; }
 /* about: the tools, three quiet columns under the write-up */
 .skills{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:clamp(24px,4vw,56px); margin-top:clamp(48px,8vh,88px); border-top:1px solid rgba(17,19,21,.18); padding-top:16px; }
 .skills .k{ margin:0 0 14px; font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); }
@@ -331,7 +379,11 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 <section class="view reel" id="v-reel" aria-label="작업">
   <div class="wbar"><div class="wbar-in">
     <a class="mono" href="#">&larr; 처음으로</a>
-    <button type="button" class="mono wnow" id="wnow" aria-expanded="false" aria-controls="wmenu"><span id="wnum">01 / 07</span> <span id="wname">HANHIN</span> <span aria-hidden="true">&#9662;</span></button>
+    <span class="wnav">
+      <a class="mono wstep" id="wprev" href="#" aria-label="이전 작업">&larr;</a>
+      <button type="button" class="mono wnow" id="wnow" aria-expanded="false" aria-controls="wmenu"><span id="wnum">01 / 07</span> <span id="wname">HANHIN</span> <span aria-hidden="true">&#9662;</span></button>
+      <a class="mono wstep" id="wnext" href="#" aria-label="다음 작업">&rarr;</a>
+    </span>
   </div></div>
   <nav class="wmenu" id="wmenu" aria-label="작업 바로가기" hidden></nav>
 
@@ -381,14 +433,15 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <article class="work" id="w-relic" data-work="relic" aria-label="슈퍼카도 언젠가는 유물이 된다">
+  <div class="hero hero-diptych">
+    <img src="w/relic-metal.jpg" width="1289" height="967" alt="메탈릭 표면 처리를 한 석고 캐스팅 자동차 — 현재">
+    <img src="w/relic-rust.jpg" width="1375" height="1031" alt="러스트 표면 처리를 한 같은 원형 — 미래의 유물">
+    <p class="hero-cap"><span class="mono">02 / 2024 &mdash; 현재와 미래</span><span class="mono">Scroll &darr;</span></p>
+  </div>
   <div class="proj">
     <div class="proj-head"><span class="mono">Sculpture &mdash; 조각</span><span class="mono">개인 작업 &middot; 졸업작품</span></div>
     <h2 tabindex="-1">슈퍼카도 언젠가는 유물이 된다</h2>
     <p class="en">Relic</p>
-    <div class="gal" style="--cols:1fr 1fr">
-      <img src="w/relic-metal.jpg" width="1289" height="967" alt="메탈릭 표면 처리를 한 석고 캐스팅 자동차 — 현재" loading="lazy">
-      <img src="w/relic-rust.jpg" width="1375" height="1031" alt="러스트 표면 처리를 한 같은 원형 — 미래의 유물" loading="lazy">
-    </div>
     <div class="proj-body">
       <div>
         <p class="lead">좋아하는 자동차를 직접 조각해 만든 졸업 작품입니다.</p>
@@ -406,13 +459,16 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <article class="work" id="w-speaker" data-work="speaker" aria-label="기왓장에 떨어진 빗물, 스피커가 되다">
+  <div class="hero">
+    <img src="w/speaker-2.jpg" width="1024" height="1024" alt="스피커 그릴 중심부 확대 — 동심원 파동">
+    <p class="hero-cap"><span class="mono">03 / 2026 &mdash; Rain Speaker</span><span class="mono">Scroll &darr;</span></p>
+  </div>
   <div class="proj">
     <div class="proj-head"><span class="mono">Product concept &mdash; 제품 컨셉</span><span class="mono">개인 작업</span></div>
     <h2 tabindex="-1">기왓장에 떨어진 빗물, 스피커가 되다</h2>
     <p class="en">Rain Speaker</p>
     <div class="gal" style="--cols:1fr 1fr">
       <img src="w/speaker-1.jpg" width="1024" height="1024" alt="창가 벽면에 놓인 메탈릭 스피커, 물결 파동 모양의 그릴" loading="lazy">
-      <img src="w/speaker-2.jpg" width="1024" height="1024" alt="스피커 그릴 중심부 확대 — 동심원 파동" loading="lazy">
       <img class="wide" src="w/speaker-3.jpg" width="1375" height="768" alt="석재 벽 앞에 설치된 스피커 전경" loading="lazy">
     </div>
     <div class="proj-body">
@@ -432,12 +488,16 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <article class="work" id="w-bag" data-work="bag" aria-label="스친 장면 하나, 가방이 되다">
+  <div class="hero hero-split">
+    <img src="w/bag-model.jpg" width="896" height="1195" alt="트위드 셋업을 입은 모델이 바스켓 백을 든 모습">
+    <div class="hero-side" aria-hidden="true"><span>Tweed</span><span>&amp; Pearl</span></div>
+    <p class="hero-cap"><span class="mono">04 / 2025 &mdash; 패션 소품</span><span class="mono">Scroll &darr;</span></p>
+  </div>
   <div class="proj">
     <div class="proj-head"><span class="mono">Fashion accessory &mdash; 패션 소품</span><span class="mono">개인 작업</span></div>
     <h2 tabindex="-1">스친 장면 하나, 가방이 되다</h2>
     <p class="en">Tweed &amp; Pearl</p>
     <div class="gal" style="--cols:1fr 1fr">
-      <img src="w/bag-model.jpg" width="896" height="1195" alt="트위드 셋업을 입은 모델이 바스켓 백을 든 모습" loading="lazy">
       <img src="w/bag-3.jpg" width="1199" height="1600" alt="진주 소품과 함께 놓인 트위드 바스켓 백" loading="lazy">
       <img src="w/bag-2.jpg" width="1200" height="1600" alt="드로스트링을 연 가방 내부" loading="lazy">
       <img src="w/bag-1.jpg" width="384" height="512" alt="진주가 달린 손잡이와 트위드 질감" loading="lazy">
@@ -503,12 +563,14 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <article class="work" id="w-ediya" data-work="ediya" aria-label="이디야 컬러 이벤트">
+  <div class="hero hero-band">
+    <img src="w/ediya-banner.jpg" width="1600" height="759" alt="'이디야 컬러를 찾아라' 이벤트 배너, 파란 토끼 캐릭터">
+  </div>
   <div class="proj">
     <div class="proj-head"><span class="mono">Campaign &mdash; 캠페인 · 캐릭터</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
     <h2 tabindex="-1">이디야, 14일의 컬러를 찾아라</h2>
     <p class="en">Ediya &mdash; Color Hunt</p>
     <div class="gal" style="--cols:1fr 1fr">
-      <img class="wide" src="w/ediya-banner.jpg" width="1600" height="759" alt="'이디야 컬러를 찾아라' 이벤트 배너, 파란 토끼 캐릭터" loading="lazy">
       <img src="w/ediya-a.jpg" width="1440" height="1440" alt="황금 리워드 이벤트 카드" loading="lazy">
       <img src="w/ediya-d.jpg" width="1440" height="1139" alt="'참여할수록 확률 UP' 카드" loading="lazy">
     </div>
@@ -535,20 +597,20 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <article class="work" id="w-emart" data-work="emart" aria-label="이마트 장난감 기부 캠페인">
+  <div class="hero hero-band hero-wall">
+      <img src="w/emart-1.jpg" width="960" height="960" alt="1/8 장난감의 두 번째 생일, 토이킹덤 기사단 모집">
+      <img src="w/emart-2.jpg" width="960" height="960" alt="2/8 아이가 자랄수록 장난감은 쌓인다">
+      <img src="w/emart-3.jpg" width="960" height="960" alt="3/8 낡은 장난감이 선물로 변신합니다">
+      <img src="w/emart-4.jpg" width="960" height="960" alt="4/8 기부 가능한 장난감과 어려운 장난감">
+      <img src="w/emart-5.jpg" width="960" height="960" alt="5/8 장난감의 여행이 시작됩니다">
+      <img src="w/emart-6.jpg" width="960" height="960" alt="6/8 이렇게 참여하세요">
+      <img src="w/emart-7.jpg" width="960" height="960" alt="7/8 기부하면 드리는 선물">
+      <img src="w/emart-8.jpg" width="960" height="960" alt="8/8 장난감에게 두 번째 생일을 선물하세요">
+  </div>
   <div class="proj">
     <div class="proj-head"><span class="mono">Card news &mdash; 카드뉴스 8장</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
     <h2 tabindex="-1">이마트, 장난감의 두 번째 생일</h2>
     <p class="en">E-mart &mdash; Toy Donation</p>
-    <div class="gal" style="--cols:repeat(4, 1fr)">
-      <img src="w/emart-1.jpg" width="960" height="960" alt="1/8 장난감의 두 번째 생일, 토이킹덤 기사단 모집" loading="lazy">
-      <img src="w/emart-2.jpg" width="960" height="960" alt="2/8 아이가 자랄수록 장난감은 쌓인다" loading="lazy">
-      <img src="w/emart-3.jpg" width="960" height="960" alt="3/8 낡은 장난감이 선물로 변신합니다" loading="lazy">
-      <img src="w/emart-4.jpg" width="960" height="960" alt="4/8 기부 가능한 장난감과 어려운 장난감" loading="lazy">
-      <img src="w/emart-5.jpg" width="960" height="960" alt="5/8 장난감의 여행이 시작됩니다" loading="lazy">
-      <img src="w/emart-6.jpg" width="960" height="960" alt="6/8 이렇게 참여하세요" loading="lazy">
-      <img src="w/emart-7.jpg" width="960" height="960" alt="7/8 기부하면 드리는 선물" loading="lazy">
-      <img src="w/emart-8.jpg" width="960" height="960" alt="8/8 장난감에게 두 번째 생일을 선물하세요" loading="lazy">
-    </div>
     <div class="proj-body">
       <div>
         <p class="lead">원래 있던 중고 장난감 기부 캠페인을 분석하면서 시작했습니다.</p>
@@ -1081,15 +1143,25 @@ void main(){
   }
   function viewOf(name){ return ART[name] ? "reel" : name; }
 
-  /* bring a work to the top of the long sheet; a jump inside the sheet glides, an arrival is instant */
-  function show(k, smooth, quiet){
-    var top = ART[k].offsetTop;
-    if (smooth && !reduce) reel.scrollTo({ top:top, behavior:"smooth" }); else reel.scrollTop = top;
-    current = k; mark(k);
+  /* put one work on the sheet, at its first screen. Moving between works is a short fade; arriving from the list is not */
+  function show(k, swap, quiet){
+    current = k;
     document.title = TITLES[k];
-    if (location.hash !== "#" + k) history.replaceState(null, "", "#" + k);
-    if (quiet) return;
-    if (k === "hanhin") rail.focus(); else ART[k].querySelector("h2").focus({ preventScroll:true });
+    function put(){
+      WORKS.forEach(function(w){ ART[w].classList.toggle("on", w === k); });
+      reel.setAttribute("data-at", k);
+      reel.scrollTop = 0;
+      ART[k].querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
+      ART[k].querySelectorAll(".tease").forEach(function(t){ t.classList.remove("lift"); });
+      if (k === "hanhin") rail.enter(); else rail.leave();
+      mark(k);
+      if (quiet) return;
+      if (k === "hanhin") rail.focus(); else ART[k].querySelector("h2").focus({ preventScroll:true });
+    }
+    if (swap && !reduce){
+      reel.classList.add("swap");
+      setTimeout(function(){ put(); requestAnimationFrame(function(){ reel.classList.remove("swap"); }); }, 220);
+    } else put();
   }
 
   function go(name){
@@ -1097,8 +1169,8 @@ void main(){
     panel.classList.remove("leaving");
     if (name === current) return;
     var prev = current, view = viewOf(name);
-    /* already on the long sheet: moving to another work is only a scroll */
-    if (ART[name] && prev !== null && ART[prev]){ show(name, true); return; }
+    /* already in the works: moving to another one keeps the sheet and only changes the work on it */
+    if (ART[name] && prev !== null && ART[prev]){ menu(false); show(name, true); return; }
     current = name;
     var sheet = name === "" || !!PANELS[name];
     document.title = TITLES[name];
@@ -1116,7 +1188,7 @@ void main(){
       VIEWS[k].inert = k !== view;
     });
     menu(false);
-    if (view === "reel"){ rail.enter(); show(name, false, prev === null); } else rail.leave();
+    if (view === "reel") show(name, false, prev === null); else rail.leave();
     if (view === "about"){
       VIEWS.about.scrollTop = 0;
       if (prev !== null) VIEWS.about.querySelector("h2").focus({ preventScroll:true });
@@ -1162,15 +1234,39 @@ void main(){
     });
   });
 
-  /* ===== the long sheet: the bar says where you are, and can take you to any work ===== */
+  /* ===== in the works: the bar says where you are, steps either way, and can take you to any work ===== */
   var wnow = document.getElementById("wnow"), wmenu = document.getElementById("wmenu");
   var wnum = document.getElementById("wnum"), wname = document.getElementById("wname");
+  var wprev = document.getElementById("wprev"), wnext = document.getElementById("wnext");
   WORKS.forEach(function(k, i){
     var a = document.createElement("a");
     a.href = "#" + k;
     a.innerHTML = '<span class="k">' + String(i + 1).padStart(2, "0") + '</span><span>' + NAMES[k] + '</span>';
-    a.addEventListener("click", function(e){ e.preventDefault(); menu(false); show(k, true); });
     wmenu.appendChild(a);
+  });
+
+  /* each work ends with the next one under a wash of ink; a slit of it shows through */
+  var SLIT = { relic:["w/relic-rust.jpg", "50% 45%"], speaker:["w/speaker-2.jpg", "50% 50%"], bag:["w/bag-3.jpg", "50% 42%"],
+               ediya:["w/ediya-banner.jpg", "50% 50%"], emart:["w/emart-1.jpg", "50% 40%"] };
+  WORKS.forEach(function(k, i){
+    var nx = WORKS[i + 1];
+    if (!nx) return;
+    var row = panel.querySelector('a.irow[href="#' + nx + '"]'), kind = row.querySelectorAll(".k")[1].textContent;
+    var a = document.createElement("a");
+    a.className = "tease";
+    a.href = "#" + nx;
+    a.innerHTML = '<span class="row2"><span class="k">Next &mdash; ' + String(i + 2).padStart(2, "0") + ' / 07</span><span class="k">' + kind + '</span></span>' +
+      '<span class="slit" aria-hidden="true">' + (SLIT[nx] ? '<img src="' + SLIT[nx][0] + '" alt="" loading="lazy" style="object-position:' + SLIT[nx][1] + '">'
+                                                         : '<span class="slit-type">' + NAMES[nx] + '</span>') + '</span>' +
+      '<b>' + NAMES[nx] + '</b>';
+    a.addEventListener("click", function(e){
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      /* the ink lifts off it, then the work is there */
+      a.classList.add("lift");
+      setTimeout(function(){ location.hash = nx; }, reduce ? 0 : 380);
+    });
+    ART[k].querySelector(".proj").appendChild(a);
   });
   function menu(open){
     wmenu.hidden = !open;
@@ -1186,31 +1282,19 @@ void main(){
     wnum.textContent = String(i + 1).padStart(2, "0") + " / 07";
     wname.textContent = NAMES[k];
     wmenu.querySelectorAll("a").forEach(function(a, j){ a.setAttribute("aria-current", j === i ? "true" : "false"); });
+    [[wprev, WORKS[i - 1]], [wnext, WORKS[i + 1]]].forEach(function(p){
+      p[0].href = p[1] ? "#" + p[1] : "#" + k;
+      p[0].setAttribute("aria-disabled", p[1] ? "false" : "true");
+      p[0].title = p[1] ? NAMES[p[1]] : "";
+    });
   }
-  /* the address follows the reading without adding history: back still means back to the first sheet */
-  function spied(k){
-    if (WORKS.indexOf(current) < 0 || k === current) return;
-    current = k; mark(k);
-    document.title = TITLES[k];
-    history.replaceState(null, "", "#" + k);
-  }
-  if ("IntersectionObserver" in window){
-    /* the work crossing the middle of the screen is the one being read */
-    var spy = new IntersectionObserver(function(es){
-      es.forEach(function(e){ if (e.isIntersecting) spied(e.target.getAttribute("data-work")); });
-    }, { root:reel, rootMargin:"-45% 0px -54% 0px" });
-    /* Instagram is only asked for when its work comes near */
-    var near = new IntersectionObserver(function(es){
-      es.forEach(function(e){
-        if (!e.isIntersecting) return;
-        e.target.querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
-        near.unobserve(e.target);
-      });
-    }, { root:reel, rootMargin:"800px 0px" });
-    WORKS.forEach(function(k){ spy.observe(ART[k]); near.observe(ART[k]); });
-  } else {
-    reel.querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
-  }
+  /* arrow keys step between works, unless the light on the car has them */
+  document.addEventListener("keydown", function(e){
+    if (!ART[current] || e.altKey || e.ctrlKey || e.metaKey || !wmenu.hidden) return;
+    if (document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
+    var i = WORKS.indexOf(current), to = e.key === "ArrowRight" ? WORKS[i + 1] : e.key === "ArrowLeft" ? WORKS[i - 1] : null;
+    if (to){ e.preventDefault(); location.hash = to; }
+  });
 
   /* coming back to the list returns focus to the work that was opened */
   document.querySelectorAll("a.irow").forEach(function(a){ a.addEventListener("click", function(){ lastRow = a; }); });
