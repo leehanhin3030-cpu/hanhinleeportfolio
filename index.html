@@ -68,6 +68,18 @@ body{
 /* the sheet: the name at the middle left is the subject; the works open in the paper to its right */
 .ui{ grid-template-rows:auto 1fr; }
 .mid{ display:grid; grid-template-columns:minmax(0,1fr) min(560px, 42vw); align-items:center; gap:40px; min-height:0; }
+/* both panels share the right-hand column; only one is ever open */
+.mid > .panel{ grid-column:2; grid-row:1; }
+.mid > .name{ grid-column:1; grid-row:1; }
+.cbody{ padding:22px 0 0; }
+.mail{ display:inline-block; color:var(--ink); text-decoration:none; font-weight:200; font-size:clamp(24px, 2.4vw, 38px); letter-spacing:-.02em;
+  border-bottom:1px solid rgba(17,19,21,.25); transition:border-color .2s; word-break:break-all; }
+.mail:hover, .mail:focus-visible{ border-color:var(--ink); }
+.mail:focus-visible{ outline:2px solid var(--ink); outline-offset:6px; }
+.cnote{ margin:18px 0 0; color:var(--ink2); }
+.copy{ margin-top:18px; padding:9px 16px; border:1px solid rgba(17,19,21,.3); background:none; cursor:pointer;
+  font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink2); transition:color .2s, border-color .2s; }
+.copy:hover, .copy:focus-visible{ color:var(--ink); border-color:var(--ink); }
 .name h1{ font-size:clamp(92px, 12.5vw, 204px); width:max-content; }   /* as wide as the letters, so the seal can find the last one */
 .panel{ visibility:hidden; pointer-events:none; transition:visibility 0s .5s; }
 .panel.open{ visibility:visible; pointer-events:auto; transition:none; }
@@ -86,14 +98,16 @@ body{
 a.irow:hover b, a.irow:focus-visible b{ transform:translateX(10px); }
 a.irow:focus-visible{ outline:2px solid var(--ink); outline-offset:4px; }
 .irow.off b{ color:#9C9FA2; }
-#works-toggle[aria-expanded="true"]{ color:var(--ink); text-decoration:underline; text-underline-offset:5px; }
+.top nav a[aria-expanded="true"]{ color:var(--ink); text-decoration:underline; text-underline-offset:5px; }
 @media (max-width:720px){
   .mid{ grid-template-columns:minmax(0,1fr); }
   .name h1{ font-size:clamp(80px, 22vw, 120px); }
   /* on a phone the list rises over the lower half of the sheet */
+  .mid > .panel{ grid-column:auto; grid-row:auto; }
   .panel{ position:absolute; left:var(--gl); right:var(--gr); bottom:calc(24px + env(safe-area-inset-bottom, 0px));
     background:var(--paper); padding-top:14px; box-shadow:0 -28px 28px var(--paper); }
-  .irow{ grid-template-columns:48px minmax(0,1fr) 40px; gap:12px; }
+  .irow{ grid-template-columns:48px minmax(0,1fr) 40px; gap:12px; padding:9px 0; }
+  .irow b{ font-size:20px; }
   .irow > .k:nth-child(3){ display:none; }
 }
 
@@ -189,6 +203,13 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .post figcaption a{ color:var(--ink2); width:max-content; border-bottom:1px solid rgba(17,19,21,.25); transition:color .2s, border-color .2s; }
 .post figcaption a:hover{ color:var(--ink); border-color:var(--ink); }
 .sheet h2:focus{ outline:none; }
+/* about: the tools, three quiet columns under the write-up */
+.skills{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:clamp(24px,4vw,56px); margin-top:clamp(48px,8vh,88px); border-top:1px solid rgba(17,19,21,.18); padding-top:16px; }
+.skills .k{ margin:0 0 14px; font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); }
+.skills ul{ list-style:none; margin:0; padding:0; }
+.skills li{ padding:9px 0; border-top:1px solid rgba(17,19,21,.08); color:var(--ink2); font-size:14px; }
+.skills li b{ font-weight:400; color:var(--ink); margin-right:10px; }
+@media (max-width:900px){ .skills{ grid-template-columns:1fr; } }
 /* long Korean titles break between words, never inside one */
 .sheet .proj h2{ font-size:clamp(38px, 5.4vw, 84px); word-break:keep-all; line-height:1.08; }
 @media (max-width:720px){ .feed{ grid-template-columns:minmax(0,1fr); } }
@@ -207,7 +228,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 <div class="ui">
   <div class="top arr" style="--d:.2s">
     <p class="mono">이한힌 · Han Hin Lee</p>
-    <nav aria-label="사이트"><a href="#works" id="works-toggle" aria-controls="works-panel" aria-expanded="false">Works</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    <nav aria-label="사이트"><a href="#works" id="works-toggle" aria-controls="works-panel" aria-expanded="false">Works</a><a href="#about">About</a><a href="#contact" id="contact-toggle" aria-controls="contact-panel" aria-expanded="false">Contact</a></nav>
   </div>
   <div class="mid">
     <div class="name">
@@ -227,10 +248,62 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <a class="irow" href="#ediya"><span class="k">06</span><b>이디야</b><span class="k">팀 &middot; 캠페인</span><span class="k yr">2026</span></a>
       <a class="irow" href="#emart"><span class="k">07</span><b>이마트</b><span class="k">팀 &middot; 카드뉴스</span><span class="k yr">2026</span></a>
     </nav>
+    <!-- contact opens in the same place as the works: a short thing, it needs no page -->
+    <div class="panel" id="contact-panel" role="region" aria-label="연락">
+      <div class="ihead"><span class="k">Contact &mdash; 연락</span><span class="k">Email</span></div>
+      <div class="cbody">
+        <a class="mail" href="mailto:leehanhin3030@gmail.com">leehanhin3030@gmail.com</a>
+        <p class="cnote">메일로 연락 주세요.</p>
+        <button class="copy" type="button" data-copy="leehanhin3030@gmail.com">주소 복사</button>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="cover" id="cover"></div>
+
+<!-- about: the same paper room as a work, with the person as the subject -->
+<section class="view sheet" id="v-about" aria-label="소개">
+  <div class="vtop"><a class="mono" href="#">&larr; 처음으로</a><p class="mono">About</p></div>
+  <div class="proj">
+    <div class="proj-head"><span class="mono">About &mdash; 소개</span><span class="mono">이한힌 &middot; Han Hin Lee</span></div>
+    <h2 tabindex="-1">조용히 보고, 끝까지 그립니다.</h2>
+    <p class="en">Brand &middot; Product &middot; Fashion &middot; Campaign</p>
+    <div class="proj-body">
+      <div>
+        <p class="lead">일상에서 스치듯 지나가는 순간을 그냥 흘려보내지 않는 편입니다.</p>
+        <p>한글 자음의 형태, 경복궁 기왓장에 떨어지는 빗물 한 방울, 광고 속 한 장면처럼 누구나 지나칠 법한 순간들이 브랜드와 제품, 패션 소품으로 이어졌습니다. 청새치의 유선형에서 슈퍼카의 형태를 찾아내고, 랄프로렌의 광고에서 컨셉을 발견했던 것처럼, 저에게 디자인은 거창한 기획보다 작은 발견에서 시작되는 작업입니다.</p>
+        <p>형태를 만드는 데서 멈추지 않고, 실제로 운영 가능한 결과물 단위로 정리해야 일이 끝났다고 느낍니다. 한힌 브랜드 로고 하나에서 출발한 작업을 컬러, 타이포그래피, 적용 규정까지 포함한 가이드라인 시스템으로 끝까지 완성한 것도 그래서입니다.</p>
+        <p>브랜드, 제품, 패션, 캠페인, 서비스 기획까지 여러 영역에서 작업해왔고, 영역은 달라도 작동 방식은 같았습니다. 작은 영감을 포착하고, 이를 시각적 형태나 구조로 구체화하는 것. 최근에는 시장조사와 사용자 인터뷰, 태스크플로우·유저플로우 설계처럼 보이는 디자인 이전의 기획도 함께 쌓고 있고, AI와 노코드 도구로 웹을 직접 만들고 배포까지 하고 있습니다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>학력</span><b>2026.08 예원예술대학교 융합조형디자인과 졸업</b></div>
+        <div class="fact"><span>전시</span><b>2025.12 양주시청 오픈갤러리</b></div>
+        <div class="fact"><span>수상</span><b>교양 교과목 성적 우수상 (장학금)</b></div>
+        <div class="fact"><span>자격</span><b>남아미술교육전문가</b></div>
+        <div class="fact"><span>경력</span><b>자라다남아미술교육 · 2025.12–2026.03 · 아동미술 지도</b></div>
+        <div class="fact"><span>교육</span><b>서울 매력일자리 교육과정 · 2026</b></div>
+      </div>
+    </div>
+
+    <div class="skills">
+      <div class="sk">
+        <p class="k">01 &mdash; Design tool</p>
+        <ul><li><b>Illustrator</b>로고 디자인</li><li><b>InDesign</b>브랜드북 등 편집 디자인</li><li><b>Figma</b>기본 기능</li><li><b>Adobe Express</b>가이드라인 제작</li><li><b>Photoshop</b>기초 보정</li><li><b>Lightroom</b>색감 보정</li></ul>
+      </div>
+      <div class="sk">
+        <p class="k">02 &mdash; AI · No-code</p>
+        <ul><li><b>Gemini · GPT</b>이미지 생성 · 기획 보조</li><li><b>Firefly</b>이미지 생성 · 영상 제작</li><li><b>Google Flow</b>이미지 수정 · 영상 제작</li><li><b>Claude</b>기획 · 카피라이팅 · 바이브 코딩</li><li><b>Lovable</b>노코드 웹 제작 · 배포</li><li><b>Cloudflare</b>배포</li></ul>
+      </div>
+      <div class="sk">
+        <p class="k">03 &mdash; 기획 · UX</p>
+        <ul><li>시장조사 · 경쟁사 분석</li><li>사용자 인터뷰</li><li>태스크플로우 · 유저플로우 설계</li></ul>
+      </div>
+    </div>
+
+    <div class="room-foot"><a class="mono" href="#">&larr; 처음으로</a><a class="mono" href="#contact">Contact &rarr;</a></div>
+  </div>
+</section>
 
 <section class="view room" id="v-hanhin" aria-label="HANHIN">
   <div class="stage" id="stage-car">
@@ -720,7 +793,7 @@ void main(){
   /* the visitor's hand: a press is a drop. Moving does nothing. Only on the first sheet */
   cv.addEventListener("pointerdown", function(e){
     /* with the works open, a press on the bare paper puts them away instead */
-    if (location.hash === "#works"){ location.hash = ""; return; }
+    if (location.hash === "#works" || location.hash === "#contact"){ location.hash = ""; return; }
     if (location.hash.length > 1 || onName(e.clientX, e.clientY)) return;
     var p = toP(e.clientX, e.clientY);
     drop(p[0], p[1], 0.8 + Math.random() * 0.5);
@@ -787,9 +860,13 @@ void main(){
   var coarse = window.matchMedia("(pointer: coarse)").matches;
   var ui = document.querySelector(".ui"), cover = document.getElementById("cover");
   var VIEWS = {};
-  ["hanhin", "relic", "speaker", "bag", "cardnews", "ediya", "emart"].forEach(function(k){ VIEWS[k] = document.getElementById("v-" + k); });
-  var panel = document.getElementById("works-panel"), toggle = document.getElementById("works-toggle");
-  var TITLES = { "":"이한힌 — 포트폴리오", "works":"작업 — 이한힌", "hanhin":"HANHIN — 이한힌", "relic":"슈퍼카도 언젠가는 유물이 된다 — 이한힌",
+  ["about", "hanhin", "relic", "speaker", "bag", "cardnews", "ediya", "emart"].forEach(function(k){ VIEWS[k] = document.getElementById("v-" + k); });
+  var panel = document.getElementById("works-panel");
+  var PANELS = {
+    works:   { panel:panel, toggle:document.getElementById("works-toggle") },
+    contact: { panel:document.getElementById("contact-panel"), toggle:document.getElementById("contact-toggle") }
+  };
+  var TITLES = { "":"이한힌 — 포트폴리오", "works":"작업 — 이한힌", "contact":"연락 — 이한힌", "about":"소개 — 이한힌", "hanhin":"HANHIN — 이한힌", "relic":"슈퍼카도 언젠가는 유물이 된다 — 이한힌",
     "speaker":"빗물 스피커 — 이한힌", "bag":"트위드 백 — 이한힌", "cardnews":"엔터테크 카드뉴스 — 이한힌", "ediya":"이디야 — 이한힌", "emart":"이마트 — 이한힌" };
   var flood = window.paperFlood || { pour:function(){}, dry:function(){} };
   var current = null, poured = false;
@@ -972,11 +1049,11 @@ void main(){
 
   /* ===== routing ===== */
   var pending = null, lastRow = null;
-  /* "works" is not a page: it is the first sheet with the list open */
+  /* "works" and "contact" are not pages: each is the first sheet with its panel open */
   function nameOf(hash){
     var h = (hash || "").replace(/^#/, "");
     if (h === "curvature") h = "hanhin";   /* the room's old address still finds it */
-    return h === "works" || VIEWS[h] ? h : "";
+    return PANELS[h] || VIEWS[h] ? h : "";
   }
 
   function go(name){
@@ -984,13 +1061,16 @@ void main(){
     panel.classList.remove("leaving");
     if (name === current) return;
     var prev = current; current = name;
-    var sheet = name === "" || name === "works";
+    var sheet = name === "" || !!PANELS[name];
     document.title = TITLES[name];
     ui.classList.toggle("away", !sheet);
     cover.classList.toggle("on", !sheet);
-    panel.classList.toggle("open", name === "works");
-    panel.inert = name !== "works";
-    toggle.setAttribute("aria-expanded", name === "works" ? "true" : "false");
+    Object.keys(PANELS).forEach(function(k){
+      var p = PANELS[k];
+      p.panel.classList.toggle("open", k === name);
+      p.panel.inert = k !== name;
+      p.toggle.setAttribute("aria-expanded", k === name ? "true" : "false");
+    });
     Object.keys(VIEWS).forEach(function(k){
       VIEWS[k].classList.toggle("on", k === name);
       VIEWS[k].classList.remove("leaving");
@@ -1008,15 +1088,25 @@ void main(){
     if (name !== "hanhin" && poured){ poured = false; flood.dry(); }
     if (prev === null) return;
     if (name === "works") (lastRow || panel.querySelector("a.irow")).focus({ preventScroll:true });
-    if (name === "" && prev === "works") toggle.focus({ preventScroll:true });
+    if (name === "contact") PANELS.contact.panel.querySelector(".mail").focus({ preventScroll:true });
+    if (name === "" && PANELS[prev]) PANELS[prev].toggle.focus({ preventScroll:true });
   }
 
-  /* Works opens and closes the list in place; Esc closes it too */
-  toggle.addEventListener("click", function(e){
-    if (current === "works"){ e.preventDefault(); location.hash = ""; }
+  /* Works and Contact open and close in place; pressing the open one again, or Esc, puts it away */
+  Object.keys(PANELS).forEach(function(k){
+    PANELS[k].toggle.addEventListener("click", function(e){
+      if (current === k){ e.preventDefault(); location.hash = ""; }
+    });
   });
   document.addEventListener("keydown", function(e){
-    if (e.key === "Escape" && current === "works") location.hash = "";
+    if (e.key === "Escape" && PANELS[current]) location.hash = "";
+  });
+  document.querySelectorAll("[data-copy]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var label = b.textContent;
+      navigator.clipboard.writeText(b.getAttribute("data-copy")).then(function(){ b.textContent = "복사됨"; }, function(){ b.textContent = "복사 실패"; });
+      setTimeout(function(){ b.textContent = label; }, 1600);
+    });
   });
 
   /* opening a work: ink drops where it was pressed and spreads over the sheet, unhurried, then the room */
