@@ -80,8 +80,8 @@ body{
 .panel .ihead{ display:flex; justify-content:space-between; padding:0 0 10px; border-bottom:1px solid rgba(17,19,21,.2); }
 .panel .k{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); }
 .irow{ display:grid; grid-template-columns:64px minmax(0,1fr) auto 44px; align-items:baseline; gap:18px;
-  padding:16px 0; border-bottom:1px solid rgba(17,19,21,.1); color:var(--ink); text-decoration:none; }
-.irow b{ display:inline-block; font-weight:200; font-size:clamp(26px, 2.6vw, 40px); letter-spacing:-.03em; line-height:1.1; transition:transform .35s cubic-bezier(.2,.7,.2,1); }
+  padding:12px 0; border-bottom:1px solid rgba(17,19,21,.1); color:var(--ink); text-decoration:none; }
+.irow b{ display:inline-block; font-weight:200; font-size:clamp(22px, 2.2vw, 34px); letter-spacing:-.03em; line-height:1.1; transition:transform .35s cubic-bezier(.2,.7,.2,1); }
 .irow .yr{ text-align:right; }
 a.irow:hover b, a.irow:focus-visible b{ transform:translateX(10px); }
 a.irow:focus-visible{ outline:2px solid var(--ink); outline-offset:4px; }
@@ -189,7 +189,17 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .post figcaption a{ color:var(--ink2); width:max-content; border-bottom:1px solid rgba(17,19,21,.25); transition:color .2s, border-color .2s; }
 .post figcaption a:hover{ color:var(--ink); border-color:var(--ink); }
 .sheet h2:focus{ outline:none; }
+/* long Korean titles break between words, never inside one */
+.sheet .proj h2{ font-size:clamp(38px, 5.4vw, 84px); word-break:keep-all; line-height:1.08; }
 @media (max-width:720px){ .feed{ grid-template-columns:minmax(0,1fr); } }
+
+/* a work's images: one grid per room, columns set where it is used; wide images run the full row */
+.gal{ display:grid; grid-template-columns:var(--cols, 1fr); gap:clamp(10px, 1.6vw, 20px); margin:48px 0 0; }
+.gal + .gal{ margin-top:clamp(10px, 1.6vw, 20px); }
+.gal img{ display:block; width:100%; height:100%; object-fit:cover; background:#ECECE8; }
+.gal .wide{ grid-column:1 / -1; height:auto; }
+.gal.tall img{ aspect-ratio:9 / 16; object-position:top; }
+@media (max-width:720px){ .gal{ grid-template-columns:1fr 1fr !important; } }
 </style>
 
 <canvas id="paper" aria-label="흰 종이 위에 먹 방울이 떨어져 번지다 멈춘다. 누르면 한 방울이 떨어진다"></canvas>
@@ -208,27 +218,30 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     </div>
     <!-- the works open on this same sheet, in the paper to the right of the name; no page of their own -->
     <nav class="panel" id="works-panel" aria-label="작업 목록">
-      <div class="ihead"><span class="k">Works &mdash; 작업</span><span class="k">04</span></div>
-      <a class="irow" href="#curvature" data-room="curvature"><span class="k">A-049</span><b>곡률</b><span class="k">브랜드 디자인</span><span class="k yr">2025</span></a>
-      <a class="irow" href="#cardnews"><span class="k">A-061</span><b>카드뉴스</b><span class="k">그래픽 &middot; SBA</span><span class="k yr">2026</span></a>
-      <div class="irow off"><span class="k">A-052</span><b>메두사</b><span class="k">조각 &middot; 옮기는 중</span><span class="k yr">2026</span></div>
-      <div class="irow off"><span class="k">A-042</span><b>표류</b><span class="k">준비 중</span><span class="k yr">2024</span></div>
+      <div class="ihead"><span class="k">Works &mdash; 작업</span><span class="k">07</span></div>
+      <a class="irow" href="#hanhin" data-room="hanhin"><span class="k">01</span><b>HANHIN</b><span class="k">브랜드 아이덴티티</span><span class="k yr">2026</span></a>
+      <a class="irow" href="#relic"><span class="k">02</span><b>유물이 된 슈퍼카</b><span class="k">조각 &middot; 졸업작품</span><span class="k yr">2024</span></a>
+      <a class="irow" href="#speaker"><span class="k">03</span><b>빗물 스피커</b><span class="k">제품 컨셉</span><span class="k yr">2026</span></a>
+      <a class="irow" href="#bag"><span class="k">04</span><b>트위드 백</b><span class="k">패션 소품</span><span class="k yr">2025</span></a>
+      <a class="irow" href="#cardnews"><span class="k">05</span><b>엔터테크 카드뉴스</b><span class="k">실무 &middot; SBA</span><span class="k yr">2026</span></a>
+      <a class="irow" href="#ediya"><span class="k">06</span><b>이디야</b><span class="k">팀 &middot; 캠페인</span><span class="k yr">2026</span></a>
+      <a class="irow" href="#emart"><span class="k">07</span><b>이마트</b><span class="k">팀 &middot; 카드뉴스</span><span class="k yr">2026</span></a>
     </nav>
   </div>
 </div>
 
 <div class="cover" id="cover"></div>
 
-<section class="view room" id="v-curvature" aria-label="곡률">
+<section class="view room" id="v-hanhin" aria-label="HANHIN">
   <div class="stage" id="stage-car">
-    <img id="car" src="curvature-car.jpg" alt="곡률 — 하이퍼카 사이드 뷰, 단일 스트립 라이트">
+    <img id="car" src="curvature-car.jpg" alt="HANHIN — 청새치의 유선형에서 가져온 차량, 사이드 뷰">
     <!-- the same light, for keys and screen readers: arrows push it along the line -->
     <input type="range" class="rail-range" id="rail-range" min="0" max="100" step="1" value="6" aria-label="스트립 라이트 위치, 노즈에서 테일까지">
     <canvas id="veil-car"></canvas>
-    <div class="ghost" aria-hidden="true">Curvature</div>
+    <div class="ghost" aria-hidden="true">Hanhin</div>
     <div class="room-top">
       <a class="mono" href="#works">&larr; 작업 목록</a>
-      <span class="mono">A-049 / 2025</span>
+      <span class="mono">01 / 2026</span>
     </div>
     <div class="stage-hud">
       <span class="mono" id="hint-car">빛을 밀어 차체 라인을 따라가세요 &middot; 키보드는 &larr; &rarr;</span>
@@ -239,29 +252,188 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 
   <div class="proj">
     <div class="proj-head">
-      <span class="mono">A-049 / 2025</span>
-      <span class="mono">Light on rails &mdash; 라인에 구속된 광원</span>
+      <span class="mono">01 / 2026</span>
+      <span class="mono">Brand identity &mdash; 개인 작업</span>
     </div>
-    <h2>곡률</h2>
-    <p class="en">Curvature</p>
+    <h2>HANHIN</h2>
+    <p class="en">형태 그 자체로 말하는 것</p>
+    <div class="gal" style="--cols:1fr 1.78fr">
+      <img class="wide" src="w/hanhin-car.jpg" alt="HANHIN 차량 비주얼, 흙먼지 속을 달리는 파란 차" loading="lazy">
+      <img src="w/hanhin-logo.jpg" alt="HANHIN 로고 — 'ㅎ'에 전기 회로의 흐르는 선을 결합" loading="lazy">
+      <img src="w/hanhin-guideline.jpg" alt="HANHIN Brand Identity Guidelines 표지" loading="lazy">
+      <img class="wide" src="w/hanhin-book.jpg" alt="HANHIN 브랜드북 펼친 면" loading="lazy">
+    </div>
     <div class="proj-body">
       <div>
-        <p class="lead">하이퍼카 한 대의 서페이싱을 단 하나의 광원으로만 검증한 작업이다.</p>
-        <p>자동차 디자인에서 면의 품질은 색이나 재질이 아니라 빛이 그 위를 지나갈 때의 반사선으로 판정된다. 그래서 전체 조명을 걷어내고 좁은 광원 하나만 차체 라인을 따라 흐르게 두었다. 노즈에서 테일까지 반사선이 끊기거나 튀는 지점이 곧 면이 무너진 지점이다.</p>
-        <p>이 페이지의 빛은 커서를 그대로 따르지 않는다. 실제 스튜디오의 스트립 라이트처럼 차체 라인 위에 구속되어 있고, 커서는 그 빛을 라인 위에서 밀고 당길 뿐이다.</p>
+        <p class="lead">로고 없이 존재감만으로 시선을 끌 수 있는 브랜드를 만들어보고 싶다는 생각에서 시작한 프로젝트입니다.</p>
+        <p>브랜드 아이덴티티 설계부터 브랜드북, 브랜드 가이드라인 제작까지 전 과정을 혼자 기획하고 디자인했습니다. 브랜드명 '한힌'의 첫 자음 'ㅎ'에 전기 회로의 흐르는 선을 결합해 로고를 만들었고, 차량 형태는 가장 빠른 어종인 청새치의 유선형에서 가져와 AI로 비주얼을 구현했습니다.</p>
+        <p>이렇게 정리한 컨셉을 컬러, 타이포그래피, 적용 규정까지 포함한 브랜드 가이드라인으로 완성해, 브랜드 시스템까지 작업을 마무리했습니다.</p>
       </div>
       <div class="facts">
-        <div class="fact"><span>연도</span><b>2025</b></div>
-        <div class="fact"><span>분류</span><b>브랜드 디자인</b></div>
-        <div class="fact"><span>작업</span><b>서페이싱, 라이팅, 렌더</b></div>
-        <div class="fact"><span>광원</span><b>스트립 1 · 필 없음</b></div>
-        <div class="fact"><span>역할</span><b>전 과정 단독</b></div>
+        <div class="fact"><span>연도</span><b>2026</b></div>
+        <div class="fact"><span>분류</span><b>브랜드 아이덴티티</b></div>
+        <div class="fact"><span>결과물</span><b>로고 · 브랜드북 · 가이드라인</b></div>
+        <div class="fact"><span>도구</span><b>Gemini · GPT · Claude · Firefly · InDesign · Illustrator</b></div>
+        <div class="fact"><span>역할</span><b>개인 작업 · 전 과정 단독</b></div>
       </div>
     </div>
     <div class="room-foot">
       <a class="mono" href="#works">&larr; 작업 목록</a>
-      <span class="mono">A-049</span>
+      <span class="mono">01</span>
     </div>
+  </div>
+</section>
+
+<!-- the paper rooms: each work keeps its own images; the page around them is the same sheet every time -->
+<section class="view sheet" id="v-relic" aria-label="슈퍼카도 언젠가는 유물이 된다">
+  <div class="vtop"><a class="mono" href="#works">&larr; 작업 목록</a><p class="mono">02 / 2024</p></div>
+  <div class="proj">
+    <div class="proj-head"><span class="mono">Sculpture &mdash; 조각</span><span class="mono">개인 작업 &middot; 졸업작품</span></div>
+    <h2 tabindex="-1">슈퍼카도 언젠가는 유물이 된다</h2>
+    <p class="en">Relic</p>
+    <div class="gal" style="--cols:1fr 1fr">
+      <img src="w/relic-metal.jpg" alt="메탈릭 표면 처리를 한 석고 캐스팅 자동차 — 현재" loading="lazy">
+      <img src="w/relic-rust.jpg" alt="러스트 표면 처리를 한 같은 원형 — 미래의 유물" loading="lazy">
+    </div>
+    <div class="proj-body">
+      <div>
+        <p class="lead">좋아하는 자동차를 직접 조각해 만든 졸업 작품입니다.</p>
+        <p>유토로 원형을 깎고 실리콘 틀을 떠서 석고로 캐스팅했습니다. "슈퍼카도 시간이 지나면 유물이 되지 않을까"라는 생각으로 같은 원형에 메탈릭과 러스트, 두 가지 표면 처리를 입혀 현재와 미래의 모습을 함께 표현했습니다.</p>
+        <p>전시 시에는 다수 캐스팅해 산처럼 쌓아, 대량 생산된 사물의 시간성을 보여줬습니다. 손에 쥐어지는 스케일은 권오상 작가의 '스몰 스컬프쳐'에서, 부식으로 시간성을 표현하는 방식은 다니엘 아샴의 작업에서 이후 유사점을 발견했습니다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>연도</span><b>2024</b></div>
+        <div class="fact"><span>분류</span><b>조각</b></div>
+        <div class="fact"><span>재료</span><b>유토 · 실리콘 몰드 · 석고 · 부식 페인트</b></div>
+        <div class="fact"><span>역할</span><b>개인 작업 · 졸업작품</b></div>
+      </div>
+    </div>
+    <div class="room-foot"><a class="mono" href="#works">&larr; 작업 목록</a><span class="mono">02</span></div>
+  </div>
+</section>
+
+<section class="view sheet" id="v-speaker" aria-label="기왓장에 떨어진 빗물, 스피커가 되다">
+  <div class="vtop"><a class="mono" href="#works">&larr; 작업 목록</a><p class="mono">03 / 2026</p></div>
+  <div class="proj">
+    <div class="proj-head"><span class="mono">Product concept &mdash; 제품 컨셉</span><span class="mono">개인 작업</span></div>
+    <h2 tabindex="-1">기왓장에 떨어진 빗물, 스피커가 되다</h2>
+    <p class="en">Rain Speaker</p>
+    <div class="gal" style="--cols:1fr 1fr">
+      <img src="w/speaker-1.jpg" alt="창가 벽면에 놓인 메탈릭 스피커, 물결 파동 모양의 그릴" loading="lazy">
+      <img src="w/speaker-2.jpg" alt="스피커 그릴 중심부 확대 — 동심원 파동" loading="lazy">
+      <img class="wide" src="w/speaker-3.jpg" alt="석재 벽 앞에 설치된 스피커 전경" loading="lazy">
+    </div>
+    <div class="proj-body">
+      <div>
+        <p class="lead">경복궁에서 기왓장에 빗물이 떨어지는 순간을 보다가, 그 찰나의 감각이 그대로 머릿속에 남았습니다.</p>
+        <p>빗방울이 만들어내는 동심원 모양의 파동을 보면서, 전통 건축의 형태를 현대적인 제품으로 옮겨보고 싶다는 생각으로 이어졌습니다.</p>
+        <p>기왓장의 완만한 곡선을 스피커 본체의 형태로, 물결이 퍼져나가는 파동을 스피커 그릴의 원형 패턴으로 옮겨 설계했습니다. 기왓장과 물이 주는 차가운 인상을 살리기 위해 소재는 메탈릭 톤으로 표현했습니다. 실제 제품 제작이나 음향 설계 없이, Gemini와 GPT로 형태·재질·공간 속 배치까지 렌더링해 구현한 디자인 컨셉 작업입니다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>연도</span><b>2026</b></div>
+        <div class="fact"><span>분류</span><b>제품 컨셉</b></div>
+        <div class="fact"><span>도구</span><b>Gemini · GPT</b></div>
+        <div class="fact"><span>역할</span><b>개인 작업</b></div>
+      </div>
+    </div>
+    <div class="room-foot"><a class="mono" href="#works">&larr; 작업 목록</a><span class="mono">03</span></div>
+  </div>
+</section>
+
+<section class="view sheet" id="v-bag" aria-label="스친 장면 하나, 가방이 되다">
+  <div class="vtop"><a class="mono" href="#works">&larr; 작업 목록</a><p class="mono">04 / 2025</p></div>
+  <div class="proj">
+    <div class="proj-head"><span class="mono">Fashion accessory &mdash; 패션 소품</span><span class="mono">개인 작업</span></div>
+    <h2 tabindex="-1">스친 장면 하나, 가방이 되다</h2>
+    <p class="en">Tweed &amp; Pearl</p>
+    <div class="gal" style="--cols:1fr 1fr">
+      <img src="w/bag-model.jpg" alt="트위드 셋업을 입은 모델이 바스켓 백을 든 모습" loading="lazy">
+      <img src="w/bag-3.jpg" alt="진주 소품과 함께 놓인 트위드 바스켓 백" loading="lazy">
+      <img src="w/bag-2.jpg" alt="드로스트링을 연 가방 내부" loading="lazy">
+      <img src="w/bag-1.jpg" alt="진주가 달린 손잡이와 트위드 질감" loading="lazy">
+    </div>
+    <div class="proj-body">
+      <div>
+        <p class="lead">폴로 랄프로렌 봄/여름 시즌 광고를 보다가 문득 떠오른 이미지에서 출발한 작업입니다.</p>
+        <p>둥근 바스켓 형태의 실루엣에, 거친 트위드의 질감과 매끈한 진주의 대비를 담고 싶었습니다. 손잡이와 드로스트링 끝에 진주를 매달아, 가방을 들었을 때 두 질감이 가장 먼저 닿는 지점에서 대비가 드러나도록 했습니다.</p>
+        <p>실물 제작과 촬영 없이, Gemini와 GPT로 가방의 형태·소재·진주 디테일부터 착용한 모델과 공간까지 전부 생성해, 실제 브랜드 비주얼로 완성했습니다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>연도</span><b>2025</b></div>
+        <div class="fact"><span>분류</span><b>패션 소품 컨셉</b></div>
+        <div class="fact"><span>도구</span><b>Gemini · GPT</b></div>
+        <div class="fact"><span>역할</span><b>개인 작업</b></div>
+      </div>
+    </div>
+    <div class="room-foot"><a class="mono" href="#works">&larr; 작업 목록</a><span class="mono">04</span></div>
+  </div>
+</section>
+
+<section class="view sheet" id="v-ediya" aria-label="이디야 컬러 이벤트">
+  <div class="vtop"><a class="mono" href="#works">&larr; 작업 목록</a><p class="mono">06 / 2026</p></div>
+  <div class="proj">
+    <div class="proj-head"><span class="mono">Campaign &mdash; 캠페인 · 캐릭터</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
+    <h2 tabindex="-1">이디야, 14일의 컬러를 찾아라</h2>
+    <p class="en">Ediya &mdash; Color Hunt</p>
+    <div class="gal" style="--cols:1fr 1fr">
+      <img class="wide" src="w/ediya-banner.jpg" alt="'이디야 컬러를 찾아라' 이벤트 배너, 파란 토끼 캐릭터" loading="lazy">
+      <img src="w/ediya-a.jpg" alt="황금 리워드 이벤트 카드" loading="lazy">
+      <img src="w/ediya-d.jpg" alt="'참여할수록 확률 UP' 카드" loading="lazy">
+    </div>
+    <div class="gal tall" style="--cols:1fr 1fr 1fr">
+      <img src="w/ediya-ar.jpg" alt="AR 카메라로 컬러를 찾는 화면" loading="lazy">
+      <img src="w/ediya-b.jpg" alt="이벤트 랜딩페이지 상단" loading="lazy">
+      <img src="w/ediya-c.jpg" alt="이벤트 랜딩페이지 참여 안내" loading="lazy">
+    </div>
+    <div class="proj-body">
+      <div>
+        <p class="lead">최근 매출이 줄고 있고, 특히 젊은 층에게는 잘 찾지 않는 브랜드라는 문제에서 시작했습니다.</p>
+        <p>젊은 세대가 자연스럽게 참여할 수 있도록, 14일 동안 매일 다른 컬러를 AR 카메라로 찾아내는 인터랙션을 중심으로 컬러 이벤트를 기획했습니다.</p>
+        <p>캐릭터는 새로운 형태를 만들기보다, 누구에게나 익숙한 토끼를 선택해 진입장벽을 낮추는 쪽을 택했습니다. 여기에 이디야 고유의 블루 컬러를 입히고, 전체적으로 귀여운 톤으로 디자인해 '친근함'이라는 브랜드 키워드를 자연스럽게 전달하고자 했습니다. 랜딩페이지·카드뉴스·포스터로 결과물을 만들었고, 그중 캐릭터 초기 디자인과 배너·랜딩페이지 제작을 담당했습니다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>연도</span><b>2026.05</b></div>
+        <div class="fact"><span>분류</span><b>캠페인 · 캐릭터</b></div>
+        <div class="fact"><span>형태</span><b>팀 프로젝트 (교육과정)</b></div>
+        <div class="fact"><span>담당</span><b>캐릭터 초기 디자인 · 배너 · 랜딩페이지</b></div>
+        <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
+      </div>
+    </div>
+    <div class="room-foot"><a class="mono" href="#works">&larr; 작업 목록</a><span class="mono">06</span></div>
+  </div>
+</section>
+
+<section class="view sheet" id="v-emart" aria-label="이마트 장난감 기부 캠페인">
+  <div class="vtop"><a class="mono" href="#works">&larr; 작업 목록</a><p class="mono">07 / 2026</p></div>
+  <div class="proj">
+    <div class="proj-head"><span class="mono">Card news &mdash; 카드뉴스 8장</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
+    <h2 tabindex="-1">이마트, 장난감의 두 번째 생일</h2>
+    <p class="en">E-mart &mdash; Toy Donation</p>
+    <div class="gal" style="--cols:repeat(4, 1fr)">
+      <img src="w/emart-1.jpg" alt="1/8 장난감의 두 번째 생일, 토이킹덤 기사단 모집" loading="lazy">
+      <img src="w/emart-2.jpg" alt="2/8 아이가 자랄수록 장난감은 쌓인다" loading="lazy">
+      <img src="w/emart-3.jpg" alt="3/8 낡은 장난감이 선물로 변신합니다" loading="lazy">
+      <img src="w/emart-4.jpg" alt="4/8 기부 가능한 장난감과 어려운 장난감" loading="lazy">
+      <img src="w/emart-5.jpg" alt="5/8 장난감의 여행이 시작됩니다" loading="lazy">
+      <img src="w/emart-6.jpg" alt="6/8 이렇게 참여하세요" loading="lazy">
+      <img src="w/emart-7.jpg" alt="7/8 기부하면 드리는 선물" loading="lazy">
+      <img src="w/emart-8.jpg" alt="8/8 장난감에게 두 번째 생일을 선물하세요" loading="lazy">
+    </div>
+    <div class="proj-body">
+      <div>
+        <p class="lead">원래 있던 중고 장난감 기부 캠페인을 분석하면서 시작했습니다.</p>
+        <p>실제 반응을 살펴보니 "어디에 기부하면 되는지 모르겠다", "어떤 품목은 기부가 안 되는지 명확하지 않다"는 문제들이 보였고, 이 부분을 카드뉴스에서 명확하게 짚어주는 방향으로 디벨롭했습니다. 여기에 기부하는 양이 많을수록 보상도 커지는 구조를 더해서, 한 번이 아니라 계속 참여하고 싶어지도록 만들었습니다.</p>
+        <p>비주얼은 픽셀 그래픽 스타일로 표현했는데, 실제로 기부를 결정하는 주 타겟이 부모님 세대인 만큼, 어린 시절 게임 화면을 떠올리게 하는 픽셀 그래픽이 딱딱하지 않고 친근하게 다가갈 수 있다고 판단했습니다. 이 흐름을 카드뉴스 8장에 담았고, 디자인 방향은 팀원들과 의견을 나누며 잡았고 최종 카드뉴스를 만들었습니다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>연도</span><b>2026.05</b></div>
+        <div class="fact"><span>분류</span><b>캠페인 · 카드뉴스</b></div>
+        <div class="fact"><span>형태</span><b>팀 프로젝트 (교육과정)</b></div>
+        <div class="fact"><span>담당</span><b>최종 카드뉴스 디자인</b></div>
+        <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
+      </div>
+    </div>
+    <div class="room-foot"><a class="mono" href="#works">&larr; 작업 목록</a><span class="mono">07</span></div>
   </div>
 </section>
 
@@ -269,15 +441,15 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 <section class="view sheet" id="v-cardnews" aria-label="카드뉴스">
   <div class="vtop">
     <a class="mono" href="#works">&larr; 작업 목록</a>
-    <p class="mono">A-061 / 2026</p>
+    <p class="mono">05 / 2026</p>
   </div>
   <div class="proj">
     <div class="proj-head">
       <span class="mono">Client &mdash; 서울경제진흥원(SBA)</span>
       <span class="mono">Instagram &middot; 엔터테크, 서울 2026</span>
     </div>
-    <h2 tabindex="-1">카드뉴스</h2>
-    <p class="en">Card News</p>
+    <h2 tabindex="-1">엔터테크, 서울 2026 카드뉴스</h2>
+    <p class="en">Card News &mdash; 실무</p>
 
     <div class="feed">
       <figure class="post">
@@ -313,7 +485,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     </div>
     <div class="room-foot">
       <a class="mono" href="#works">&larr; 작업 목록</a>
-      <span class="mono">A-061</span>
+      <span class="mono">05</span>
     </div>
   </div>
 </section>
@@ -614,9 +786,11 @@ void main(){
   if (mq.addEventListener) mq.addEventListener("change", function(e){ reduce = e.matches; });
   var coarse = window.matchMedia("(pointer: coarse)").matches;
   var ui = document.querySelector(".ui"), cover = document.getElementById("cover");
-  var VIEWS = { "curvature":document.getElementById("v-curvature"), "cardnews":document.getElementById("v-cardnews") };
+  var VIEWS = {};
+  ["hanhin", "relic", "speaker", "bag", "cardnews", "ediya", "emart"].forEach(function(k){ VIEWS[k] = document.getElementById("v-" + k); });
   var panel = document.getElementById("works-panel"), toggle = document.getElementById("works-toggle");
-  var TITLES = { "":"이한힌 — 포트폴리오", "works":"작업 — 이한힌", "curvature":"곡률 — 이한힌", "cardnews":"카드뉴스 — 이한힌" };
+  var TITLES = { "":"이한힌 — 포트폴리오", "works":"작업 — 이한힌", "hanhin":"HANHIN — 이한힌", "relic":"슈퍼카도 언젠가는 유물이 된다 — 이한힌",
+    "speaker":"빗물 스피커 — 이한힌", "bag":"트위드 백 — 이한힌", "cardnews":"엔터테크 카드뉴스 — 이한힌", "ediya":"이디야 — 이한힌", "emart":"이마트 — 이한힌" };
   var flood = window.paperFlood || { pour:function(){}, dry:function(){} };
   var current = null, poured = false;
 
@@ -799,7 +973,11 @@ void main(){
   /* ===== routing ===== */
   var pending = null, lastRow = null;
   /* "works" is not a page: it is the first sheet with the list open */
-  function nameOf(hash){ var h = (hash || "").replace(/^#/, ""); return h === "works" || VIEWS[h] ? h : ""; }
+  function nameOf(hash){
+    var h = (hash || "").replace(/^#/, "");
+    if (h === "curvature") h = "hanhin";   /* the room's old address still finds it */
+    return h === "works" || VIEWS[h] ? h : "";
+  }
 
   function go(name){
     if (pending){ clearTimeout(pending); pending = null; }
@@ -818,15 +996,16 @@ void main(){
       VIEWS[k].classList.remove("leaving");
       VIEWS[k].inert = k !== name;
     });
-    if (name === "curvature"){ VIEWS.curvature.scrollTop = 0; rail.enter(); rail.focus(); } else rail.leave();
-    /* Instagram is only asked for once someone opens the sheet, not on the first screen */
-    if (name === "cardnews"){
-      VIEWS.cardnews.scrollTop = 0;
-      VIEWS.cardnews.querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
-      if (prev !== null) VIEWS.cardnews.querySelector("h2").focus({ preventScroll:true });
+    if (name === "hanhin"){ VIEWS.hanhin.scrollTop = 0; rail.enter(); rail.focus(); } else rail.leave();
+    /* a paper room opens at its top; Instagram is only asked for once someone opens that sheet */
+    var v = VIEWS[name];
+    if (v && v.classList.contains("sheet")){
+      v.scrollTop = 0;
+      v.querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
+      if (prev !== null) v.querySelector("h2").focus({ preventScroll:true });
     }
     /* leaving a room: the flood dries under the fading room, and the first sheet gets its marks back */
-    if (name !== "curvature" && poured){ poured = false; flood.dry(); }
+    if (name !== "hanhin" && poured){ poured = false; flood.dry(); }
     if (prev === null) return;
     if (name === "works") (lastRow || panel.querySelector("a.irow")).focus({ preventScroll:true });
     if (name === "" && prev === "works") toggle.focus({ preventScroll:true });
@@ -861,7 +1040,7 @@ void main(){
 
   window.addEventListener("hashchange", function(){
     /* a back step in the middle of a flood takes the ink with it */
-    if (poured && nameOf(location.hash) !== "curvature" && current === nameOf(location.hash)){ poured = false; flood.dry(); }
+    if (poured && nameOf(location.hash) !== "hanhin" && current === nameOf(location.hash)){ poured = false; flood.dry(); }
     go(nameOf(location.hash));
   });
   /* a deep link arrives straight in the room, no flood */
