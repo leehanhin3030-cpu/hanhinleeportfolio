@@ -1,0 +1,841 @@
+<title>이한힌 — 포트폴리오</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- the name's face, cut down to the two syllables it sets (about 3KB) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@180&text=%ED%95%9C%ED%9E%8C&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one screen of white paper, wet. Ink drops land, bloom, and stop.
+   Type is ink on paper, small and to the left. Nothing moves unless a drop is falling. */
+:root{
+  color-scheme:light;
+  --paper:#F8F8F5;
+  --ink:#111315;
+  --ink2:#585C60;
+  --ink3:#6B6F73;   /* 4.9:1 on paper; the old #8E9195 was 3:1 */
+  --sans:"Noto Sans KR","Pretendard",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --gl:max(16px, env(safe-area-inset-left, 0px), 4vw);
+  --gr:max(16px, env(safe-area-inset-right, 0px), 4vw);
+}
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0; overflow:hidden; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:15px; line-height:1.7; -webkit-font-smoothing:antialiased;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+#paper{ position:fixed; inset:0; width:100%; height:100%; display:block; touch-action:manipulation; cursor:crosshair; }
+.fallback{ position:fixed; inset:0; background:radial-gradient(14% 18% at 68% 46%, rgba(17,19,21,.9) 0%, rgba(17,19,21,.55) 60%, rgba(17,19,21,0) 72%), var(--paper); }
+
+.mono{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink2); margin:0; }
+.ui{ position:fixed; inset:0; pointer-events:none; display:grid; grid-template-rows:auto 1fr auto;
+  padding:calc(22px + env(safe-area-inset-top, 0px)) var(--gr) calc(26px + env(safe-area-inset-bottom, 0px)) var(--gl); }
+.top{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; }
+.top nav{ display:flex; gap:22px; pointer-events:auto; }
+.top a{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink2); text-decoration:none; transition:color .2s; }
+.top a:hover{ color:var(--ink); }
+.top a:focus-visible{ outline:2px solid var(--ink); outline-offset:4px; }
+
+@keyframes rise{ from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:none; } }
+.arr{ animation:rise 1.4s cubic-bezier(.2,.7,.2,1) both; animation-delay:var(--d,0s); }
+@media (prefers-reduced-motion:reduce){ .arr{ animation:none; } }
+
+.bottom{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; }
+/* the name: a dry hairline beside the wet ink, so the two never say the same thing */
+.name h1{ margin:0; font-family:"Hahmlet",var(--sans); font-weight:180; font-size:clamp(74px,10.5vw,176px); line-height:.86; letter-spacing:-.05em; }
+.name p{ margin:32px 0 0; max-width:28ch; color:var(--ink2); font-size:15px; }
+.name .mono{ margin-top:14px; max-width:none; font-size:11px; line-height:1.8; color:var(--ink3); }
+@media (max-width:720px){ .name p{ margin-top:24px; } }
+/* the hint is also the keyboard's way to drop ink */
+.hint{ pointer-events:auto; display:block; margin:10px 0 0; padding:0; border:0; background:none; cursor:pointer;
+  font-family:var(--sans); font-size:12px; color:var(--ink3); transition:opacity .8s ease, color .2s; }
+.hint:hover{ color:var(--ink); }
+.hint:focus-visible{ outline:2px solid var(--ink); outline-offset:4px; }
+.hint.off{ opacity:.5; }
+
+@media (max-width:720px){
+  .top{ flex-wrap:wrap; row-gap:8px; }
+  .top nav{ gap:16px; }
+  .bottom{ flex-direction:column; align-items:flex-start; }
+}
+.ui{ transition:opacity .45s ease; }
+.ui.away{ opacity:0; visibility:hidden; transition:opacity .45s ease, visibility 0s .45s; }
+
+/* ---------- beyond the first sheet ----------
+   Layers, bottom to top: the paper canvas, the landing type, a fresh sheet (cover) that hides the landing,
+   the works list, and a room. When a work is opened the canvas is lifted above the cover so ink can flood
+   the fresh sheet; the black it leaves is the room's dark. */
+.cover{ position:fixed; inset:0; z-index:4; background:var(--paper); opacity:0; visibility:hidden; transition:opacity .45s ease, visibility 0s .45s; }
+.cover.on{ opacity:1; visibility:visible; transition:opacity .45s ease; }
+#paper.lifted{ z-index:5; }
+.view{ position:fixed; inset:0; overflow-y:auto; overscroll-behavior:contain; opacity:0; visibility:hidden; transition:opacity .45s ease, visibility 0s .45s; }
+.view.on{ opacity:1; visibility:visible; transition:opacity .45s ease; }
+.view a{ color:inherit; text-decoration:none; }
+.view a:focus-visible, .view button:focus-visible{ outline:2px solid currentColor; outline-offset:4px; }
+
+/* the works: a dense index on the same paper */
+.works{ z-index:6; padding:calc(22px + env(safe-area-inset-top, 0px)) var(--gr) calc(40px + env(safe-area-inset-bottom, 0px)) var(--gl); }
+.works.leaving{ opacity:0; transition:opacity .7s ease; }
+.vtop{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; }
+.vtop a{ color:var(--ink2); transition:color .2s; }
+.vtop a:hover{ color:var(--ink); }
+.rows{ list-style:none; margin:clamp(96px,24vh,240px) 0 0; padding:0; border-top:1px solid rgba(17,19,21,.18); }
+.row{ display:grid; grid-template-columns:96px minmax(0,1fr) auto; align-items:baseline; gap:24px; padding:22px 0; border-bottom:1px solid rgba(17,19,21,.12); }
+.row .idx, .row .meta{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); }
+.row .nm{ font-size:clamp(30px,4.4vw,64px); font-weight:200; letter-spacing:-.03em; line-height:1.05; transition:transform .35s cubic-bezier(.2,.7,.2,1); }
+.row .nm em{ font-style:normal; font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3); margin-left:14px; vertical-align:middle; }
+a.row{ cursor:pointer; }
+a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
+.row.off .nm{ color:#9C9FA2; }
+@media (max-width:720px){ .row{ grid-template-columns:1fr; gap:6px; padding:18px 0; } }
+
+/* a room: no paper, one lamp */
+.room{ z-index:7; background:var(--paper); }
+.stage{ position:relative; height:100vh; height:100svh; min-height:520px; overflow:hidden; background:#04060A; color:#EEF3F6; touch-action:pan-y; }
+@media (pointer:fine){ .stage{ cursor:none; } }
+.stage.is-lit{ cursor:auto; }
+.stage img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }   /* until layout places it */
+/* on a narrow screen the whole car is shown; its render's edges melt into the room */
+.stage.fit-car img{ -webkit-mask-image:linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+  mask-image:linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent); }
+.stage canvas{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.ghost{ position:absolute; inset:0; z-index:2; pointer-events:none; display:grid; place-items:center;
+  font-family:var(--mono); font-weight:500; text-transform:uppercase; font-size:clamp(48px,13vw,210px); line-height:.9; letter-spacing:.02em; color:#EEF3F6; opacity:.055; }
+.rail-range{ position:absolute; width:1px; height:1px; margin:-1px; padding:0; border:0; opacity:0; overflow:hidden; clip:rect(0 0 0 0); }
+.stage:has(.rail-range:focus-visible){ outline:2px solid rgba(238,243,246,.85); outline-offset:-8px; }
+.room-top, .stage-hud{ position:absolute; left:0; right:0; z-index:3; display:flex; justify-content:space-between; gap:24px; padding:0 var(--gr) 0 var(--gl); }
+.room-top{ top:calc(22px + env(safe-area-inset-top, 0px)); }
+/* the controls sit at the foot of the room, off the car */
+.stage-hud{ bottom:calc(26px + env(safe-area-inset-bottom, 0px)); align-items:center; pointer-events:none; }
+.stage .mono{ color:#9AA4AC; }
+.room-top a{ cursor:pointer; transition:color .2s; }
+.room-top a:hover{ color:#EEF3F6; }
+.stage-hud .mono{ flex:1 1 0; word-break:keep-all; transition:opacity .5s ease; }
+.stage-hud .mono:last-child{ text-align:right; white-space:nowrap; }
+/* low-key: it never turns into a white slab that breaks the eye's dark adaptation */
+.illum{ all:unset; flex:0 0 auto; pointer-events:auto; cursor:pointer; box-sizing:border-box; text-align:center;
+  font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
+  color:#C4CCD3; border:1px solid rgba(238,243,246,.32); padding:13px 26px; transition:color .22s, border-color .22s; }
+.illum:hover, .illum:focus-visible{ color:#EEF3F6; border-color:rgba(238,243,246,.85); }
+.illum:focus-visible{ outline:1px solid rgba(238,243,246,.85); outline-offset:3px; }
+@media (max-width:720px){
+  .stage-hud{ flex-wrap:wrap; row-gap:18px; align-items:flex-end; }
+  .illum{ order:-1; flex:1 0 100%; padding:16px 0; }
+}
+
+/* the write-up goes back to paper */
+.proj{ max-width:1180px; margin:0 auto; padding:clamp(64px,11vh,140px) var(--gr) clamp(56px,9vh,110px) var(--gl); }
+.proj-head{ display:flex; justify-content:space-between; gap:24px; border-top:1px solid rgba(17,19,21,.18); padding-top:14px; margin-bottom:48px; }
+.proj h2{ margin:0; font-size:clamp(44px,7vw,104px); font-weight:200; letter-spacing:-.04em; line-height:1; }
+.proj .en{ margin:14px 0 0; font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink3); }
+.proj-body{ display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:clamp(32px,5vw,72px); margin-top:56px; }
+.proj-body p{ margin:0 0 22px; max-width:62ch; color:var(--ink2); }
+.proj-body p.lead{ color:var(--ink); font-size:17px; }
+.facts{ display:flex; flex-direction:column; }
+.fact{ display:flex; justify-content:space-between; gap:24px; border-top:1px solid rgba(17,19,21,.12); padding:13px 0; font-size:13px; color:var(--ink3); }
+.fact b{ font-weight:400; color:var(--ink); font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
+.room-foot{ display:flex; justify-content:space-between; gap:24px; border-top:1px solid rgba(17,19,21,.12); padding-top:16px; margin-top:clamp(56px,9vh,110px); }
+.room-foot a{ color:var(--ink2); transition:color .2s; }
+.room-foot a:hover{ color:var(--ink); }
+@media (max-width:900px){ .proj-body{ grid-template-columns:1fr; } }
+
+/* a sheet: a work that stays on paper. The two posts sit side by side as they were published */
+.sheet{ z-index:7; background:var(--paper); }
+.sheet > .vtop{ padding:calc(22px + env(safe-area-inset-top, 0px)) var(--gr) 0 var(--gl); }
+.sheet .proj{ padding-top:clamp(48px,9vh,110px); }
+.feed{ display:grid; grid-template-columns:repeat(2, minmax(0, 420px)); justify-content:start; gap:clamp(24px,4vw,64px); margin:56px 0 0; }
+.post{ margin:0; }
+/* the embed keeps a 4:5 card plus Instagram's own header and footer */
+.ig{ container-type:inline-size; background:#fff; box-shadow:0 0 0 1px rgba(17,19,21,.1); }
+.ig iframe{ display:block; width:100%; height:calc(100cqw * 1.25 + 214px); border:0; }
+.post figcaption{ display:grid; gap:6px; margin-top:16px; }
+.post figcaption .mono{ color:var(--ink3); text-transform:none; letter-spacing:.04em; }
+.post figcaption b{ font-weight:500; color:var(--ink); margin-right:6px; }
+.post figcaption a{ color:var(--ink2); width:max-content; border-bottom:1px solid rgba(17,19,21,.25); transition:color .2s, border-color .2s; }
+.post figcaption a:hover{ color:var(--ink); border-color:var(--ink); }
+.sheet h2:focus{ outline:none; }
+@media (max-width:720px){ .feed{ grid-template-columns:minmax(0,1fr); } }
+</style>
+
+<canvas id="paper" aria-label="흰 종이 위에 먹 방울이 떨어져 번지다 멈춘다. 누르면 한 방울이 떨어진다"></canvas>
+
+<div class="ui">
+  <div class="top arr" style="--d:.2s">
+    <p class="mono">이한힌 · Han Hin Lee</p>
+    <nav aria-label="사이트"><a href="#works">Works</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+  </div>
+  <div></div>
+  <div class="bottom">
+    <div class="name">
+      <h1 class="arr" style="--d:.5s">한힌</h1>
+      <p class="arr" style="--d:.8s">크고 맑은 흰 종이에 먹 한 방울. 번진 만큼이 그림이 된다.</p>
+      <p class="mono arr" style="--d:1s">Graphic · Sculpture · UI · Typography<br>Portfolio 2022–2026</p>
+      <button class="hint arr" id="hint" type="button" style="--d:1.1s">누르면 먹이 떨어집니다</button>
+    </div>
+  </div>
+</div>
+
+<div class="cover" id="cover"></div>
+
+<section class="view works" id="v-works" aria-label="작업 목록">
+  <div class="vtop">
+    <a class="mono" href="#">&larr; 한힌</a>
+    <p class="mono">Works &mdash; 작업</p>
+  </div>
+  <ol class="rows">
+    <li><a class="row" href="#curvature" data-room="curvature">
+      <span class="idx">A-049</span>
+      <span class="nm">곡률<em>Curvature</em></span>
+      <span class="meta">2025 / 브랜드 디자인</span>
+    </a></li>
+    <li><a class="row" href="#cardnews">
+      <span class="idx">A-061</span>
+      <span class="nm">카드뉴스<em>Card News</em></span>
+      <span class="meta">2026 / 그래픽 · 서울경제진흥원</span>
+    </a></li>
+    <li><div class="row off">
+      <span class="idx">A-052</span>
+      <span class="nm">메두사<em>Medusa</em></span>
+      <span class="meta">2026 / 조각 · 설치 &mdash; 옮기는 중</span>
+    </div></li>
+    <li><div class="row off">
+      <span class="idx">A-042</span>
+      <span class="nm">표류<em>Drift</em></span>
+      <span class="meta">2024 / 준비 중</span>
+    </div></li>
+  </ol>
+</section>
+
+<section class="view room" id="v-curvature" aria-label="곡률">
+  <div class="stage" id="stage-car">
+    <img id="car" src="curvature-car.jpg" alt="곡률 — 하이퍼카 사이드 뷰, 단일 스트립 라이트">
+    <!-- the same light, for keys and screen readers: arrows push it along the line -->
+    <input type="range" class="rail-range" id="rail-range" min="0" max="100" step="1" value="6" aria-label="스트립 라이트 위치, 노즈에서 테일까지">
+    <canvas id="veil-car"></canvas>
+    <div class="ghost" aria-hidden="true">Curvature</div>
+    <div class="room-top">
+      <a class="mono" href="#works">&larr; 작업 목록</a>
+      <span class="mono">A-049 / 2025</span>
+    </div>
+    <div class="stage-hud">
+      <span class="mono" id="hint-car">빛을 밀어 차체 라인을 따라가세요 &middot; 키보드는 &larr; &rarr;</span>
+      <button type="button" class="illum" id="illum-car" aria-pressed="false">Illuminate</button>
+      <span class="mono">Scroll &darr;</span>
+    </div>
+  </div>
+
+  <div class="proj">
+    <div class="proj-head">
+      <span class="mono">A-049 / 2025</span>
+      <span class="mono">Light on rails &mdash; 라인에 구속된 광원</span>
+    </div>
+    <h2>곡률</h2>
+    <p class="en">Curvature</p>
+    <div class="proj-body">
+      <div>
+        <p class="lead">하이퍼카 한 대의 서페이싱을 단 하나의 광원으로만 검증한 작업이다.</p>
+        <p>자동차 디자인에서 면의 품질은 색이나 재질이 아니라 빛이 그 위를 지나갈 때의 반사선으로 판정된다. 그래서 전체 조명을 걷어내고 좁은 광원 하나만 차체 라인을 따라 흐르게 두었다. 노즈에서 테일까지 반사선이 끊기거나 튀는 지점이 곧 면이 무너진 지점이다.</p>
+        <p>이 페이지의 빛은 커서를 그대로 따르지 않는다. 실제 스튜디오의 스트립 라이트처럼 차체 라인 위에 구속되어 있고, 커서는 그 빛을 라인 위에서 밀고 당길 뿐이다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>연도</span><b>2025</b></div>
+        <div class="fact"><span>분류</span><b>브랜드 디자인</b></div>
+        <div class="fact"><span>작업</span><b>서페이싱, 라이팅, 렌더</b></div>
+        <div class="fact"><span>광원</span><b>스트립 1 · 필 없음</b></div>
+        <div class="fact"><span>역할</span><b>전 과정 단독</b></div>
+      </div>
+    </div>
+    <div class="room-foot">
+      <a class="mono" href="#works">&larr; 작업 목록</a>
+      <span class="mono">A-049</span>
+    </div>
+  </div>
+</section>
+
+<!-- 카드뉴스: no dark room; the work stays on paper, as it was published, in its own feed -->
+<section class="view sheet" id="v-cardnews" aria-label="카드뉴스">
+  <div class="vtop">
+    <a class="mono" href="#works">&larr; 작업 목록</a>
+    <p class="mono">A-061 / 2026</p>
+  </div>
+  <div class="proj">
+    <div class="proj-head">
+      <span class="mono">Client &mdash; 서울경제진흥원(SBA)</span>
+      <span class="mono">Instagram &middot; 엔터테크, 서울 2026</span>
+    </div>
+    <h2 tabindex="-1">카드뉴스</h2>
+    <p class="en">Card News</p>
+
+    <div class="feed">
+      <figure class="post">
+        <div class="ig"><iframe data-src="https://www.instagram.com/p/DcsElqXDi7m/embed/" title="카드뉴스 #2 홍보대사 공개 기념, 인스타그램 게시물" loading="lazy" scrolling="no"></iframe></div>
+        <figcaption>
+          <p class="mono"><b>#2</b> 홍보대사 공개 기념 &middot; 08.31</p>
+          <p class="mono">도달 약 9,500 &middot; 캠페인 7편 중 2위</p>
+          <a class="mono" href="https://www.instagram.com/p/DcsElqXDi7m/" target="_blank" rel="noopener">인스타그램에서 보기 &nearr;</a>
+        </figcaption>
+      </figure>
+      <figure class="post">
+        <div class="ig"><iframe data-src="https://www.instagram.com/p/DcxAbJ0AUWU/embed/" title="카드뉴스 #3 첫 체험존 고르기, 인스타그램 게시물" loading="lazy" scrolling="no"></iframe></div>
+        <figcaption>
+          <p class="mono"><b>#3</b> 첫 체험존 고르기 &middot; 09.02</p>
+          <p class="mono">참여 약 1,360명 &middot; 공유&middot;저장 캠페인 1위</p>
+          <a class="mono" href="https://www.instagram.com/p/DcxAbJ0AUWU/" target="_blank" rel="noopener">인스타그램에서 보기 &nearr;</a>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="proj-body">
+      <div>
+        <p class="lead">「엔터테크, 서울 2026」 온라인 홍보 카드뉴스 일곱 편 중 두 편을 디자인했다.</p>
+        <p>홍보대사 공개 편은 멀리 닿아야 했고, 체험존 고르기 편은 댓글로 답하게 만들어야 했다. 같은 행사, 같은 계정이지만 하나는 도달을, 하나는 참여를 끌어낸 편이 되었다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>연도</span><b>2026</b></div>
+        <div class="fact"><span>분류</span><b>그래픽 · 카드뉴스</b></div>
+        <div class="fact"><span>클라이언트</span><b>서울경제진흥원(SBA)</b></div>
+        <div class="fact"><span>역할</span><b>디자인 (원고 별도)</b></div>
+        <div class="fact"><span>수치</span><b>인스타그램 인사이트 · 09.28 기준</b></div>
+      </div>
+    </div>
+    <div class="room-foot">
+      <a class="mono" href="#works">&larr; 작업 목록</a>
+      <span class="mono">A-061</span>
+    </div>
+  </div>
+</section>
+
+<script id="vs" type="x-shader/x-vertex">
+attribute vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }
+</script>
+<script id="fs" type="x-shader/x-fragment">
+precision highp float;
+#define MAXD 32
+uniform vec2 uRes;
+uniform float uTime;
+uniform vec4 uDrop[MAXD];   /* x, y, final radius, landing time */
+uniform vec4 uMeta[MAXD];   /* seed, warmth, strength, kind: 1 = main drop (draws the ring), 2 + angle = speck thrown that way */
+uniform int uCount;
+
+float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+vec2 grd(vec2 i){ float a = hash(i) * 6.28318; return vec2(cos(a), sin(a)); }
+float noise(vec2 p){
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+  float a = dot(grd(i), f), b = dot(grd(i + vec2(1.,0.)), f - vec2(1.,0.));
+  float c = dot(grd(i + vec2(0.,1.)), f - vec2(0.,1.)), d = dot(grd(i + vec2(1.,1.)), f - vec2(1.,1.));
+  return 0.5 + 0.7 * mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+}
+float fbm(vec2 p){ float v = 0.0, a = 0.5; for (int i = 0; i < 4; i++){ v += a * noise(p); p = p * 2.03 + 7.1; a *= 0.5; } return v; }
+
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+  float t = uTime;
+  float dens = 0.0;          /* ink in the paper, summed, so touching drops run together */
+  float floodA = 0.0;        /* how deep a flood lies here */
+  float warmSum = 0.0, inkSum = 0.0, ring = 0.0;
+
+  /* a rough first look at which drops cover this point, so an edge buried under another drop can let go */
+  float cover[MAXD];
+  float coverSum = 0.0, reach = 0.0;
+  for (int i = 0; i < MAXD; i++){
+    cover[i] = 0.0;
+    if (i >= uCount) break;
+    vec4 d = uDrop[i];
+    float age = t - d.w;
+    if (age < 0.0 || uMeta[i].w < 0.5 || uMeta[i].w > 1.5) continue;
+    float R = d.z * (0.12 + 0.88 * (1.0 - exp(-age / 0.75)));
+    float rr = length(p - d.xy) / R;
+    cover[i] = smoothstep(1.3, 0.75, rr) * uMeta[i].z;
+    coverSum += cover[i];
+    reach += smoothstep(1.5, 1.0, rr) * uMeta[i].z;   /* how far each drop's wet front reaches */
+  }
+
+  for (int i = 0; i < MAXD; i++){
+    if (i >= uCount) break;
+    vec4 d = uDrop[i]; vec4 m = uMeta[i];
+    float age = t - d.w;
+    if (age < 0.0) continue;
+    vec2 q = p - d.xy;
+    float r = length(q);
+    if (r > d.z * 1.9 + 0.02) continue;
+
+    /* the ripple when it lands: a faint ring outward, gone in well under a second */
+    if (m.w > 0.5 && m.w < 1.5 && age < 0.9){
+      float rr = 0.012 + age * 0.34 * d.z * 4.0;
+      ring += exp(-pow((r - rr) / 0.0045, 2.0)) * exp(-age * 4.5) * 0.5;
+    }
+
+    /* bloom: fast at first, slower, then it stops. A flood (kind < 0) is the same bloom, hurried */
+    float grow = 1.0 - exp(-age / (m.w < 0.0 ? 0.6 : 0.75));
+    float R = d.z * (0.12 + 0.88 * grow);
+    /* the outline: bend the whole plane, not the angle, so there are no spokes */
+    vec2 w = q / d.z;
+    vec2 warp = vec2(fbm(w * 2.3 + m.x), fbm(w * 2.3 + m.x + 17.3)) - 0.47;
+    float fibre = fbm(q * 46.0 / max(d.z * 9.0, 0.6) + m.x * 3.0);
+    float a;
+    if (m.w < 1.5){
+      float buried = clamp(coverSum - cover[i], 0.0, 1.0);                 /* another drop already lies here */
+      float x = length(q + warp * R * 0.7) / max(R * (1.0 + 0.12 * (fibre - 0.5) * grow), 1e-4);
+      float fl = m.w < 0.0 ? 1.0 : 0.0;
+      /* a flood is drop-sized at its edge, not screen-sized: a crisp front, ragged at the paper's own scale */
+      x += fl * (fbm(p * 22.0 + m.x) - 0.47) * 0.06;
+      float body = smoothstep(1.0, mix(0.9, 0.985, fl), x);
+      float fill = 0.84 + 0.08 * smoothstep(0.9, 0.0, x);                /* a shade denser inward, no dot */
+      float gather = smoothstep(0.35, 0.65, fbm(w * 1.1 + m.x * 0.7));    /* ink pools on some of the edge, not all */
+      float rim  = exp(-pow((x - 0.95) / 0.045, 2.0)) * 0.30 * grow * gather;
+      float halo = exp(-max(x - 0.95, 0.0) * mix(6.0, 40.0, fl)) * (1.0 - body) * grow    /* the wet front, thinning as it travels */
+                 * (0.045 + 0.075 * fibre);
+      a = body * fill + (rim + halo) * (1.0 - buried);
+    } else {
+      /* a thrown speck: drawn out along the way it flew, no ring, no halo */
+      float ang = m.w - 2.0;
+      vec2 s = mat2(cos(ang), -sin(ang), sin(ang), cos(ang)) * (q + warp * R * 0.5);
+      s.x = s.x > 0.0 ? s.x * 0.55 : s.x * 1.1;                            /* a head ahead, a short tail behind */
+      float x = length(s) / max(R, 1e-4);
+      a = smoothstep(1.0, 0.6, x) * 0.85;
+    }
+    /* paper takes it unevenly, along its fibres rather than in round clouds */
+    float th = m.x * 0.37;
+    vec2 g = mat2(cos(th), -sin(th), sin(th), cos(th)) * w;
+    a *= 0.90 + 0.18 * fbm(g * vec2(5.0, 2.4) + m.x * 1.7);
+    a *= m.z;
+    if (m.w < 0.0) floodA = max(floodA, a);
+
+    float a2 = a * a;
+    dens += a2 * a2 * a2;   /* close to a union: where wet ink meets it runs together into one body */
+    warmSum += a * m.y;
+    inkSum += a;
+  }
+
+  /* where two wet fronts meet, the water joins them and ink fills the notch between */
+  float bridge = 0.0;
+  if (reach > 1.0){
+    float grain = fbm(p * 38.0);                                         /* it creeps along the fibres, ragged */
+    bridge = smoothstep(1.35, 1.85, reach + (grain - 0.47) * 0.9) * (0.62 + 0.2 * grain);
+  }
+  float b2 = bridge * bridge;
+  dens += b2 * b2 * b2;
+
+  float ink = min(1.0 - exp(-pow(dens, 1.0 / 6.0) * 3.0), 0.97);   /* deep sumi: a drop reads near black */
+  float warm = inkSum > 0.0 ? warmSum / inkSum : 0.5;
+  vec3 paper = vec3(0.973, 0.973, 0.961);
+  vec3 sumi = mix(vec3(0.070, 0.076, 0.086), vec3(0.094, 0.084, 0.074), warm);
+  vec3 col = mix(paper, sumi, ink);
+  col = mix(col, vec3(0.80, 0.81, 0.81), clamp(ring, 0.0, 1.0) * (1.0 - ink));
+  col -= (hash(gl_FragCoord.xy) - 0.5) * 0.02;
+  /* a flood settles into the room's own black (#04060A), so the handoff has no seam */
+  col = mix(col, vec3(0.016, 0.024, 0.039), smoothstep(0.7, 1.05, floodA));
+  gl_FragColor = vec4(col, 1.0);
+}
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cv = document.getElementById("paper");
+  var hint = document.getElementById("hint");
+  var gl = cv.getContext("webgl", { antialias:false, preserveDrawingBuffer:true });
+  if (!gl){ var fb = document.createElement("div"); fb.className = "fallback"; document.body.insertBefore(fb, cv); cv.remove(); return; }
+
+  function sh(type, src){
+    var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    return s;
+  }
+  var prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, document.getElementById("vs").textContent));
+  gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, document.getElementById("fs").textContent));
+  gl.linkProgram(prog); gl.useProgram(prog);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  var loc = gl.getAttribLocation(prog, "a");
+  gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  var U = { res:gl.getUniformLocation(prog, "uRes"), time:gl.getUniformLocation(prog, "uTime"),
+            drop:gl.getUniformLocation(prog, "uDrop"), meta:gl.getUniformLocation(prog, "uMeta"), count:gl.getUniformLocation(prog, "uCount") };
+
+  var MAXD = 32, drops = [], scale = Math.min(window.devicePixelRatio || 1, 1.5), t0 = performance.now();
+  function now(){ return (performance.now() - t0) / 1000; }
+
+  function size(){
+    cv.width = Math.round(window.innerWidth * scale);
+    cv.height = Math.round(window.innerHeight * scale);
+    gl.viewport(0, 0, cv.width, cv.height);
+    wake();
+  }
+
+  /* drops live in height-normalised, centred units, so they keep their shape on resize */
+  function toP(cx, cy){ return [(cx - window.innerWidth / 2) / window.innerHeight, (window.innerHeight / 2 - cy) / window.innerHeight]; }
+
+  /* kind: 1 for the main drop, 2 + angle for a speck thrown in that direction */
+  function add(x, y, R, at, kind, warm, strength){
+    drops.push({ x:x, y:y, R:R, t:at, seed:Math.random() * 50, warm:warm, s:strength, kind:kind, main:kind === 1, fade:1 });
+  }
+  /* one drop: the bloom, and the few specks thrown off when it hits */
+  function drop(x, y, size){
+    /* with reduced motion, a drop arrives already settled: no fall, no spread */
+    var at = reduce ? now() - 10 : now(), warm = Math.random(), R = (0.075 + Math.random() * 0.05) * (size || 1);
+    add(x, y, R, at, 1, warm, 0.95 + Math.random() * 0.1);
+    var n = 1 + (Math.random() * 3 | 0);
+    for (var i = 0; i < n; i++){
+      /* thrown clear of the bloom, so a speck never sits inside it like a dot */
+      var a = Math.random() * Math.PI * 2, d = R * (1.2 + Math.random() * 0.9);
+      add(x + Math.cos(a) * d, y + Math.sin(a) * d, R * (0.05 + Math.random() * 0.09), at + 0.03 + Math.random() * 0.06, 2 + a, warm, 0.8);
+    }
+    /* when the paper is full, the oldest marks give way slowly */
+    while (drops.length > MAXD){
+      var old = drops.find(function(o){ return !o.leaving; });
+      if (!old) break;
+      old.leaving = at;
+      if (drops.filter(function(o){ return !o.leaving; }).length <= MAXD - 6) break;
+    }
+    wake();
+  }
+
+  /* only draw while something is still settling */
+  var running = false;
+  function busy(t){
+    for (var i = 0; i < drops.length; i++){
+      if (t - drops[i].t < 4.0 || drops[i].leaving) return true;
+    }
+    return false;
+  }
+  function draw(){
+    var t = now();
+    drops = drops.filter(function(o){ if (!o.leaving) return true; o.fade = Math.max(0, 1 - (t - o.leaving) / 3); return o.fade > 0; });
+    var list = drops.slice(-MAXD);
+    var D = new Float32Array(MAXD * 4), M = new Float32Array(MAXD * 4);
+    list.forEach(function(o, i){
+      D.set([o.x, o.y, o.R, o.t], i * 4);
+      M.set([o.seed, o.warm, o.s * o.fade, o.kind], i * 4);
+    });
+    gl.uniform2f(U.res, cv.width, cv.height);
+    gl.uniform1f(U.time, t);
+    gl.uniform4fv(U.drop, D); gl.uniform4fv(U.meta, M);
+    gl.uniform1i(U.count, list.length);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    return busy(t);
+  }
+  function loop(){
+    if (draw()) requestAnimationFrame(loop); else running = false;
+  }
+  function wake(){
+    if (reduce){ draw(); return; }
+    if (!running){ running = true; requestAnimationFrame(loop); }
+  }
+
+  /* the name is kept dry: a press on or near it drops nothing */
+  var nameBox = document.querySelector(".name");
+  function onName(x, y){
+    var r = nameBox.getBoundingClientRect(), m = 40;
+    return x > r.left - m && x < r.right + m && y > r.top - m && y < r.bottom + m;
+  }
+
+  /* the visitor's hand: a press is a drop. Moving does nothing. Only on the first sheet */
+  cv.addEventListener("pointerdown", function(e){
+    if (location.hash.length > 1 || onName(e.clientX, e.clientY)) return;
+    var p = toP(e.clientX, e.clientY);
+    drop(p[0], p[1], 0.8 + Math.random() * 0.5);
+    hint.classList.add("off");
+  });
+
+  /* the hint is a button too, for a keyboard: it drops one where the paper is open */
+  function spot(){
+    var a = window.innerWidth / window.innerHeight;
+    return a > 1 ? [ (0.12 + Math.random() * 0.62) * a * 0.5, (Math.random() - 0.5) * 0.62 ]
+                 : [ (Math.random() - 0.5) * a * 0.7, 0.05 + Math.random() * 0.3 ];
+  }
+  hint.addEventListener("click", function(){
+    var s = spot(); drop(s[0], s[1], 0.8 + Math.random() * 0.5);
+    hint.classList.add("off");
+  });
+
+  window.addEventListener("resize", size);
+  size();
+  /* two drops to open with: one, then a beat, then another. After that, only the visitor drops ink */
+  var a = window.innerWidth / window.innerHeight;
+  /* on a phone the paper is narrow: smaller drops, and the second falls inward, never off the edge */
+  var first = a > 1 ? [0.36 * a * 0.5 + 0.1, 0.06] : [0.0, 0.18];
+  var second = a > 1 ? [first[0] + 0.24, first[1] - 0.2] : [-0.12 * a, first[1] - 0.24];
+  var k = a > 1 ? 1 : 0.8;
+  setTimeout(function(){ drop(first[0], first[1], 1.35 * k); }, reduce ? 0 : 700);
+  setTimeout(function(){ drop(second[0], second[1], 0.75 * k); }, reduce ? 0 : 2300);
+
+  /* for the rooms: one drop big enough to drown the sheet, on a canvas lifted above the cover.
+     The landing's marks are put aside meanwhile and given back when the visitor returns */
+  var kept = null;
+  window.paperFlood = {
+    pour: function(cx, cy){
+      if (!kept) kept = drops;
+      var p = toP(cx, cy), a = window.innerWidth / window.innerHeight;
+      /* just big enough to reach the farthest corner, so the spreading itself is seen */
+      var far = 0;
+      [[-a/2, -0.5], [a/2, -0.5], [-a/2, 0.5], [a/2, 0.5]].forEach(function(c){ far = Math.max(far, Math.hypot(c[0] - p[0], c[1] - p[1])); });
+      drops = [];
+      add(p[0], p[1], far * 1.12, reduce ? now() - 10 : now(), -1, Math.random(), 1.4);
+      cv.classList.add("lifted");
+      wake();
+    },
+    dry: function(){
+      cv.classList.remove("lifted");
+      if (kept){ drops = kept; kept = null; }
+      wake();
+    }
+  };
+})();
+</script>
+
+<script>
+/* ---------- the way through: the first sheet, the works, a room ---------- */
+(function(){
+  "use strict";
+  var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var reduce = mq.matches;
+  if (mq.addEventListener) mq.addEventListener("change", function(e){ reduce = e.matches; });
+  var coarse = window.matchMedia("(pointer: coarse)").matches;
+  var ui = document.querySelector(".ui"), cover = document.getElementById("cover");
+  var VIEWS = { "works":document.getElementById("v-works"), "curvature":document.getElementById("v-curvature"), "cardnews":document.getElementById("v-cardnews") };
+  var TITLES = { "":"이한힌 — 포트폴리오", "works":"작업 — 이한힌", "curvature":"곡률 — 이한힌", "cardnews":"카드뉴스 — 이한힌" };
+  var flood = window.paperFlood || { pour:function(){}, dry:function(){} };
+  var current = null, poured = false;
+
+  /* ===== 곡률: a strip light held to the car's line ===== */
+  var rail = (function(){
+    /* the highlight traced from the render's brightest pixel per column, smoothed; 0–1 of the image.
+       The front fender (0.17–0.29) and rear haunch (0.74–0.86) were re-traced within a band around the chord */
+    var CONTOUR = [[0.08,0.6022],[0.0925,0.5834],[0.105,0.5556],[0.1175,0.5434],[0.13,0.5309],[0.145,0.5087],[0.1675,0.4699],
+      [0.18,0.4709],[0.1925,0.4662],[0.205,0.4563],[0.2175,0.4479],[0.23,0.4412],[0.2425,0.4363],[0.255,0.4331],[0.2675,0.4314],[0.28,0.4314],
+      [0.295,0.4327],[0.3075,0.4125],[0.32,0.4024],[0.3325,0.3931],[0.345,0.3842],[0.3575,0.3762],[0.3725,0.3669],[0.385,0.36],[0.3975,0.3535],[0.41,0.3483],[0.4225,0.3442],[0.435,0.341],[0.4475,0.339],[0.46,0.3378],[0.4725,0.3378],[0.4875,0.3378],[0.5,0.3378],[0.5125,0.3378],[0.525,0.3398],[0.5375,0.3422],[0.55,0.3446],[0.5625,0.3479],[0.575,0.3507],[0.5875,0.3539],[0.6025,0.3584],[0.615,0.3628],[0.6275,0.3677],[0.64,0.3745],[0.6625,0.3822],[0.685,0.3915],[0.71,0.4024],[0.73,0.4093],
+      [0.7425,0.4073],[0.755,0.4054],[0.7675,0.4042],[0.78,0.4037],[0.7925,0.4042],[0.805,0.4054],[0.8175,0.4079],[0.83,0.4114],[0.8425,0.4156],[0.855,0.4206],
+      [0.87,0.4263],[0.91,0.4424],[0.925,0.4477],[0.9375,0.4489],[0.95,0.4489]];
+    var stage = document.getElementById("stage-car"), img = document.getElementById("car");
+    var cvR = document.getElementById("veil-car"), hint = document.getElementById("hint-car");
+    var btn = document.getElementById("illum-car"), range = document.getElementById("rail-range");
+    var ghost = stage.querySelector(".ghost");
+    if (coarse) hint.textContent = "손가락으로 빛을 밀어 차체 라인을 따라가세요";
+    var g = cvR.getContext("2d");
+    var raf = null, on = false, took = false, t0 = 0, swT0 = 0, visible = true;
+    var pts = [], acc = [], total = 0, RW = 0, RH = 0;
+    var target = 0, cur = 0, reveal = 0, mode = "torch", R = 58, SPREAD = 118;
+
+    function layout(){
+      var r = stage.getBoundingClientRect();
+      RW = r.width; RH = r.height;
+      if (!RW || !RH) return false;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cvR.width = Math.round(RW * dpr); cvR.height = Math.round(RH * dpr);
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var iw = img.naturalWidth || 2400, ih = img.naturalHeight || 1350;
+      /* fill the stage, unless that would crop the car; then fit the car's length to the width instead.
+         The car runs 0.08–0.95 across the render and sits about 0.47 down */
+      var s = Math.max(RW / iw, RH / ih);
+      var fit = RW / (iw * s) < 0.88;   /* below this, cover starts cutting into the nose or tail */
+      if (fit) s = RW / (iw * 0.96);
+      var dw = iw * s, dh = ih * s;
+      var ox = fit ? RW / 2 - 0.515 * dw : (RW - dw) / 2;
+      var oy = fit ? RH * 0.44 - 0.47 * dh : (RH - dh) / 2;
+      img.style.cssText = "left:" + ox + "px;top:" + oy + "px;width:" + dw + "px;height:" + dh + "px";
+      stage.classList.toggle("fit-car", fit);
+      var frac = total ? cur / total : 0.06;
+      pts = CONTOUR.map(function(p){ return [ox + p[0] * dw, oy + p[1] * dh]; });
+      acc = [0]; total = 0;
+      for (var i = 1; i < pts.length; i++){ total += Math.hypot(pts[i][0] - pts[i-1][0], pts[i][1] - pts[i-1][1]); acc.push(total); }
+      R = Math.max(34, Math.min(78, total * 0.045)); SPREAD = R * 2;
+      cur = target = total * frac;
+      return true;
+    }
+    function at(u){
+      u = Math.max(0, Math.min(total, u));
+      var i = 1; while (i < acc.length && acc[i] < u) i++;
+      var a = pts[i-1], b = pts[i] || pts[i-1], seg = (acc[i] || total) - acc[i-1], t = seg > 0 ? (u - acc[i-1]) / seg : 0;
+      return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+    }
+    /* the cursor only pushes the light along the line: nearest point on the polyline */
+    function project(px, py){
+      var best = Infinity, bs = 0;
+      for (var i = 1; i < pts.length; i++){
+        var ax = pts[i-1][0], ay = pts[i-1][1], vx = pts[i][0] - ax, vy = pts[i][1] - ay, L2 = vx*vx + vy*vy;
+        var t = L2 > 0 ? Math.max(0, Math.min(1, ((px-ax)*vx + (py-ay)*vy) / L2)) : 0;
+        var qx = ax + vx*t, qy = ay + vy*t, d = (px-qx)*(px-qx) + (py-qy)*(py-qy);
+        if (d < best){ best = d; bs = acc[i-1] + t * (acc[i] - acc[i-1]); }
+      }
+      return bs;
+    }
+    /* a strip light is long and narrow: each patch is flattened across the line and turned to follow it,
+       so it wakes the body's highlight without lighting the empty studio above the roof */
+    function patch(u, rad, alpha, squash){
+      var p = at(u), a1 = at(u - 3), a2 = at(u + 3);
+      var gr = g.createRadialGradient(0, 0, 0, 0, 0, rad);
+      gr.addColorStop(0, "rgba(0,0,0," + alpha + ")");
+      gr.addColorStop(0.45, "rgba(0,0,0," + (alpha * 0.72) + ")");
+      gr.addColorStop(1, "rgba(0,0,0,0)");
+      g.save();
+      g.translate(p[0], p[1]); g.rotate(Math.atan2(a2[1] - a1[1], a2[0] - a1[0])); g.scale(1, squash);
+      g.fillStyle = gr; g.beginPath(); g.arc(0, 0, rad, 0, Math.PI * 2); g.fill();
+      g.restore();
+    }
+    function paint(){
+      g.globalCompositeOperation = "source-over";
+      g.clearRect(0, 0, RW, RH);
+      g.fillStyle = "rgba(4,6,10," + (1 - reveal).toFixed(3) + ")";
+      g.fillRect(0, 0, RW, RH);
+      if (reveal > 0.995) return;
+      g.globalCompositeOperation = "destination-out";
+      for (var k = -5; k <= 5; k++){
+        var t = k / 5;
+        patch(cur + t * SPREAD, R * (1 - 0.42 * Math.abs(t)), 1 - Math.pow(Math.abs(t), 1.7) * 0.88, 0.42);
+      }
+      g.globalCompositeOperation = "source-over";
+    }
+    function setBtn(){
+      var lit = mode === "lit" || mode === "sweeping";
+      btn.textContent = lit ? "Dim" : "Illuminate";
+      btn.setAttribute("aria-pressed", lit ? "true" : "false");
+    }
+    /* the slider follows the light, unless the slider is what is moving it */
+    var fromRange = false;
+    function sync(){
+      if (!fromRange && total) range.value = Math.round(cur / total * 100);
+    }
+    function tick(ts){
+      raf = null;
+      if (!on || !visible || document.hidden) return;
+      if (!pts.length && !layout()){ raf = requestAnimationFrame(tick); return; }
+      if (!t0) t0 = ts;
+      var pacing = false;
+      if (mode === "sweeping"){
+        var q = Math.min((ts - swT0) / 1700, 1), e = q < 0.5 ? 2*q*q : 1 - Math.pow(-2*q + 2, 2) / 2;
+        cur = target = total * e;
+        var rp = Math.max(0, (q - 0.18) / 0.82); reveal = rp * rp * (3 - 2 * rp);
+        if (q >= 1){ mode = "lit"; reveal = 1; setBtn(); }
+      } else if (mode === "dimming"){
+        reveal += (0 - reveal) * 0.13;
+        if (reveal < 0.006){ reveal = 0; mode = "torch"; }
+      } else if (mode === "torch" && !took && !reduce){
+        /* until someone takes it, the light shows the way: on a phone it paces the car, on a desk it runs once */
+        if (coarse){ pacing = true; target = total * (0.5 + 0.44 * Math.sin((ts - t0) / 9000 * Math.PI * 2)); }
+        else if (ts - t0 < 2800){ pacing = true; target = total * (0.06 + (ts - t0) / 2800 * 0.88); }
+        else target = total * 0.94;
+      }
+      if (mode === "torch") cur = reduce ? target : cur + (target - cur) * 0.14;
+      /* the big word introduces the room, then gives the car back */
+      var intro = Math.max(0, 1 - (ts - t0 - 1200) / 1400);
+      ghost.style.opacity = (0.055 * Math.min(1, intro) * (1 - reveal)).toFixed(3);
+      stage.classList.toggle("is-lit", reveal > 0.5);
+      hint.style.opacity = took || reveal > 0.2 ? 0 : 1;
+      paint(); sync();
+      /* stop drawing once nothing is changing: lit, or the light has come to rest and the word has gone */
+      var settled = mode === "lit" || (mode === "torch" && !pacing && Math.abs(target - cur) < 0.3 && intro <= 0);
+      if (settled) return;
+      raf = requestAnimationFrame(tick);
+    }
+    function run(){ if (on && visible && !document.hidden && !raf) raf = requestAnimationFrame(tick); }
+    function push(e){
+      if (mode !== "torch" || !pts.length) return;
+      var r = stage.getBoundingClientRect();
+      target = project(e.clientX - r.left, e.clientY - r.top);
+      took = true; fromRange = false; run();
+    }
+    stage.addEventListener("pointermove", push);
+    stage.addEventListener("pointerdown", function(e){ if (e.target === stage || e.target === img || e.target === cvR) push(e); });
+    range.addEventListener("input", function(){
+      if (mode !== "torch" || !total) return;
+      target = total * range.value / 100; took = true; fromRange = true; run();
+    });
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      var lit = mode === "lit" || mode === "sweeping";
+      if (reduce){ mode = lit ? "torch" : "lit"; reveal = lit ? 0 : 1; }
+      else if (lit) mode = "dimming";
+      else { mode = "sweeping"; swT0 = performance.now(); }
+      took = true;
+      setBtn(); paint(); run();
+    });
+    window.addEventListener("resize", function(){ if (on){ layout(); paint(); run(); } });
+    img.addEventListener("load", function(){ if (on){ layout(); paint(); } });
+    document.addEventListener("visibilitychange", run);
+    /* the room's top half can scroll away under the write-up: no light is drawn where no one is looking */
+    if ("IntersectionObserver" in window){
+      new IntersectionObserver(function(es){ visible = es[0].isIntersecting; run(); }).observe(stage);
+    }
+    return {
+      enter: function(){
+        if (on) return;
+        on = true; took = false; t0 = 0; total = 0; mode = reduce ? "lit" : "torch"; reveal = reduce ? 1 : 0;
+        setBtn(); layout();
+        cur = target = total * 0.06;
+        paint(); run();
+      },
+      leave: function(){
+        on = false;
+        if (raf) cancelAnimationFrame(raf);
+        raf = null;
+      },
+      focus: function(){ range.focus({ preventScroll:true }); }
+    };
+  })();
+
+  /* ===== routing ===== */
+  var pending = null, lastRow = null;
+  function nameOf(hash){ var h = (hash || "").replace(/^#/, ""); return VIEWS[h] ? h : ""; }
+
+  function go(name){
+    if (pending){ clearTimeout(pending); pending = null; }
+    if (name === current){ VIEWS.works.classList.remove("leaving"); return; }
+    var prev = current; current = name;
+    document.title = TITLES[name];
+    ui.classList.toggle("away", name !== "");
+    cover.classList.toggle("on", name !== "");
+    Object.keys(VIEWS).forEach(function(k){
+      VIEWS[k].classList.toggle("on", k === name);
+      VIEWS[k].classList.remove("leaving");
+      VIEWS[k].inert = k !== name;
+    });
+    if (name === "curvature"){ VIEWS.curvature.scrollTop = 0; rail.enter(); rail.focus(); } else rail.leave();
+    /* Instagram is only asked for once someone opens the sheet, not on the first screen */
+    if (name === "cardnews"){
+      VIEWS.cardnews.scrollTop = 0;
+      VIEWS.cardnews.querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
+      if (prev !== null) VIEWS.cardnews.querySelector("h2").focus({ preventScroll:true });
+    }
+    /* leaving a room: the flood dries under the fading room, and the first sheet gets its marks back */
+    if (name !== "curvature" && poured){ poured = false; flood.dry(); }
+    if (prev === null) return;
+    if (name === "works") (lastRow || VIEWS.works.querySelector("a.row")).focus({ preventScroll:true });
+    if (name === "") document.querySelector(".top a").focus({ preventScroll:true });
+  }
+
+  /* opening a work: ink drops where it was pressed and spreads over the sheet, unhurried, then the room */
+  document.querySelectorAll("a.row[data-room]").forEach(function(a){
+    a.addEventListener("click", function(e){
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;   /* a new tab is a new tab */
+      e.preventDefault();
+      if (pending) return;
+      lastRow = a;
+      var r = a.getBoundingClientRect();
+      var x = e.clientX || r.left + r.width * 0.3, y = e.clientY || r.top + r.height / 2;
+      poured = true;
+      flood.pour(x, y);
+      VIEWS.works.classList.add("leaving");
+      pending = setTimeout(function(){ pending = null; location.hash = a.getAttribute("href"); }, reduce ? 0 : 1500);
+    });
+  });
+
+  /* coming back to the list returns focus to the work that was opened */
+  document.querySelectorAll("a.row").forEach(function(a){ a.addEventListener("click", function(){ lastRow = a; }); });
+
+  window.addEventListener("hashchange", function(){
+    /* a back step in the middle of a flood takes the ink with it */
+    if (poured && nameOf(location.hash) !== "curvature" && current === nameOf(location.hash)){ poured = false; flood.dry(); }
+    go(nameOf(location.hash));
+  });
+  /* a deep link arrives straight in the room, no flood */
+  go(nameOf(location.hash));
+})();
+</script>
+</script>
