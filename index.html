@@ -238,7 +238,10 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 
 /* each work's first screen, composed for that work */
 .hero{ position:relative; height:100vh; height:100svh; min-height:480px; overflow:hidden; background:#ECECE8; }
-.hero img{ display:block; width:100%; height:100%; object-fit:cover; }
+.hero img, .hero video{ display:block; width:100%; height:100%; object-fit:cover; }
+.hero-ctl{ display:flex; gap:24px; align-items:baseline; }
+.snd{ all:unset; cursor:pointer; font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; }
+.snd:focus-visible{ outline:1px solid currentColor; outline-offset:4px; }
 .hero-diptych{ display:grid; grid-template-columns:1fr 1fr; }
 .hero-split{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); background:var(--paper); }
 .hero-side{ display:flex; flex-direction:column; justify-content:center; padding:0 var(--gr) 0 clamp(32px,6vw,96px);
@@ -459,9 +462,10 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <article class="work" id="w-speaker" data-work="speaker" aria-label="기왓장에 떨어진 빗물, 스피커가 되다">
+  <!-- the rain speaker moves: its film plays, silent, while this work is on the sheet -->
   <div class="hero">
-    <img src="w/speaker-2.jpg" width="1024" height="1024" alt="스피커 그릴 중심부 확대 — 동심원 파동">
-    <p class="hero-cap"><span class="mono">03 / 2026 &mdash; Rain Speaker</span><span class="mono">Scroll &darr;</span></p>
+    <video class="film" src="w/speaker.mp4" poster="w/speaker-1.jpg" muted loop playsinline preload="metadata" aria-label="창가 벽면에 설치된 메탈릭 스피커, 그릴의 동심원 파동이 움직이는 영상"></video>
+    <p class="hero-cap"><span class="mono">03 / 2026 &mdash; Rain Speaker</span><span class="hero-ctl"><button type="button" class="mono snd" aria-pressed="false">Sound off</button><span class="mono">Scroll &darr;</span></span></p>
   </div>
   <div class="proj">
     <div class="proj-head"><span class="mono">Product concept &mdash; 제품 컨셉</span><span class="mono">개인 작업</span></div>
@@ -469,6 +473,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <p class="en">Rain Speaker</p>
     <div class="gal" style="--cols:1fr 1fr">
       <img src="w/speaker-1.jpg" width="1024" height="1024" alt="창가 벽면에 놓인 메탈릭 스피커, 물결 파동 모양의 그릴" loading="lazy">
+      <img src="w/speaker-2.jpg" width="1024" height="1024" alt="스피커 그릴 중심부 확대 — 동심원 파동" loading="lazy">
       <img class="wide" src="w/speaker-3.jpg" width="1375" height="768" alt="석재 벽 앞에 설치된 스피커 전경" loading="lazy">
     </div>
     <div class="proj-body">
@@ -1154,6 +1159,7 @@ void main(){
       ART[k].querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
       ART[k].querySelectorAll(".tease").forEach(function(t){ t.classList.remove("lift"); });
       if (k === "hanhin") rail.enter(); else rail.leave();
+      films(k);
       mark(k);
       if (quiet) return;
       if (k === "hanhin") rail.focus(); else ART[k].querySelector("h2").focus({ preventScroll:true });
@@ -1163,6 +1169,27 @@ void main(){
       setTimeout(function(){ put(); requestAnimationFrame(function(){ reel.classList.remove("swap"); }); }, 220);
     } else put();
   }
+
+  /* a work's film runs only while that work is on the sheet, and goes quiet again when it leaves */
+  function films(k){
+    reel.querySelectorAll("video.film").forEach(function(v){
+      if (ART[k] && ART[k].contains(v) && !reduce){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+      else { v.pause(); v.muted = true; snd(v); }
+    });
+  }
+  function snd(v){
+    var b = v.parentNode.querySelector(".snd");
+    if (!b) return;
+    b.textContent = v.muted ? "Sound off" : "Sound on";
+    b.setAttribute("aria-pressed", v.muted ? "false" : "true");
+  }
+  reel.querySelectorAll("video.film").forEach(function(v){
+    var b = v.parentNode.querySelector(".snd");
+    if (b) b.addEventListener("click", function(){
+      v.muted = !v.muted; snd(v);
+      if (v.paused){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+    });
+  });
 
   function go(name){
     if (pending){ clearTimeout(pending); pending = null; }
@@ -1188,7 +1215,7 @@ void main(){
       VIEWS[k].inert = k !== view;
     });
     menu(false);
-    if (view === "reel") show(name, false, prev === null); else rail.leave();
+    if (view === "reel") show(name, false, prev === null); else { rail.leave(); films(""); }
     if (view === "about"){
       VIEWS.about.scrollTop = 0;
       if (prev !== null) VIEWS.about.querySelector("h2").focus({ preventScroll:true });
