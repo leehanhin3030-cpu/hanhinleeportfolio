@@ -239,9 +239,8 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 /* each work's first screen, composed for that work */
 .hero{ position:relative; height:100vh; height:100svh; min-height:480px; overflow:hidden; background:#ECECE8; }
 .hero img, .hero video{ display:block; width:100%; height:100%; object-fit:cover; }
-.hero-ctl{ display:flex; gap:24px; align-items:baseline; }
-.snd{ all:unset; cursor:pointer; font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; }
-.snd:focus-visible{ outline:1px solid currentColor; outline-offset:4px; }
+/* the render carries a maker's mark in its lower right corner (about 92% across, 86% down): held from the top and enlarged, that corner stays off the screen */
+.hero video.film{ transform:scale(1.25); transform-origin:50% 0; }
 .hero-diptych{ display:grid; grid-template-columns:1fr 1fr; }
 .hero-split{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); background:var(--paper); }
 .hero-side{ display:flex; flex-direction:column; justify-content:center; padding:0 var(--gr) 0 clamp(32px,6vw,96px);
@@ -465,7 +464,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   <!-- the rain speaker moves: its film plays, silent, while this work is on the sheet -->
   <div class="hero">
     <video class="film" src="w/speaker.mp4" poster="w/speaker-1.jpg" muted loop playsinline preload="metadata" aria-label="창가 벽면에 설치된 메탈릭 스피커, 그릴의 동심원 파동이 움직이는 영상"></video>
-    <p class="hero-cap"><span class="mono">03 / 2026 &mdash; Rain Speaker</span><span class="hero-ctl"><button type="button" class="mono snd" aria-pressed="false">Sound off</button><span class="mono">Scroll &darr;</span></span></p>
+    <p class="hero-cap"><span class="mono">03 / 2026 &mdash; Rain Speaker</span><span class="mono">Scroll &darr;</span></p>
   </div>
   <div class="proj">
     <div class="proj-head"><span class="mono">Product concept &mdash; 제품 컨셉</span><span class="mono">개인 작업</span></div>
@@ -1170,26 +1169,13 @@ void main(){
     } else put();
   }
 
-  /* a work's film runs only while that work is on the sheet, and goes quiet again when it leaves */
+  /* a work's film runs, always silent, only while that work is on the sheet */
   function films(k){
     reel.querySelectorAll("video.film").forEach(function(v){
       if (ART[k] && ART[k].contains(v) && !reduce){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
-      else { v.pause(); v.muted = true; snd(v); }
+      else v.pause();
     });
   }
-  function snd(v){
-    var b = v.parentNode.querySelector(".snd");
-    if (!b) return;
-    b.textContent = v.muted ? "Sound off" : "Sound on";
-    b.setAttribute("aria-pressed", v.muted ? "false" : "true");
-  }
-  reel.querySelectorAll("video.film").forEach(function(v){
-    var b = v.parentNode.querySelector(".snd");
-    if (b) b.addEventListener("click", function(){
-      v.muted = !v.muted; snd(v);
-      if (v.paused){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
-    });
-  });
 
   function go(name){
     if (pending){ clearTimeout(pending); pending = null; }
