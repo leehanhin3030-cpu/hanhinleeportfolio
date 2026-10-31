@@ -205,6 +205,53 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .room-foot a:hover{ color:var(--ink); }
 @media (max-width:900px){ .proj-body{ grid-template-columns:1fr; } }
 
+/* 01 told in three parts, De Tomaso-style: the dark stage carries on, warms to brown, and lands on paper */
+.acts{ color:#EEF3F6; }
+.acts .proj{ padding-bottom:0; }
+.acts .proj-head{ border-color:rgba(238,243,246,.22); }
+.acts .proj-head .mono, .acts .proj .en{ color:rgba(238,243,246,.55); }
+.acts .brief div{ border-color:rgba(238,243,246,.22); }
+.acts .brief dt{ color:rgba(238,243,246,.5); }
+.acts .brief dd{ color:#EEF3F6; }
+.acts-dark{ background:#04060A; }
+.acts-warm{ background:linear-gradient(#04060A, #2A2522 70%, #2A2522); }
+.acts-fade{ height:clamp(120px, 24vh, 260px); background:linear-gradient(#2A2522, var(--paper)); }
+.act{ max-width:1180px; margin:0 auto; padding:clamp(80px,14vh,170px) var(--gr) 0 var(--gl); }
+.acts-warm .act{ padding-bottom:clamp(40px,8vh,90px); }
+.act-h{ display:flex; justify-content:space-between; align-items:flex-start; gap:24px; }
+.act-h h3{ margin:0; font-size:clamp(52px, 9vw, 132px); font-weight:700; letter-spacing:-.02em; line-height:.9; text-transform:uppercase; }
+.act-h h3 small{ display:block; font-size:.42em; letter-spacing:.02em; }
+.act-h .mono{ padding-top:.6em; color:inherit; opacity:.6; white-space:nowrap; }
+.act-row{ display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(28px,5vw,80px); align-items:end; margin-top:clamp(36px,6vh,64px); }
+.act-row p{ margin:0 0 18px; max-width:46ch; color:inherit; opacity:.78; }
+.act-row p.lead{ opacity:1; font-size:17px; }
+.act img{ display:block; width:100%; height:auto; border-radius:14px; }
+.act-pair{ display:grid; grid-template-columns:1fr 1.5fr; gap:clamp(10px,1.6vw,20px); margin-top:clamp(10px,1.6vw,20px); align-items:start; }
+.act-paper{ color:var(--ink); }
+.act-paper .act-h .mono{ opacity:.5; }
+@media (max-width:720px){
+  .act-row, .act-pair{ grid-template-columns:1fr; }
+  .act-h{ flex-direction:column-reverse; gap:10px; }
+  .act-h .mono{ padding-top:0; }
+}
+
+/* every other work: the same three parts on paper, Part 02 on a warmer band */
+.proj-top{ padding-bottom:0; }
+.proj-end{ padding-top:clamp(56px,9vh,100px); }
+.act-band{ background:#EFECE6; margin-top:clamp(80px,14vh,170px); padding-bottom:clamp(64px,10vh,120px); }
+.act-row.solo{ grid-template-columns:minmax(0,1fr); }
+.act-row.solo p{ max-width:62ch; }
+.act-row .act-pair{ margin-top:0; }
+.act-pair.even{ grid-template-columns:1fr 1fr; }
+.act-pair.fit{ align-items:center; }
+.act .act-wide{ margin-top:clamp(10px,1.6vw,20px); }
+.act .gal{ margin-top:clamp(10px,1.6vw,20px); }
+.act .ig img{ border-radius:0; }
+.act .post{ max-width:420px; justify-self:end; width:100%; }
+.act-link{ border-bottom:1px solid currentColor; }
+.act .why{ margin-top:8px; }
+@media (max-width:720px){ .act-pair.even{ grid-template-columns:1fr 1fr; } .act .post{ justify-self:stretch; max-width:none; } }
+
 /* a sheet: a work that stays on paper. The two posts sit side by side as they were published */
 .sheet{ z-index:7; background:var(--paper); }
 .sheet > .vtop{ padding:calc(22px + env(safe-area-inset-top, 0px)) var(--gr) 0 var(--gl); }
@@ -454,40 +501,72 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <span class="mono">Scroll &darr;</span>
     </div>
   </div>
-  <div class="dusk" aria-hidden="true"></div>
+  <div class="acts">
+  <div class="acts-dark">
+    <div class="proj">
+      <div class="proj-head">
+        <span class="mono">01 / 2026</span>
+        <span class="mono">Brand identity &mdash; 개인 작업</span>
+      </div>
+      <h2 tabindex="-1">HANHIN</h2>
+      <p class="en">형태 그 자체로 말하는 것</p>
+      <dl class="brief">
+        <div><dt>문제</dt><dd>로고 없이 형태만으로 알아보는 브랜드를 만들 수 있을까</dd></div>
+        <div><dt>내 역할</dt><dd>개인 작업 · 기획부터 가이드라인까지 단독</dd></div>
+        <div><dt>핵심 결정</dt><dd>'ㅎ'에 전기 회로의 선을 결합한 로고, 청새치의 유선형에서 가져온 차체</dd></div>
+        <div><dt>결과</dt><dd>로고 · 브랜드북 · 브랜드 가이드라인</dd></div>
+      </dl>
+    </div>
 
-  <div class="proj">
-    <div class="proj-head">
-      <span class="mono">01 / 2026</span>
-      <span class="mono">Brand identity &mdash; 개인 작업</span>
-    </div>
-    <h2 tabindex="-1">HANHIN</h2>
-    <p class="en">형태 그 자체로 말하는 것</p>
-    <dl class="brief">
-      <div><dt>문제</dt><dd>로고 없이 형태만으로 알아보는 브랜드를 만들 수 있을까</dd></div>
-      <div><dt>내 역할</dt><dd>개인 작업 · 기획부터 가이드라인까지 단독</dd></div>
-      <div><dt>핵심 결정</dt><dd>'ㅎ'에 전기 회로의 선을 결합한 로고, 청새치의 유선형에서 가져온 차체</dd></div>
-      <div><dt>결과</dt><dd>로고 · 브랜드북 · 브랜드 가이드라인</dd></div>
-    </dl>
-    <div class="gal" style="--cols:1fr 1.78fr">
-      <img class="wide" src="w/hanhin-car.jpg" width="1600" height="893" alt="HANHIN 차량 비주얼, 흙먼지 속을 달리는 파란 차" loading="lazy">
-      <img src="w/hanhin-logo.jpg" width="1254" height="1254" alt="HANHIN 로고 — 'ㅎ'에 전기 회로의 흐르는 선을 결합" loading="lazy">
-      <img src="w/hanhin-guideline.jpg" width="1600" height="900" alt="HANHIN Brand Identity Guidelines 표지" loading="lazy">
-      <img class="wide" src="w/hanhin-book.jpg" width="1536" height="1024" alt="HANHIN 브랜드북 펼친 면" loading="lazy">
-    </div>
-    <div class="proj-body">
+    <section class="act" aria-labelledby="act-1">
+      <div class="act-h"><h3 id="act-1"><small>The</small>Spark</h3><span class="mono">Part 01 &mdash; 출발점</span></div>
+      <div class="act-row">
+        <div>
+          <p class="lead">로고 없이 존재감만으로 시선을 끌 수 있는 브랜드를 만들어보고 싶다는 생각에서 시작했습니다.</p>
+          <p>브랜드명 '한힌'의 첫 자음 'ㅎ'에 전기 회로의 흐르는 선을 결합해 로고를 만들었고, 차체는 가장 빠른 어종인 청새치의 유선형에서 가져왔습니다.</p>
+        </div>
+        <img src="w/hanhin-logo.jpg" width="1254" height="1254" alt="HANHIN 로고 — 'ㅎ'에 전기 회로의 흐르는 선을 결합" loading="lazy">
+      </div>
+    </section>
+  </div>
+
+  <div class="acts-warm">
+    <section class="act" aria-labelledby="act-2">
+      <div class="act-h"><h3 id="act-2"><small>The</small>Process</h3><span class="mono">Part 02 &mdash; 과정</span></div>
+      <div class="act-row">
+        <div>
+          <p class="lead">시장 조사와 페르소나는 AI로 정리했지만, 방향을 정하는 것은 제 몫이었습니다.</p>
+          <p>차량 비주얼은 AI로 생성하되 한 장씩 형태와 분위기를 지시하고, 고르고, 다시 다듬었습니다. AI는 도구였고 판단은 처음부터 끝까지 직접 내렸습니다.</p>
+        </div>
+        <img src="w/hanhin-car.jpg" width="1600" height="893" alt="HANHIN 차량 비주얼, 흙먼지 속을 달리는 파란 차" loading="lazy">
+      </div>
+    </section>
+  </div>
+  <div class="acts-fade" aria-hidden="true"></div>
+
+  <section class="act act-paper" aria-labelledby="act-3">
+    <div class="act-h"><h3 id="act-3"><small>The</small>System</h3><span class="mono">Part 03 &mdash; 완성</span></div>
+    <div class="act-row">
       <div>
-        <p class="lead">로고 없이 존재감만으로 시선을 끌 수 있는 브랜드를 만들어보고 싶다는 생각에서 시작한 프로젝트입니다.</p>
-        <p>브랜드 아이덴티티 설계부터 브랜드북, 브랜드 가이드라인 제작까지 전 과정을 혼자 기획하고 디자인했습니다. 브랜드명 '한힌'의 첫 자음 'ㅎ'에 전기 회로의 흐르는 선을 결합해 로고를 만들었고, 차량 형태는 가장 빠른 어종인 청새치의 유선형에서 가져와 AI로 비주얼을 구현했습니다.</p>
-        <p>이렇게 정리한 컨셉을 컬러, 타이포그래피, 적용 규정까지 포함한 브랜드 가이드라인으로 완성해, 브랜드 시스템까지 작업을 마무리했습니다.</p>
+        <p class="lead">정리한 컨셉을 컬러, 타이포그래피, 적용 규정까지 포함한 브랜드 가이드라인으로 묶었습니다.</p>
+        <p>브랜드북과 가이드라인까지 완성해, 로고 하나가 아니라 하나의 브랜드 시스템으로 마무리했습니다.</p>
       </div>
-      <div class="facts">
-        <div class="fact"><span>연도</span><b>2026</b></div>
-        <div class="fact"><span>분류</span><b>브랜드 아이덴티티</b></div>
-        <div class="fact"><span>결과물</span><b>로고 · 브랜드북 · 가이드라인</b></div>
-        <div class="fact"><span>도구</span><b>Gemini · GPT · Claude · Firefly · InDesign · Illustrator</b></div>
-        <div class="fact"><span>역할</span><b>개인 작업 · 전 과정 단독</b></div>
-      </div>
+      <div></div>
+    </div>
+    <div class="act-pair">
+      <img src="w/hanhin-guideline.jpg" width="1600" height="900" alt="HANHIN Brand Identity Guidelines 표지" loading="lazy">
+      <img src="w/hanhin-book.jpg" width="1536" height="1024" alt="HANHIN 브랜드북 펼친 면" loading="lazy">
+    </div>
+  </section>
+  </div>
+
+  <div class="proj proj-end">
+    <div class="facts">
+      <div class="fact"><span>연도</span><b>2026</b></div>
+      <div class="fact"><span>분류</span><b>브랜드 아이덴티티</b></div>
+      <div class="fact"><span>결과물</span><b>로고 · 브랜드북 · 가이드라인</b></div>
+      <div class="fact"><span>도구</span><b>Gemini · GPT · Claude · Firefly · InDesign · Illustrator</b></div>
+      <div class="fact"><span>역할</span><b>개인 작업 · 전 과정 단독</b></div>
     </div>
   </div>
   </article>
@@ -498,7 +577,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <img src="w/relic-rust.jpg" width="1375" height="1031" alt="러스트 표면 처리를 한 같은 원형 — 미래의 유물">
     <p class="hero-cap"><span class="mono">02 / 2024 &mdash; 현재와 미래</span><span class="mono">Scroll &darr;</span></p>
   </div>
-  <div class="proj">
+  <div class="proj proj-top">
     <div class="proj-head"><span class="mono">Sculpture &mdash; 조각</span><span class="mono">개인 작업 &middot; 졸업작품</span></div>
     <h2 tabindex="-1">슈퍼카도 언젠가는 유물이 된다</h2>
     <p class="en">Relic</p>
@@ -508,18 +587,46 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <div><dt>핵심 결정</dt><dd>같은 원형에 메탈릭과 러스트, 두 표면으로 현재와 미래를</dd></div>
       <div><dt>결과</dt><dd>석고 캐스팅 다수 · 산처럼 쌓아 전시</dd></div>
     </dl>
-    <div class="proj-body">
+  </div>
+  <section class="act" aria-labelledby="relic-1">
+    <div class="act-h"><h3 id="relic-1"><small>The</small>Idea</h3><span class="mono">Part 01 &mdash; 출발점</span></div>
+    <div class="act-row solo">
       <div>
         <p class="lead">좋아하는 자동차를 직접 조각해 만든 졸업 작품입니다.</p>
-        <p>유토로 원형을 깎고 실리콘 틀을 떠서 석고로 캐스팅했습니다. "슈퍼카도 시간이 지나면 유물이 되지 않을까"라는 생각으로 같은 원형에 메탈릭과 러스트, 두 가지 표면 처리를 입혀 현재와 미래의 모습을 함께 표현했습니다.</p>
-        <p>전시 시에는 다수 캐스팅해 산처럼 쌓아, 대량 생산된 사물의 시간성을 보여줬습니다. 손에 쥐어지는 스케일은 권오상 작가의 '스몰 스컬프쳐'에서, 부식으로 시간성을 표현하는 방식은 다니엘 아샴의 작업에서 이후 유사점을 발견했습니다.</p>
+        <p>가장 빠른 속도를 상징하는 슈퍼카도 시간이 지나면 땅에 묻힌 유물이 되지 않을까, 라는 생각에서 시작했습니다.</p>
       </div>
-      <div class="facts">
-        <div class="fact"><span>연도</span><b>2024</b></div>
-        <div class="fact"><span>분류</span><b>조각</b></div>
-        <div class="fact"><span>재료</span><b>유토 · 실리콘 몰드 · 석고 · 부식 페인트</b></div>
-        <div class="fact"><span>역할</span><b>개인 작업 · 졸업작품</b></div>
+    </div>
+  </section>
+  <div class="act-band">
+    <section class="act" aria-labelledby="relic-2">
+      <div class="act-h"><h3 id="relic-2"><small>The</small>Cast</h3><span class="mono">Part 02 &mdash; 과정</span></div>
+      <div class="act-row solo">
+        <div>
+          <p class="lead">유토로 원형을 깎고 실리콘 틀을 떠서 석고로 캐스팅했습니다.</p>
+          <p>같은 원형에 메탈릭과 러스트, 두 가지 표면 처리를 입혀 현재와 미래의 모습을 함께 표현했습니다.</p>
+        </div>
       </div>
+      <div class="act-pair even">
+        <img src="w/relic-metal.jpg" width="1289" height="967" alt="메탈릭 표면 처리를 한 석고 캐스팅 자동차 — 현재" loading="lazy">
+        <img src="w/relic-rust.jpg" width="1375" height="1031" alt="러스트 표면 처리를 한 같은 원형 — 미래의 유물" loading="lazy">
+      </div>
+    </section>
+  </div>
+  <section class="act" aria-labelledby="relic-3">
+    <div class="act-h"><h3 id="relic-3"><small>The</small>Relic</h3><span class="mono">Part 03 &mdash; 전시</span></div>
+    <div class="act-row solo">
+      <div>
+        <p class="lead">전시에서는 다수 캐스팅해 산처럼 쌓아, 대량 생산된 사물의 시간성을 보여줬습니다.</p>
+        <p>손에 쥐어지는 스케일은 권오상 작가의 '스몰 스컬프쳐'에서, 부식으로 시간성을 표현하는 방식은 다니엘 아샴의 작업에서 이후 유사점을 발견했습니다.</p>
+      </div>
+    </div>
+  </section>
+  <div class="proj proj-end">
+    <div class="facts">
+      <div class="fact"><span>연도</span><b>2024</b></div>
+      <div class="fact"><span>분류</span><b>조각</b></div>
+      <div class="fact"><span>재료</span><b>유토 · 실리콘 몰드 · 석고 · 부식 페인트</b></div>
+      <div class="fact"><span>역할</span><b>개인 작업 · 졸업작품</b></div>
     </div>
   </div>
   </article>
@@ -530,7 +637,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <video class="film" src="w/speaker.mp4" poster="w/speaker-1.jpg" muted loop playsinline preload="metadata" aria-label="창가 벽면에 설치된 메탈릭 스피커, 그릴의 동심원 파동이 움직이는 영상"></video>
     <p class="hero-cap"><span class="mono">03 / 2026 &mdash; Rain Speaker</span><span class="mono">Scroll &darr;</span></p>
   </div>
-  <div class="proj">
+  <div class="proj proj-top">
     <div class="proj-head"><span class="mono">Product concept &mdash; 제품 컨셉</span><span class="mono">개인 작업</span></div>
     <h2 tabindex="-1">기왓장에 떨어진 빗물, 스피커가 되다</h2>
     <p class="en">Rain Speaker</p>
@@ -540,23 +647,47 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <div><dt>핵심 결정</dt><dd>기와 곡선은 본체로, 퍼지는 파동은 그릴로, 소재는 메탈릭</dd></div>
       <div><dt>결과</dt><dd>디자인 컨셉 렌더링 · 영상 (실물 제작 없음)</dd></div>
     </dl>
-    <div class="gal" style="--cols:1fr 1fr">
-      <img src="w/speaker-1.jpg" width="1024" height="1024" alt="창가 벽면에 놓인 메탈릭 스피커, 물결 파동 모양의 그릴" loading="lazy">
-      <img src="w/speaker-2.jpg" width="1024" height="1024" alt="스피커 그릴 중심부 확대 — 동심원 파동" loading="lazy">
-      <img class="wide" src="w/speaker-3.jpg" width="1375" height="768" alt="석재 벽 앞에 설치된 스피커 전경" loading="lazy">
-    </div>
-    <div class="proj-body">
+  </div>
+  <section class="act" aria-labelledby="speaker-1h">
+    <div class="act-h"><h3 id="speaker-1h"><small>The</small>Moment</h3><span class="mono">Part 01 &mdash; 출발점</span></div>
+    <div class="act-row solo">
       <div>
         <p class="lead">경복궁에서 기왓장에 빗물이 떨어지는 순간을 보다가, 그 찰나의 감각이 그대로 머릿속에 남았습니다.</p>
         <p>빗방울이 만들어내는 동심원 모양의 파동을 보면서, 전통 건축의 형태를 현대적인 제품으로 옮겨보고 싶다는 생각으로 이어졌습니다.</p>
-        <p>기왓장의 완만한 곡선을 스피커 본체의 형태로, 물결이 퍼져나가는 파동을 스피커 그릴의 원형 패턴으로 옮겨 설계했습니다. 기왓장과 물이 주는 차가운 인상을 살리기 위해 소재는 메탈릭 톤으로 표현했습니다. 실제 제품 제작이나 음향 설계 없이, Gemini와 GPT로 형태·재질·공간 속 배치까지 렌더링해 구현한 디자인 컨셉 작업입니다.</p>
       </div>
-      <div class="facts">
-        <div class="fact"><span>연도</span><b>2026</b></div>
-        <div class="fact"><span>분류</span><b>제품 컨셉</b></div>
-        <div class="fact"><span>도구</span><b>Gemini · GPT</b></div>
-        <div class="fact"><span>역할</span><b>개인 작업</b></div>
+    </div>
+  </section>
+  <div class="act-band">
+    <section class="act" aria-labelledby="speaker-2h">
+      <div class="act-h"><h3 id="speaker-2h"><small>The</small>Form</h3><span class="mono">Part 02 &mdash; 형태</span></div>
+      <div class="act-row solo">
+        <div>
+          <p class="lead">기왓장의 완만한 곡선은 스피커 본체로, 물결이 퍼져나가는 파동은 그릴의 원형 패턴으로 옮겼습니다.</p>
+          <p>기왓장과 물이 주는 차가운 인상을 살리기 위해 소재는 메탈릭 톤으로 표현했습니다.</p>
+        </div>
       </div>
+      <div class="act-pair even">
+        <img src="w/speaker-1.jpg" width="1024" height="1024" alt="창가 벽면에 놓인 메탈릭 스피커, 물결 파동 모양의 그릴" loading="lazy">
+        <img src="w/speaker-2.jpg" width="1024" height="1024" alt="스피커 그릴 중심부 확대 — 동심원 파동" loading="lazy">
+      </div>
+    </section>
+  </div>
+  <section class="act" aria-labelledby="speaker-3h">
+    <div class="act-h"><h3 id="speaker-3h"><small>The</small>Space</h3><span class="mono">Part 03 &mdash; 공간</span></div>
+    <div class="act-row">
+      <div>
+        <p class="lead">실제 제품 제작이나 음향 설계 없이 진행한 디자인 컨셉 작업입니다.</p>
+        <p>Gemini와 GPT로 형태와 재질, 공간 속 배치까지 렌더링해 구현했습니다.</p>
+      </div>
+      <img src="w/speaker-3.jpg" width="1375" height="768" alt="석재 벽 앞에 설치된 스피커 전경" loading="lazy">
+    </div>
+  </section>
+  <div class="proj proj-end">
+    <div class="facts">
+      <div class="fact"><span>연도</span><b>2026</b></div>
+      <div class="fact"><span>분류</span><b>제품 컨셉</b></div>
+      <div class="fact"><span>도구</span><b>Gemini · GPT</b></div>
+      <div class="fact"><span>역할</span><b>개인 작업</b></div>
     </div>
   </div>
   </article>
@@ -567,7 +698,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <div class="hero-side" aria-hidden="true"><span>Tweed</span><span>&amp; Pearl</span></div>
     <p class="hero-cap"><span class="mono">04 / 2025 &mdash; 패션 소품</span><span class="mono">Scroll &darr;</span></p>
   </div>
-  <div class="proj">
+  <div class="proj proj-top">
     <div class="proj-head"><span class="mono">Fashion accessory &mdash; 패션 소품</span><span class="mono">개인 작업</span></div>
     <h2 tabindex="-1">스친 장면 하나, 가방이 되다</h2>
     <p class="en">Tweed &amp; Pearl</p>
@@ -577,23 +708,47 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <div><dt>핵심 결정</dt><dd>거친 트위드와 매끈한 진주의 대비, 손이 닿는 곳에 진주</dd></div>
       <div><dt>결과</dt><dd>모델 착용 컷까지 이어지는 브랜드 비주얼</dd></div>
     </dl>
-    <div class="gal" style="--cols:1fr 1fr">
-      <img src="w/bag-3.jpg" width="1199" height="1600" alt="진주 소품과 함께 놓인 트위드 바스켓 백" loading="lazy">
-      <img src="w/bag-2.jpg" width="1200" height="1600" alt="드로스트링을 연 가방 내부" loading="lazy">
-      <img src="w/bag-1.jpg" width="384" height="512" alt="진주가 달린 손잡이와 트위드 질감" loading="lazy">
-    </div>
-    <div class="proj-body">
+  </div>
+  <section class="act" aria-labelledby="bag-1h">
+    <div class="act-h"><h3 id="bag-1h"><small>The</small>Scene</h3><span class="mono">Part 01 &mdash; 출발점</span></div>
+    <div class="act-row solo">
       <div>
         <p class="lead">폴로 랄프로렌 봄/여름 시즌 광고를 보다가 문득 떠오른 이미지에서 출발한 작업입니다.</p>
-        <p>둥근 바스켓 형태의 실루엣에, 거친 트위드의 질감과 매끈한 진주의 대비를 담고 싶었습니다. 손잡이와 드로스트링 끝에 진주를 매달아, 가방을 들었을 때 두 질감이 가장 먼저 닿는 지점에서 대비가 드러나도록 했습니다.</p>
-        <p>실물 제작과 촬영 없이, Gemini와 GPT로 가방의 형태·소재·진주 디테일부터 착용한 모델과 공간까지 전부 생성해, 실제 브랜드 비주얼로 완성했습니다.</p>
+        <p>둥근 바스켓 형태의 실루엣에, 거친 트위드의 질감과 매끈한 진주의 대비를 담고 싶었습니다.</p>
       </div>
-      <div class="facts">
-        <div class="fact"><span>연도</span><b>2025</b></div>
-        <div class="fact"><span>분류</span><b>패션 소품 컨셉</b></div>
-        <div class="fact"><span>도구</span><b>Gemini · GPT</b></div>
-        <div class="fact"><span>역할</span><b>개인 작업</b></div>
+    </div>
+  </section>
+  <div class="act-band">
+    <section class="act" aria-labelledby="bag-2h">
+      <div class="act-h"><h3 id="bag-2h"><small>The</small>Contrast</h3><span class="mono">Part 02 &mdash; 디테일</span></div>
+      <div class="act-row solo">
+        <div>
+          <p class="lead">손잡이와 드로스트링 끝에 진주를 매달았습니다.</p>
+          <p>가방을 들었을 때 두 질감이 가장 먼저 닿는 지점에서 대비가 드러나도록 했습니다.</p>
+        </div>
       </div>
+      <div class="act-pair even">
+        <img src="w/bag-2.jpg" width="1200" height="1600" alt="드로스트링을 연 가방 내부" loading="lazy">
+        <img src="w/bag-1.jpg" width="384" height="512" alt="진주가 달린 손잡이와 트위드 질감" loading="lazy">
+      </div>
+    </section>
+  </div>
+  <section class="act" aria-labelledby="bag-3h">
+    <div class="act-h"><h3 id="bag-3h"><small>The</small>Visual</h3><span class="mono">Part 03 &mdash; 비주얼</span></div>
+    <div class="act-row">
+      <div>
+        <p class="lead">실물 제작과 촬영 없이 브랜드 비주얼로 완성했습니다.</p>
+        <p>Gemini와 GPT로 가방의 형태·소재·진주 디테일부터 착용한 모델과 공간까지 생성했습니다.</p>
+      </div>
+      <img src="w/bag-3.jpg" width="1199" height="1600" alt="진주 소품과 함께 놓인 트위드 바스켓 백" loading="lazy">
+    </div>
+  </section>
+  <div class="proj proj-end">
+    <div class="facts">
+      <div class="fact"><span>연도</span><b>2025</b></div>
+      <div class="fact"><span>분류</span><b>패션 소품 컨셉</b></div>
+      <div class="fact"><span>도구</span><b>Gemini · GPT</b></div>
+      <div class="fact"><span>역할</span><b>개인 작업</b></div>
     </div>
   </div>
   </article>
@@ -605,7 +760,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <img src="w/cardnews-3.jpg" width="1080" height="1351" alt="카드뉴스 #3 표지 — 엔터테크, 서울 2026에서만 만날 수 있는 특별한 콘텐츠">
     <p class="hero-cap"><span class="mono">05 / 2026 &mdash; 실무 · SBA</span><span class="mono">Scroll &darr;</span></p>
   </div>
-  <div class="proj">
+  <div class="proj proj-top">
     <div class="proj-head">
       <span class="mono">Client &mdash; 서울경제진흥원(SBA)</span>
       <span class="mono">Instagram &middot; 엔터테크, 서울 2026</span>
@@ -618,38 +773,47 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <div><dt>핵심 결정</dt><dd>편마다 목표에 맞춘 구성 — 도달과 참여</dd></div>
       <div><dt>결과</dt><dd>도달 약 9,500 · 참여 약 1,360명, 공유·저장 캠페인 1위</dd></div>
     </dl>
-
-    <div class="feed">
-      <figure class="post">
-        <div class="ig"><img src="w/cardnews-2.jpg" width="1080" height="1351" alt="카드뉴스 #2 표지 — 엔터테크, 서울 2026 홍보대사 피프티피프티가 왔다" loading="lazy"><button type="button" class="ig-open mono" data-embed="https://www.instagram.com/p/DcsElqXDi7m/embed/" data-title="카드뉴스 #2 홍보대사 공개 기념, 인스타그램 게시물">게시물 전체 넘겨 보기</button></div>
-        <figcaption>
-          <p class="mono"><b>#2</b> 홍보대사 공개 기념 &middot; 08.31</p>
-          <p class="mono">도달 약 9,500 &middot; 캠페인 7편 중 2위</p>
-          <a class="mono" href="https://www.instagram.com/p/DcsElqXDi7m/" target="_blank" rel="noopener">인스타그램에서 보기 &nearr;</a>
-        </figcaption>
-      </figure>
-      <figure class="post">
-        <div class="ig"><img src="w/cardnews-3.jpg" width="1080" height="1351" alt="카드뉴스 #3 표지 — 엔터테크, 서울 2026에서만 만날 수 있는 특별한 콘텐츠" loading="lazy"><button type="button" class="ig-open mono" data-embed="https://www.instagram.com/p/DcxAbJ0AUWU/embed/" data-title="카드뉴스 #3 첫 체험존 고르기, 인스타그램 게시물">게시물 전체 넘겨 보기</button></div>
-        <figcaption>
-          <p class="mono"><b>#3</b> 첫 체험존 고르기 &middot; 09.02</p>
-          <p class="mono">참여 약 1,360명 &middot; 공유&middot;저장 캠페인 1위</p>
-          <a class="mono" href="https://www.instagram.com/p/DcxAbJ0AUWU/" target="_blank" rel="noopener">인스타그램에서 보기 &nearr;</a>
-        </figcaption>
-      </figure>
-    </div>
-
-    <div class="proj-body">
+  </div>
+  <section class="act" aria-labelledby="cn-1h">
+    <div class="act-h"><h3 id="cn-1h"><small>The</small>Brief</h3><span class="mono">Part 01 &mdash; 과제</span></div>
+    <div class="act-row solo">
       <div>
         <p class="lead">「엔터테크, 서울 2026」 온라인 홍보 카드뉴스 일곱 편 중 두 편을 디자인했습니다.</p>
-        <p>홍보대사 공개 편은 멀리 닿아야 했고, 체험존 고르기 편은 댓글로 답하게 만들어야 했습니다. 같은 행사, 같은 계정이지만 한 편은 도달을, 한 편은 참여를 끌어냈습니다.</p>
+        <p>같은 행사, 같은 계정이지만 두 편의 목표는 달랐습니다. 홍보대사 공개 편은 멀리 닿아야 했고, 체험존 고르기 편은 댓글로 답하게 만들어야 했습니다.</p>
       </div>
-      <div class="facts">
-        <div class="fact"><span>연도</span><b>2026</b></div>
-        <div class="fact"><span>분류</span><b>그래픽 · 카드뉴스</b></div>
-        <div class="fact"><span>클라이언트</span><b>서울경제진흥원(SBA)</b></div>
-        <div class="fact"><span>역할</span><b>디자인 (원고 별도)</b></div>
-        <div class="fact"><span>수치</span><b>인스타그램 인사이트 · 09.28 기준</b></div>
+    </div>
+  </section>
+  <div class="act-band">
+    <section class="act" aria-labelledby="cn-2h">
+      <div class="act-h"><h3 id="cn-2h"><small>The</small>Reach</h3><span class="mono">Part 02 &mdash; #2 도달</span></div>
+      <div class="act-row">
+        <div>
+          <p class="lead">홍보대사 공개 기념 편은 멀리 닿는 것이 목표였습니다.</p>
+          <p class="mono">#2 &middot; 08.31 &middot; 도달 약 9,500 &middot; 캠페인 7편 중 2위</p>
+          <p><a class="mono act-link" href="https://www.instagram.com/p/DcsElqXDi7m/" target="_blank" rel="noopener">인스타그램에서 보기 &nearr;</a></p>
+        </div>
+        <figure class="post"><div class="ig"><img src="w/cardnews-2.jpg" width="1080" height="1351" alt="카드뉴스 #2 표지 — 엔터테크, 서울 2026 홍보대사 피프티피프티가 왔다" loading="lazy"><button type="button" class="ig-open mono" data-embed="https://www.instagram.com/p/DcsElqXDi7m/embed/" data-title="카드뉴스 #2 홍보대사 공개 기념, 인스타그램 게시물">게시물 전체 넘겨 보기</button></div></figure>
       </div>
+    </section>
+  </div>
+  <section class="act" aria-labelledby="cn-3h">
+    <div class="act-h"><h3 id="cn-3h"><small>The</small>Response</h3><span class="mono">Part 03 &mdash; #3 참여</span></div>
+    <div class="act-row">
+      <div>
+        <p class="lead">첫 체험존 고르기 편은 댓글로 답하게 만드는 것이 목표였습니다.</p>
+        <p class="mono">#3 &middot; 09.02 &middot; 참여 약 1,360명 &middot; 공유&middot;저장 캠페인 1위</p>
+        <p><a class="mono act-link" href="https://www.instagram.com/p/DcxAbJ0AUWU/" target="_blank" rel="noopener">인스타그램에서 보기 &nearr;</a></p>
+      </div>
+      <figure class="post"><div class="ig"><img src="w/cardnews-3.jpg" width="1080" height="1351" alt="카드뉴스 #3 표지 — 엔터테크, 서울 2026에서만 만날 수 있는 특별한 콘텐츠" loading="lazy"><button type="button" class="ig-open mono" data-embed="https://www.instagram.com/p/DcxAbJ0AUWU/embed/" data-title="카드뉴스 #3 첫 체험존 고르기, 인스타그램 게시물">게시물 전체 넘겨 보기</button></div></figure>
+    </div>
+  </section>
+  <div class="proj proj-end">
+    <div class="facts">
+      <div class="fact"><span>연도</span><b>2026</b></div>
+      <div class="fact"><span>분류</span><b>그래픽 · 카드뉴스</b></div>
+      <div class="fact"><span>클라이언트</span><b>서울경제진흥원(SBA)</b></div>
+      <div class="fact"><span>역할</span><b>디자인 (원고 별도)</b></div>
+      <div class="fact"><span>수치</span><b>인스타그램 인사이트 · 09.28 기준</b></div>
     </div>
   </div>
   </article>
@@ -659,7 +823,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <img src="w/beauty-signage.jpg" width="1571" height="1080" alt="DDP 1관 디지털 사이니지에 띄운 Beauty Seoul 2026 행사 화면">
     <p class="hero-cap"><span class="mono">06 / 2026 &mdash; Beauty Seoul 2026</span><span class="mono">Scroll &darr;</span></p>
   </div>
-  <div class="proj">
+  <div class="proj proj-top">
     <div class="proj-head"><span class="mono">Event identity &mdash; 행사 아이덴티티 · 애플리케이션</span><span class="mono">기업연계 &middot; 지엘컴 &middot; 3인 팀</span></div>
     <h2 tabindex="-1">Beauty Seoul 2026, 겹겹이 맞물리는 에너지</h2>
     <p class="en">Wontech &mdash; Beauty Seoul 2026</p>
@@ -670,47 +834,63 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <div><dt>핵심 결정</dt><dd>팀이 확정한 원형 패턴이 비율이 전혀 다른 띠·펜·명찰·큰 화면에서도 한 행사로 읽히게</dd></div>
       <div><dt>결과</dt><dd>노트 · 펜 · 랜야드 · 명찰 · 디지털 사이니지</dd></div>
     </dl>
-
-    <p class="gal-h"><span>내 키비주얼 스케치</span><span>팀 투표 전</span></p>
-    <div class="gal" style="--cols:1fr 1fr">
-      <img src="w/beauty-sketch-1.jpg" width="1000" height="1414" alt="주황 팔각형을 여러 겹 쌓아 꽃처럼 피어나는 키비주얼 스케치" loading="lazy">
-      <img src="w/beauty-sketch-2.jpg" width="1000" height="1413" alt="중심에서 퍼지는 팔각형 겹과 흰 십자 채널을 넣은 두 번째 스케치" loading="lazy">
+  </div>
+  <section class="act" aria-labelledby="bs-1h">
+    <div class="act-h"><h3 id="bs-1h"><small>The</small>Sketch</h3><span class="mono">Part 01 &mdash; 내 스케치 · 팀 투표 전</span></div>
+    <div class="act-row">
+      <div>
+        <p class="lead">원텍 브랜드와 키비주얼 레퍼런스를 팀원들과 함께 리서치한 뒤, 각자 스케치를 만들어 투표로 정했습니다.</p>
+        <ul class="why">
+          <li><b>팔각형</b>원텍 기기 캡의 실루엣에서 그대로 가져온 도형</li>
+          <li><b>여러 겹</b>올리지오·RF의 "에너지가 심부까지 층층이 쌓인다"는 원리</li>
+          <li><b>꽃</b>원텍 비전 "건강에서 발현되는 아름다움", 20·30대 여성까지 넓어진 타겟</li>
+          <li><b>수정</b>완전 대칭이면 만화경으로 읽힌다는 피드백 &rarr; 흰 십자 채널로 격자 논리를 더함</li>
+        </ul>
+      </div>
+      <div class="act-pair even">
+        <img src="w/beauty-sketch-1.jpg" width="1000" height="1414" alt="주황 팔각형을 여러 겹 쌓아 꽃처럼 피어나는 키비주얼 스케치" loading="lazy">
+        <img src="w/beauty-sketch-2.jpg" width="1000" height="1413" alt="중심에서 퍼지는 팔각형 겹과 흰 십자 채널을 넣은 두 번째 스케치" loading="lazy">
+      </div>
     </div>
-    <ul class="why">
-      <li><b>팔각형</b>원텍 기기 캡의 실루엣에서 그대로 가져온 도형</li>
-      <li><b>여러 겹</b>올리지오·RF의 "에너지가 심부까지 층층이 쌓인다"는 원리</li>
-      <li><b>꽃</b>원텍 비전 "건강에서 발현되는 아름다움", 20·30대 여성까지 넓어진 타겟</li>
-      <li><b>수정</b>완전 대칭이면 만화경으로 읽힌다는 피드백 &rarr; 흰 십자 채널로 격자 논리를 더함</li>
-    </ul>
-
-    <p class="gal-h"><span>팀 키비주얼 · 로고</span><span>스케치 투표 후 함께 확정</span></p>
-    <div class="gal fit" style="--cols:1fr 1fr">
-      <img src="w/beauty-kv-logic.jpg" width="1400" height="815" alt="RF는 확산·응집, HIFU는 수렴·집속을 나타내는 두 원형 유닛" loading="lazy">
-      <img src="w/beauty-kv.jpg" width="1200" height="852" alt="주황·청록 원형 유닛이 격자 위에서 맞물린 확정 키비주얼 패턴" loading="lazy">
-      <img class="wide" src="w/beauty-logo.jpg" width="1600" height="616" alt="Beauty Seoul 2026 타이틀 로고, 남색과 주황 바탕" loading="lazy">
+  </section>
+  <div class="act-band">
+    <section class="act" aria-labelledby="bs-2h">
+      <div class="act-h"><h3 id="bs-2h"><small>The</small>Pattern</h3><span class="mono">Part 02 &mdash; 팀 키비주얼 · 로고</span></div>
+      <div class="act-row solo">
+        <div>
+          <p class="lead">스케치 투표 뒤 팀이 함께 원형 유닛 패턴과 로고를 확정했습니다.</p>
+          <p>RF는 확산과 응집, HIFU는 수렴과 집속을 나타내는 두 원형 유닛이 격자 위에서 맞물립니다.</p>
+        </div>
+      </div>
+      <div class="act-pair even fit">
+        <img src="w/beauty-kv-logic.jpg" width="1400" height="815" alt="RF는 확산·응집, HIFU는 수렴·집속을 나타내는 두 원형 유닛" loading="lazy">
+        <img src="w/beauty-kv.jpg" width="1200" height="852" alt="주황·청록 원형 유닛이 격자 위에서 맞물린 확정 키비주얼 패턴" loading="lazy">
+      </div>
+      <img class="act-wide" src="w/beauty-logo.jpg" width="1600" height="616" alt="Beauty Seoul 2026 타이틀 로고, 남색과 주황 바탕" loading="lazy">
+    </section>
+  </div>
+  <section class="act" aria-labelledby="bs-3h">
+    <div class="act-h"><h3 id="bs-3h"><small>The</small>Objects</h3><span class="mono">Part 03 &mdash; 내 애플리케이션 · 단독</span></div>
+    <div class="act-row solo">
+      <div>
+        <p class="lead">키비주얼이 정해진 뒤 애플리케이션을 맡아 랜야드·명찰·노트·펜·디지털 사이니지를 디자인하고 목업으로 구현했습니다.</p>
+        <p>긴 띠, 좁은 펜 몸통, 큰 화면처럼 비율이 전혀 다른 면 위에서도 같은 패턴과 로고가 한 행사로 읽히도록 맞추는 일이었습니다.</p>
+      </div>
     </div>
-
-    <p class="gal-h"><span>내 애플리케이션</span><span>디자인 · 목업 단독</span></p>
     <div class="gal" style="--cols:1fr 1fr">
       <img class="wide" src="w/beauty-lanyard.jpg" width="1600" height="1069" alt="패턴과 로고가 반복되는 랜야드" loading="lazy">
       <img src="w/beauty-badge.jpg" width="1595" height="1080" alt="PRESS 명찰과 주황 명찰이 달린 랜야드 두 줄" loading="lazy">
       <img src="w/beauty-pen.jpg" width="1600" height="1079" alt="남색 펜 몸통의 Beauty Seoul 로고" loading="lazy">
       <img class="wide" src="w/beauty-note.jpg" width="1600" height="1075" alt="키비주얼 패턴을 입힌 노트 두 권과 펜" loading="lazy">
     </div>
-
-    <div class="proj-body">
-      <div>
-        <p class="lead">원텍 브랜드와 키비주얼 레퍼런스를 팀원들과 함께 리서치하는 것에서 시작했습니다.</p>
-        <p>키비주얼은 각자 스케치를 만든 뒤 투표로 정했습니다. 제 스케치는 원텍 기기 캡의 팔각형을 유닛으로 삼아, 에너지가 층층이 쌓이는 원리를 겹으로, 브랜드 비전인 아름다움을 꽃의 형태로 옮긴 안이었습니다.</p>
-        <p>키비주얼이 정해진 뒤에는 애플리케이션을 맡았습니다. 랜야드·명찰·노트·펜·디지털 사이니지를 디자인하고 목업으로 구현했습니다. 긴 띠, 좁은 펜 몸통, 큰 화면처럼 비율이 전혀 다른 면 위에서도 같은 패턴과 로고가 한 행사로 읽히도록 맞추는 일이었습니다.</p>
-      </div>
-      <div class="facts">
-        <div class="fact"><span>기간</span><b>2026.07.03 – 07.14</b></div>
-        <div class="fact"><span>분류</span><b>행사 아이덴티티 · 애플리케이션</b></div>
-        <div class="fact"><span>형태</span><b>교육과정 기업연계 프로젝트 (지엘컴) · 제안안</b></div>
-        <div class="fact"><span>팀</span><b>3인 · 애플리케이션 기여도 95%</b></div>
-        <div class="fact"><span>도구</span><b>Figma</b></div>
-      </div>
+  </section>
+  <div class="proj proj-end">
+    <div class="facts">
+      <div class="fact"><span>기간</span><b>2026.07.03 – 07.14</b></div>
+      <div class="fact"><span>분류</span><b>행사 아이덴티티 · 애플리케이션</b></div>
+      <div class="fact"><span>형태</span><b>교육과정 기업연계 프로젝트 (지엘컴) · 제안안</b></div>
+      <div class="fact"><span>팀</span><b>3인 · 애플리케이션 기여도 95%</b></div>
+      <div class="fact"><span>도구</span><b>Figma</b></div>
     </div>
   </div>
   </article>
@@ -721,7 +901,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <img src="w/ediya-banner.jpg" width="1600" height="759" alt="'이디야 컬러를 찾아라' 이벤트 배너, 파란 토끼 캐릭터">
     <p class="hero-cap"><span class="mono">07 / 2026 &mdash; 교육 과제</span><span class="mono">Scroll &darr;</span></p>
   </div>
-  <div class="proj">
+  <div class="proj proj-top">
     <div class="proj-head"><span class="mono">Campaign &mdash; 캠페인 · 캐릭터</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
     <h2 tabindex="-1">이디야, 14일의 컬러를 찾아라</h2>
     <p class="en">Ediya &mdash; Color Hunt</p>
@@ -732,28 +912,51 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <div><dt>핵심 결정</dt><dd>14일 동안 매일 다른 컬러를 AR로 찾기, 익숙한 토끼에 이디야 블루</dd></div>
       <div><dt>결과</dt><dd>랜딩페이지 · 카드뉴스 · 포스터</dd></div>
     </dl>
-    <div class="gal" style="--cols:1fr 1fr">
-      <img src="w/ediya-a.jpg" width="1440" height="1440" alt="황금 리워드 이벤트 카드" loading="lazy">
-      <img src="w/ediya-d.jpg" width="1440" height="1139" alt="'참여할수록 확률 UP' 카드" loading="lazy">
+  </div>
+  <section class="act" aria-labelledby="ed-1h">
+    <div class="act-h"><h3 id="ed-1h"><small>The</small>Problem</h3><span class="mono">Part 01 &mdash; 출발점</span></div>
+    <div class="act-row solo">
+      <div>
+        <p class="lead">최근 매출이 줄고 있고, 특히 젊은 층에게는 잘 찾지 않는 브랜드라는 문제에서 시작했습니다.</p>
+        <p>젊은 세대가 자연스럽게 참여할 수 있는 장치가 필요했습니다.</p>
+      </div>
+    </div>
+  </section>
+  <div class="act-band">
+    <section class="act" aria-labelledby="ed-2h">
+      <div class="act-h"><h3 id="ed-2h"><small>The</small>Hunt</h3><span class="mono">Part 02 &mdash; 아이디어</span></div>
+      <div class="act-row solo">
+        <div>
+          <p class="lead">14일 동안 매일 다른 컬러를 AR 카메라로 찾아내는 인터랙션을 중심으로 컬러 이벤트를 기획했습니다.</p>
+          <p>캐릭터는 새로운 형태를 만들기보다 누구에게나 익숙한 토끼를 골라 진입장벽을 낮췄습니다. 여기에 이디야 고유의 블루를 입히고 귀여운 톤으로 다듬어 '친근함'이라는 브랜드 키워드를 전달하고자 했습니다.</p>
+        </div>
+      </div>
+      <div class="act-pair even">
+        <img src="w/ediya-a.jpg" width="1440" height="1440" alt="황금 리워드 이벤트 카드" loading="lazy">
+        <img src="w/ediya-d.jpg" width="1440" height="1139" alt="'참여할수록 확률 UP' 카드" loading="lazy">
+      </div>
+    </section>
+  </div>
+  <section class="act" aria-labelledby="ed-3h">
+    <div class="act-h"><h3 id="ed-3h"><small>The</small>Pages</h3><span class="mono">Part 03 &mdash; 내 담당</span></div>
+    <div class="act-row solo">
+      <div>
+        <p class="lead">결과물은 랜딩페이지·카드뉴스·포스터였고, 그중 캐릭터 초기 디자인과 배너·랜딩페이지 제작을 맡았습니다.</p>
+      </div>
     </div>
     <div class="gal tall" style="--cols:1fr 1fr 1fr">
       <img src="w/ediya-ar.jpg" width="736" height="1436" alt="AR 카메라로 컬러를 찾는 화면" loading="lazy">
       <img src="w/ediya-b.jpg" width="762" height="1600" alt="이벤트 랜딩페이지 상단" loading="lazy">
       <img src="w/ediya-c.jpg" width="768" height="1394" alt="이벤트 랜딩페이지 참여 안내" loading="lazy">
     </div>
-    <div class="proj-body">
-      <div>
-        <p class="lead">최근 매출이 줄고 있고, 특히 젊은 층에게는 잘 찾지 않는 브랜드라는 문제에서 시작했습니다.</p>
-        <p>젊은 세대가 자연스럽게 참여할 수 있도록, 14일 동안 매일 다른 컬러를 AR 카메라로 찾아내는 인터랙션을 중심으로 컬러 이벤트를 기획했습니다.</p>
-        <p>캐릭터는 새로운 형태를 만들기보다, 누구에게나 익숙한 토끼를 선택해 진입장벽을 낮추는 쪽을 택했습니다. 여기에 이디야 고유의 블루 컬러를 입히고, 전체적으로 귀여운 톤으로 디자인해 '친근함'이라는 브랜드 키워드를 자연스럽게 전달하고자 했습니다. 랜딩페이지·카드뉴스·포스터로 결과물을 만들었고, 그중 캐릭터 초기 디자인과 배너·랜딩페이지 제작을 담당했습니다.</p>
-      </div>
-      <div class="facts">
-        <div class="fact"><span>연도</span><b>2026.05</b></div>
-        <div class="fact"><span>분류</span><b>캠페인 · 캐릭터</b></div>
-        <div class="fact"><span>형태</span><b>교육과정 팀 과제 (실제 집행 아님)</b></div>
-        <div class="fact"><span>담당</span><b>캐릭터 초기 디자인 · 배너 · 랜딩페이지</b></div>
-        <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
-      </div>
+  </section>
+  <div class="proj proj-end">
+    <div class="facts">
+      <div class="fact"><span>연도</span><b>2026.05</b></div>
+      <div class="fact"><span>분류</span><b>캠페인 · 캐릭터</b></div>
+      <div class="fact"><span>형태</span><b>교육과정 팀 과제 (실제 집행 아님)</b></div>
+      <div class="fact"><span>담당</span><b>캐릭터 초기 디자인 · 배너 · 랜딩페이지</b></div>
+      <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
     </div>
   </div>
   </article>
@@ -770,7 +973,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <img src="w/emart-8.jpg" width="960" height="960" alt="8/8 장난감에게 두 번째 생일을 선물하세요">
       <p class="hero-cap"><span class="mono">08 / 2026 &mdash; 교육 과제</span><span class="mono">Scroll &darr;</span></p>
   </div>
-  <div class="proj">
+  <div class="proj proj-top">
     <div class="proj-head"><span class="mono">Card news &mdash; 카드뉴스 8장</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
     <h2 tabindex="-1">이마트, 장난감의 두 번째 생일</h2>
     <p class="en">E-mart &mdash; Toy Donation</p>
@@ -781,29 +984,57 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <div><dt>핵심 결정</dt><dd>기부처와 품목을 분명히, 많이 낼수록 커지는 보상, 부모 세대를 위한 픽셀 그래픽</dd></div>
       <div><dt>결과</dt><dd>카드뉴스 8장</dd></div>
     </dl>
-    <div class="gal" style="--cols:1fr 1fr">
-      <img src="w/emart-1.jpg" width="960" height="960" alt="1/8 장난감의 두 번째 생일, 토이킹덤 기사단 모집" loading="lazy">
-      <img src="w/emart-2.jpg" width="960" height="960" alt="2/8 아이가 자랄수록 장난감은 쌓인다" loading="lazy">
-      <img src="w/emart-3.jpg" width="960" height="960" alt="3/8 낡은 장난감이 선물로 변신합니다" loading="lazy">
-      <img src="w/emart-4.jpg" width="960" height="960" alt="4/8 기부 가능한 장난감과 어려운 장난감" loading="lazy">
-      <img src="w/emart-5.jpg" width="960" height="960" alt="5/8 장난감의 여행이 시작됩니다" loading="lazy">
-      <img src="w/emart-6.jpg" width="960" height="960" alt="6/8 이렇게 참여하세요" loading="lazy">
-      <img src="w/emart-7.jpg" width="960" height="960" alt="7/8 기부하면 드리는 선물" loading="lazy">
-      <img src="w/emart-8.jpg" width="960" height="960" alt="8/8 장난감에게 두 번째 생일을 선물하세요" loading="lazy">
-    </div>
-    <div class="proj-body">
+  </div>
+  <section class="act" aria-labelledby="em-1h">
+    <div class="act-h"><h3 id="em-1h"><small>The</small>Gap</h3><span class="mono">Part 01 &mdash; 분석</span></div>
+    <div class="act-row solo">
       <div>
         <p class="lead">원래 있던 중고 장난감 기부 캠페인을 분석하면서 시작했습니다.</p>
-        <p>실제 반응을 살펴보니 "어디에 기부하면 되는지 모르겠다", "어떤 품목은 기부가 안 되는지 명확하지 않다"는 문제들이 보였고, 이 부분을 카드뉴스에서 명확하게 짚어주는 방향으로 디벨롭했습니다. 여기에 기부하는 양이 많을수록 보상도 커지는 구조를 더해서, 한 번이 아니라 계속 참여하고 싶어지도록 만들었습니다.</p>
-        <p>비주얼은 픽셀 그래픽 스타일로 표현했는데, 실제로 기부를 결정하는 주 타겟이 부모님 세대인 만큼, 어린 시절 게임 화면을 떠올리게 하는 픽셀 그래픽이 딱딱하지 않고 친근하게 다가갈 수 있다고 판단했습니다. 이 흐름을 카드뉴스 8장에 담았고, 디자인 방향은 팀원들과 의견을 나누며 잡았고 최종 카드뉴스를 만들었습니다.</p>
+        <p>실제 반응에서 "어디에 기부하면 되는지 모르겠다", "어떤 품목은 기부가 안 되는지 명확하지 않다"는 문제가 보였고, 카드뉴스에서 이 부분을 분명하게 짚어주는 방향으로 디벨롭했습니다.</p>
       </div>
-      <div class="facts">
-        <div class="fact"><span>연도</span><b>2026.05</b></div>
-        <div class="fact"><span>분류</span><b>캠페인 · 카드뉴스</b></div>
-        <div class="fact"><span>형태</span><b>교육과정 팀 과제 (실제 집행 아님)</b></div>
-        <div class="fact"><span>담당</span><b>최종 카드뉴스 디자인</b></div>
-        <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
+    </div>
+    <div class="act-pair even">
+      <img src="w/emart-2.jpg" width="960" height="960" alt="2/8 아이가 자랄수록 장난감은 쌓인다" loading="lazy">
+      <img src="w/emart-4.jpg" width="960" height="960" alt="4/8 기부 가능한 장난감과 어려운 장난감" loading="lazy">
+    </div>
+  </section>
+  <div class="act-band">
+    <section class="act" aria-labelledby="em-2h">
+      <div class="act-h"><h3 id="em-2h"><small>The</small>Rules</h3><span class="mono">Part 02 &mdash; 구조</span></div>
+      <div class="act-row solo">
+        <div>
+          <p class="lead">기부하는 양이 많을수록 보상도 커지는 구조를 더했습니다.</p>
+          <p>한 번이 아니라 계속 참여하고 싶어지도록 만들기 위해서였습니다.</p>
+        </div>
       </div>
+      <div class="act-pair even">
+        <img src="w/emart-6.jpg" width="960" height="960" alt="6/8 이렇게 참여하세요" loading="lazy">
+        <img src="w/emart-7.jpg" width="960" height="960" alt="7/8 기부하면 드리는 선물" loading="lazy">
+      </div>
+    </section>
+  </div>
+  <section class="act" aria-labelledby="em-3h">
+    <div class="act-h"><h3 id="em-3h"><small>The</small>Pixel</h3><span class="mono">Part 03 &mdash; 비주얼</span></div>
+    <div class="act-row solo">
+      <div>
+        <p class="lead">기부를 결정하는 주 타겟이 부모님 세대인 만큼, 어린 시절 게임 화면을 떠올리게 하는 픽셀 그래픽을 골랐습니다.</p>
+        <p>디자인 방향은 팀원들과 의견을 나누며 잡았고, 이 흐름을 담은 최종 카드뉴스 8장을 만들었습니다.</p>
+      </div>
+    </div>
+    <div class="gal" style="--cols:1fr 1fr">
+      <img src="w/emart-1.jpg" width="960" height="960" alt="1/8 장난감의 두 번째 생일, 토이킹덤 기사단 모집" loading="lazy">
+      <img src="w/emart-3.jpg" width="960" height="960" alt="3/8 낡은 장난감이 선물로 변신합니다" loading="lazy">
+      <img src="w/emart-5.jpg" width="960" height="960" alt="5/8 장난감의 여행이 시작됩니다" loading="lazy">
+      <img src="w/emart-8.jpg" width="960" height="960" alt="8/8 장난감에게 두 번째 생일을 선물하세요" loading="lazy">
+    </div>
+  </section>
+  <div class="proj proj-end">
+    <div class="facts">
+      <div class="fact"><span>연도</span><b>2026.05</b></div>
+      <div class="fact"><span>분류</span><b>캠페인 · 카드뉴스</b></div>
+      <div class="fact"><span>형태</span><b>교육과정 팀 과제 (실제 집행 아님)</b></div>
+      <div class="fact"><span>담당</span><b>최종 카드뉴스 디자인</b></div>
+      <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
     </div>
   </div>
   </article>
@@ -1472,7 +1703,7 @@ void main(){
       a.classList.add("lift");
       setTimeout(function(){ location.hash = nx; }, reduce ? 0 : 380);
     });
-    ART[k].querySelector(".proj").appendChild(a);
+    ART[k].querySelector(".proj-end").appendChild(a);
   });
   /* the cover stands on its own; Instagram loads only when asked for */
   document.querySelectorAll(".ig-open").forEach(function(b){
