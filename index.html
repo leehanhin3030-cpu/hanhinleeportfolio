@@ -273,10 +273,18 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .hero-side{ display:flex; flex-direction:column; justify-content:center; padding:0 var(--gr) 0 clamp(32px,6vw,96px);
   font-weight:200; font-size:clamp(56px, 8vw, 132px); letter-spacing:-.05em; line-height:.95; color:var(--ink); }
 .hero-side span + span{ padding-left:.6em; color:var(--ink3); }
-.hero-band{ height:auto; min-height:0; }
-.hero-band img{ height:auto; }
-.hero-wall{ display:grid; grid-template-columns:repeat(4, 1fr); }
-.hero-cap{ position:absolute; left:0; right:0; bottom:calc(26px + env(safe-area-inset-bottom, 0px)); margin:0; display:flex; justify-content:space-between; gap:24px;
+/* every first screen fills the window and runs out into the paper below, as HANHIN's stage does, so the eye keeps going down */
+.hero::after{ content:""; position:absolute; left:0; right:0; bottom:0; z-index:1; height:clamp(90px, 18vh, 200px); pointer-events:none;
+  background:linear-gradient(rgba(248,248,245,0), var(--paper)); }
+/* a picture that would be ruined by cropping sits whole, on a blurred enlargement of itself */
+.hero-contain{ display:flex; align-items:center; justify-content:center; gap:clamp(10px, 1.6vw, 22px);
+  padding:clamp(64px, 9vh, 104px) var(--gr) clamp(110px, 20vh, 200px) var(--gl); background:#202124; }
+.hero-contain .blur{ position:absolute; inset:-60px; background:var(--bg) center / cover; filter:blur(48px) saturate(1.15) brightness(.92); }
+.hero .hero-contain img, .hero-contain img{ position:relative; width:auto; height:auto; max-width:100%; max-height:100%; object-fit:contain; box-shadow:0 18px 50px rgba(0,0,0,.28); }
+.hero-contain.pair img{ max-width:calc(50% - 11px); }
+/* eight cards: four by two on a wide screen, two by four on a phone, filling the window either way */
+.hero-wall{ display:grid; grid-template-columns:repeat(4, 1fr); grid-template-rows:repeat(2, 1fr); background:#E8E4DA; }
+.hero-cap{ position:absolute; z-index:2; left:0; right:0; bottom:calc(26px + env(safe-area-inset-bottom, 0px)); margin:0; display:flex; justify-content:space-between; gap:24px;
   padding:0 var(--gr) 0 var(--gl); color:#F8F8F5; mix-blend-mode:difference; }
 .hero-cap .mono{ color:inherit; }
 @media (max-width:720px){
@@ -326,7 +334,13 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .gal-h + .gal{ margin-top:18px; }
 .gal.fit{ align-items:center; }
 .gal.fit img{ height:auto; }
-@media (max-width:720px){ .hero-fit{ height:auto; min-height:0; } .hero-fit img{ height:auto; } .hero-fit .hero-cap{ display:none; } }
+@media (max-width:720px){
+  .hero-wall{ grid-template-columns:repeat(2, 1fr); grid-template-rows:repeat(4, 1fr); }
+  .hero-contain.pair{ flex-direction:column; }
+  .hero-contain.pair img{ max-width:100%; max-height:calc(50% - 11px); }
+  /* on a phone the signage is held on its words, not its middle */
+  #w-beauty .hero img{ object-position:27% 50%; }
+}
 .why{ list-style:none; margin:24px 0 0; padding:0; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px 32px; max-width:900px; font-size:14px; color:var(--ink2); }
 .why b{ display:block; margin-bottom:4px; font-family:var(--mono); font-size:11px; font-weight:400; letter-spacing:.12em; color:var(--ink); }
 @media (max-width:720px){ .why{ grid-template-columns:1fr; } }
@@ -585,6 +599,12 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <article class="work" id="w-cardnews" data-work="cardnews" aria-label="카드뉴스">
+  <div class="hero hero-contain pair" style="--bg:url(w/cardnews-2.jpg)">
+    <span class="blur" aria-hidden="true"></span>
+    <img src="w/cardnews-2.jpg" width="1080" height="1351" alt="카드뉴스 #2 표지 — 홍보대사 피프티피프티가 왔다">
+    <img src="w/cardnews-3.jpg" width="1080" height="1351" alt="카드뉴스 #3 표지 — 엔터테크, 서울 2026에서만 만날 수 있는 특별한 콘텐츠">
+    <p class="hero-cap"><span class="mono">05 / 2026 &mdash; 실무 · SBA</span><span class="mono">Scroll &darr;</span></p>
+  </div>
   <div class="proj">
     <div class="proj-head">
       <span class="mono">Client &mdash; 서울경제진흥원(SBA)</span>
@@ -635,7 +655,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <article class="work" id="w-beauty" data-work="beauty" aria-label="Beauty Seoul 2026 행사 아이덴티티">
-  <div class="hero hero-fit">
+  <div class="hero">
     <img src="w/beauty-signage.jpg" width="1571" height="1080" alt="DDP 1관 디지털 사이니지에 띄운 Beauty Seoul 2026 행사 화면">
     <p class="hero-cap"><span class="mono">06 / 2026 &mdash; Beauty Seoul 2026</span><span class="mono">Scroll &darr;</span></p>
   </div>
@@ -696,8 +716,10 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <article class="work" id="w-ediya" data-work="ediya" aria-label="이디야 컬러 이벤트">
-  <div class="hero hero-band">
+  <div class="hero hero-contain" style="--bg:url(w/ediya-banner.jpg)">
+    <span class="blur" aria-hidden="true"></span>
     <img src="w/ediya-banner.jpg" width="1600" height="759" alt="'이디야 컬러를 찾아라' 이벤트 배너, 파란 토끼 캐릭터">
+    <p class="hero-cap"><span class="mono">07 / 2026 &mdash; 교육 과제</span><span class="mono">Scroll &darr;</span></p>
   </div>
   <div class="proj">
     <div class="proj-head"><span class="mono">Campaign &mdash; 캠페인 · 캐릭터</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
@@ -737,7 +759,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <article class="work" id="w-emart" data-work="emart" aria-label="이마트 장난감 기부 캠페인">
-  <div class="hero hero-band hero-wall">
+  <div class="hero hero-wall">
       <img src="w/emart-1.jpg" width="960" height="960" alt="1/8 장난감의 두 번째 생일, 토이킹덤 기사단 모집">
       <img src="w/emart-2.jpg" width="960" height="960" alt="2/8 아이가 자랄수록 장난감은 쌓인다">
       <img src="w/emart-3.jpg" width="960" height="960" alt="3/8 낡은 장난감이 선물로 변신합니다">
@@ -746,6 +768,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <img src="w/emart-6.jpg" width="960" height="960" alt="6/8 이렇게 참여하세요">
       <img src="w/emart-7.jpg" width="960" height="960" alt="7/8 기부하면 드리는 선물">
       <img src="w/emart-8.jpg" width="960" height="960" alt="8/8 장난감에게 두 번째 생일을 선물하세요">
+      <p class="hero-cap"><span class="mono">08 / 2026 &mdash; 교육 과제</span><span class="mono">Scroll &darr;</span></p>
   </div>
   <div class="proj">
     <div class="proj-head"><span class="mono">Card news &mdash; 카드뉴스 8장</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
