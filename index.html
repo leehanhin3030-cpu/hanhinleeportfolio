@@ -236,6 +236,14 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .wstep{ padding:4px 2px; }
 .wstep[aria-disabled="true"]{ opacity:.3; pointer-events:none; }
 
+/* the work in four lines, read before the pictures: what was asked, whose hands, what was decided, what came of it */
+.brief{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:0 clamp(16px,2.4vw,32px); margin:clamp(28px,5vh,48px) 0 0; }
+.brief div{ border-top:1px solid rgba(17,19,21,.18); padding-top:12px; }
+.brief dt{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); }
+.brief dd{ margin:8px 0 0; font-size:14px; line-height:1.6; color:var(--ink); word-break:keep-all; }
+@media (max-width:900px){ .brief{ grid-template-columns:1fr 1fr; row-gap:22px; } }
+@media (max-width:480px){ .brief{ grid-template-columns:1fr; row-gap:16px; } }
+
 /* each work's first screen, composed for that work */
 .hero{ position:relative; height:100vh; height:100svh; min-height:480px; overflow:hidden; background:#ECECE8; }
 .hero img, .hero video{ display:block; width:100%; height:100%; object-fit:cover; }
@@ -411,6 +419,12 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     </div>
     <h2 tabindex="-1">HANHIN</h2>
     <p class="en">형태 그 자체로 말하는 것</p>
+    <dl class="brief">
+      <div><dt>문제</dt><dd>로고 없이 형태만으로 알아보는 브랜드를 만들 수 있을까</dd></div>
+      <div><dt>내 역할</dt><dd>개인 작업 · 기획부터 가이드라인까지 단독</dd></div>
+      <div><dt>핵심 결정</dt><dd>'ㅎ'에 전기 회로의 선을 결합한 로고, 청새치의 유선형에서 가져온 차체</dd></div>
+      <div><dt>결과</dt><dd>로고 · 브랜드북 · 브랜드 가이드라인</dd></div>
+    </dl>
     <div class="gal" style="--cols:1fr 1.78fr">
       <img class="wide" src="w/hanhin-car.jpg" width="1600" height="893" alt="HANHIN 차량 비주얼, 흙먼지 속을 달리는 파란 차" loading="lazy">
       <img src="w/hanhin-logo.jpg" width="1254" height="1254" alt="HANHIN 로고 — 'ㅎ'에 전기 회로의 흐르는 선을 결합" loading="lazy">
@@ -444,6 +458,12 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <div class="proj-head"><span class="mono">Sculpture &mdash; 조각</span><span class="mono">개인 작업 &middot; 졸업작품</span></div>
     <h2 tabindex="-1">슈퍼카도 언젠가는 유물이 된다</h2>
     <p class="en">Relic</p>
+    <dl class="brief">
+      <div><dt>문제</dt><dd>슈퍼카도 시간이 지나면 유물이 되지 않을까</dd></div>
+      <div><dt>내 역할</dt><dd>개인 작업 · 졸업작품, 원형 조각부터 캐스팅까지</dd></div>
+      <div><dt>핵심 결정</dt><dd>같은 원형에 메탈릭과 러스트, 두 표면으로 현재와 미래를</dd></div>
+      <div><dt>결과</dt><dd>석고 캐스팅 다수 · 산처럼 쌓아 전시</dd></div>
+    </dl>
     <div class="proj-body">
       <div>
         <p class="lead">좋아하는 자동차를 직접 조각해 만든 졸업 작품입니다.</p>
@@ -470,6 +490,12 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <div class="proj-head"><span class="mono">Product concept &mdash; 제품 컨셉</span><span class="mono">개인 작업</span></div>
     <h2 tabindex="-1">기왓장에 떨어진 빗물, 스피커가 되다</h2>
     <p class="en">Rain Speaker</p>
+    <dl class="brief">
+      <div><dt>문제</dt><dd>기왓장에 떨어지는 빗물의 찰나를 제품으로 옮기기</dd></div>
+      <div><dt>내 역할</dt><dd>개인 작업 · 컨셉과 렌더링</dd></div>
+      <div><dt>핵심 결정</dt><dd>기와 곡선은 본체로, 퍼지는 파동은 그릴로, 소재는 메탈릭</dd></div>
+      <div><dt>결과</dt><dd>디자인 컨셉 렌더링 · 영상 (실물 제작 없음)</dd></div>
+    </dl>
     <div class="gal" style="--cols:1fr 1fr">
       <img src="w/speaker-1.jpg" width="1024" height="1024" alt="창가 벽면에 놓인 메탈릭 스피커, 물결 파동 모양의 그릴" loading="lazy">
       <img src="w/speaker-2.jpg" width="1024" height="1024" alt="스피커 그릴 중심부 확대 — 동심원 파동" loading="lazy">
@@ -501,6 +527,12 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <div class="proj-head"><span class="mono">Fashion accessory &mdash; 패션 소품</span><span class="mono">개인 작업</span></div>
     <h2 tabindex="-1">스친 장면 하나, 가방이 되다</h2>
     <p class="en">Tweed &amp; Pearl</p>
+    <dl class="brief">
+      <div><dt>문제</dt><dd>광고 속 한 장면을 가방 하나로</dd></div>
+      <div><dt>내 역할</dt><dd>개인 작업 · 컨셉과 비주얼</dd></div>
+      <div><dt>핵심 결정</dt><dd>거친 트위드와 매끈한 진주의 대비, 손이 닿는 곳에 진주</dd></div>
+      <div><dt>결과</dt><dd>모델 착용 컷까지 이어지는 브랜드 비주얼</dd></div>
+    </dl>
     <div class="gal" style="--cols:1fr 1fr">
       <img src="w/bag-3.jpg" width="1199" height="1600" alt="진주 소품과 함께 놓인 트위드 바스켓 백" loading="lazy">
       <img src="w/bag-2.jpg" width="1200" height="1600" alt="드로스트링을 연 가방 내부" loading="lazy">
@@ -530,6 +562,12 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     </div>
     <h2 tabindex="-1">엔터테크, 서울 2026 카드뉴스</h2>
     <p class="en">Card News &mdash; 실무</p>
+    <dl class="brief">
+      <div><dt>문제</dt><dd>같은 행사, 한 편은 멀리 닿고 한 편은 댓글을 끌어내야 했다</dd></div>
+      <div><dt>내 역할</dt><dd>실무 · 7편 중 2편 디자인 (원고 별도)</dd></div>
+      <div><dt>핵심 결정</dt><dd>편마다 목표에 맞춘 구성 — 도달과 참여</dd></div>
+      <div><dt>결과</dt><dd>도달 약 9,500 · 참여 약 1,360명, 공유·저장 캠페인 1위</dd></div>
+    </dl>
 
     <div class="feed">
       <figure class="post">
@@ -574,6 +612,12 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <div class="proj-head"><span class="mono">Campaign &mdash; 캠페인 · 캐릭터</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
     <h2 tabindex="-1">이디야, 14일의 컬러를 찾아라</h2>
     <p class="en">Ediya &mdash; Color Hunt</p>
+    <dl class="brief">
+      <div><dt>문제</dt><dd>매출 감소, 젊은 층이 찾지 않는 브랜드</dd></div>
+      <div><dt>내 역할</dt><dd>팀 프로젝트 · 캐릭터 초기 디자인, 배너, 랜딩페이지</dd></div>
+      <div><dt>핵심 결정</dt><dd>14일 동안 매일 다른 컬러를 AR로 찾기, 익숙한 토끼에 이디야 블루</dd></div>
+      <div><dt>결과</dt><dd>랜딩페이지 · 카드뉴스 · 포스터</dd></div>
+    </dl>
     <div class="gal" style="--cols:1fr 1fr">
       <img src="w/ediya-a.jpg" width="1440" height="1440" alt="황금 리워드 이벤트 카드" loading="lazy">
       <img src="w/ediya-d.jpg" width="1440" height="1139" alt="'참여할수록 확률 UP' 카드" loading="lazy">
@@ -615,6 +659,12 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <div class="proj-head"><span class="mono">Card news &mdash; 카드뉴스 8장</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
     <h2 tabindex="-1">이마트, 장난감의 두 번째 생일</h2>
     <p class="en">E-mart &mdash; Toy Donation</p>
+    <dl class="brief">
+      <div><dt>문제</dt><dd>어디에, 무엇을 기부할 수 있는지 모르는 캠페인</dd></div>
+      <div><dt>내 역할</dt><dd>팀 프로젝트 · 최종 카드뉴스 디자인</dd></div>
+      <div><dt>핵심 결정</dt><dd>기부처와 품목을 분명히, 많이 낼수록 커지는 보상, 부모 세대를 위한 픽셀 그래픽</dd></div>
+      <div><dt>결과</dt><dd>카드뉴스 8장</dd></div>
+    </dl>
     <div class="proj-body">
       <div>
         <p class="lead">원래 있던 중고 장난감 기부 캠페인을 분석하면서 시작했습니다.</p>
