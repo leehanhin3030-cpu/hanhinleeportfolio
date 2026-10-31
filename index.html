@@ -1,6 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
 <title>이한힌 — 포트폴리오</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="브랜드·제품·패션·캠페인 디자이너 이한힌(Han Hin Lee)의 포트폴리오. 조용히 보고, 끝까지 그립니다.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hanhin.pages.dev/">
+<meta property="og:title" content="이한힌 — 포트폴리오">
+<meta property="og:description" content="조용히 보고, 끝까지 그립니다. 브랜드·제품·패션·캠페인 디자인 작업 8편.">
+<meta property="og:image" content="https://hanhin.pages.dev/w/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F8F8F5'/%3E%3Ccircle cx='16' cy='16' r='9' fill='%23111315'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- the name's face, cut down to the two syllables it sets (about 3KB) -->
@@ -108,7 +121,8 @@ a.irow:focus-visible{ outline:2px solid var(--ink); outline-offset:4px; }
   /* on a phone the list rises over the lower half of the sheet */
   .mid > .panel{ grid-column:auto; grid-row:auto; }
   .panel{ position:absolute; left:var(--gl); right:var(--gr); bottom:calc(24px + env(safe-area-inset-bottom, 0px));
-    background:var(--paper); padding-top:14px; box-shadow:0 -28px 28px var(--paper); }
+    background:var(--paper); padding-top:14px; box-shadow:0 -28px 28px var(--paper);
+    max-height:calc(100svh - 120px); overflow-y:auto; overscroll-behavior:contain; }
   .irow{ grid-template-columns:48px minmax(0,1fr) 40px; gap:12px; padding:9px 0; }
   .irow b{ font-size:20px; }
   .irow > .k:nth-child(3){ display:none; }
@@ -200,6 +214,10 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 /* the embed keeps a 4:5 card plus Instagram's own header and footer */
 .ig{ container-type:inline-size; background:#fff; box-shadow:0 0 0 1px rgba(17,19,21,.1); }
 .ig iframe{ display:block; width:100%; height:calc(100cqw * 1.25 + 214px); border:0; }
+.ig img{ display:block; width:100%; height:auto; }
+.ig-open{ display:block; width:100%; padding:13px 0; border:0; border-top:1px solid rgba(17,19,21,.1); background:#fff; color:var(--ink); cursor:pointer;
+          font-size:11px; letter-spacing:.12em; }
+.ig-open:hover, .ig-open:focus-visible{ background:var(--ink); color:var(--paper); }
 .post figcaption{ display:grid; gap:6px; margin-top:16px; }
 .post figcaption .mono{ color:var(--ink3); text-transform:none; letter-spacing:.04em; }
 .post figcaption b{ font-weight:500; color:var(--ink); margin-right:6px; }
@@ -301,7 +319,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .gal img{ display:block; width:100%; height:100%; object-fit:cover; background:#ECECE8; }
 .gal .wide{ grid-column:1 / -1; height:auto; }
 .gal.tall img{ aspect-ratio:9 / 16; object-position:top; }
-@media (max-width:720px){ .gal{ grid-template-columns:1fr 1fr !important; } }
+@media (max-width:720px){ .gal{ grid-template-columns:1fr 1fr !important; } .gal > img:last-child:nth-child(odd):not(.wide){ grid-column:1 / -1; } }
 .gal-h{ display:flex; justify-content:space-between; gap:16px; margin:72px 0 0; padding-top:12px; border-top:1px solid var(--ink);
         font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink2); }
 .gal-h span + span{ color:var(--ink3); }
@@ -330,7 +348,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     </div>
     <!-- the works open on this same sheet, in the paper to the right of the name; no page of their own -->
     <nav class="panel" id="works-panel" aria-label="작업 목록">
-      <div class="ihead"><span class="k">Works &mdash; 작업</span><span class="k">07</span></div>
+      <div class="ihead"><span class="k">Works &mdash; 작업</span><span class="k">08</span></div>
       <a class="irow" href="#hanhin" data-room="hanhin"><span class="k">01</span><b>HANHIN</b><span class="k">브랜드 아이덴티티</span><span class="k yr">2026</span></a>
       <a class="irow" href="#relic"><span class="k">02</span><b>유물이 된 슈퍼카</b><span class="k">조각 &middot; 졸업작품</span><span class="k yr">2024</span></a>
       <a class="irow" href="#speaker"><span class="k">03</span><b>빗물 스피커</b><span class="k">제품 컨셉</span><span class="k yr">2026</span></a>
@@ -397,7 +415,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </div>
 </section>
 
-<!-- the works: one long sheet, 01 to 07. One click opens it at that work; after that it is only scrolling -->
+<!-- the works: one long sheet, 01 to 08. One click opens it at that work; after that it is only scrolling -->
 <section class="view reel" id="v-reel" aria-label="작업">
   <div class="wbar"><div class="wbar-in">
     <a class="mono" href="#">&larr; 처음으로</a>
@@ -575,7 +593,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <h2 tabindex="-1">엔터테크, 서울 2026 카드뉴스</h2>
     <p class="en">Card News &mdash; 실무</p>
     <dl class="brief">
-      <div><dt>문제</dt><dd>같은 행사, 한 편은 멀리 닿고 한 편은 댓글을 끌어내야 했다</dd></div>
+      <div><dt>문제</dt><dd>같은 행사, 한 편은 멀리 닿고 한 편은 댓글을 끌어내야 했습니다</dd></div>
       <div><dt>내 역할</dt><dd>실무 · 7편 중 2편 디자인 (원고 별도)</dd></div>
       <div><dt>핵심 결정</dt><dd>편마다 목표에 맞춘 구성 — 도달과 참여</dd></div>
       <div><dt>결과</dt><dd>도달 약 9,500 · 참여 약 1,360명, 공유·저장 캠페인 1위</dd></div>
@@ -583,7 +601,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 
     <div class="feed">
       <figure class="post">
-        <div class="ig"><iframe data-src="https://www.instagram.com/p/DcsElqXDi7m/embed/" title="카드뉴스 #2 홍보대사 공개 기념, 인스타그램 게시물" loading="lazy" scrolling="no"></iframe></div>
+        <div class="ig"><img src="w/cardnews-2.jpg" width="1080" height="1351" alt="카드뉴스 #2 표지 — 엔터테크, 서울 2026 홍보대사 피프티피프티가 왔다" loading="lazy"><button type="button" class="ig-open mono" data-embed="https://www.instagram.com/p/DcsElqXDi7m/embed/" data-title="카드뉴스 #2 홍보대사 공개 기념, 인스타그램 게시물">게시물 전체 넘겨 보기</button></div>
         <figcaption>
           <p class="mono"><b>#2</b> 홍보대사 공개 기념 &middot; 08.31</p>
           <p class="mono">도달 약 9,500 &middot; 캠페인 7편 중 2위</p>
@@ -591,7 +609,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
         </figcaption>
       </figure>
       <figure class="post">
-        <div class="ig"><iframe data-src="https://www.instagram.com/p/DcxAbJ0AUWU/embed/" title="카드뉴스 #3 첫 체험존 고르기, 인스타그램 게시물" loading="lazy" scrolling="no"></iframe></div>
+        <div class="ig"><img src="w/cardnews-3.jpg" width="1080" height="1351" alt="카드뉴스 #3 표지 — 엔터테크, 서울 2026에서만 만날 수 있는 특별한 콘텐츠" loading="lazy"><button type="button" class="ig-open mono" data-embed="https://www.instagram.com/p/DcxAbJ0AUWU/embed/" data-title="카드뉴스 #3 첫 체험존 고르기, 인스타그램 게시물">게시물 전체 넘겨 보기</button></div>
         <figcaption>
           <p class="mono"><b>#3</b> 첫 체험존 고르기 &middot; 09.02</p>
           <p class="mono">참여 약 1,360명 &middot; 공유&middot;저장 캠페인 1위</p>
@@ -602,8 +620,8 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 
     <div class="proj-body">
       <div>
-        <p class="lead">「엔터테크, 서울 2026」 온라인 홍보 카드뉴스 일곱 편 중 두 편을 디자인했다.</p>
-        <p>홍보대사 공개 편은 멀리 닿아야 했고, 체험존 고르기 편은 댓글로 답하게 만들어야 했다. 같은 행사, 같은 계정이지만 하나는 도달을, 하나는 참여를 끌어낸 편이 되었다.</p>
+        <p class="lead">「엔터테크, 서울 2026」 온라인 홍보 카드뉴스 일곱 편 중 두 편을 디자인했습니다.</p>
+        <p>홍보대사 공개 편은 멀리 닿아야 했고, 체험존 고르기 편은 댓글로 답하게 만들어야 했습니다. 같은 행사, 같은 계정이지만 한 편은 도달을, 한 편은 참여를 끌어냈습니다.</p>
       </div>
       <div class="facts">
         <div class="fact"><span>연도</span><b>2026</b></div>
@@ -629,7 +647,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <dl class="brief">
       <div><dt>문제</dt><dd>원텍 행사 「Beauty Seoul 2026」의 아이덴티티</dd></div>
       <div><dt>내 역할</dt><dd>리서치·키비주얼 스케치는 팀과 함께, 애플리케이션 디자인 단독 (기여도 95%)</dd></div>
-      <div><dt>핵심 결정</dt><dd>원텍 기기의 팔각형 실루엣을 유닛으로, 에너지가 층층이 쌓이는 원리를 겹으로</dd></div>
+      <div><dt>핵심 결정</dt><dd>팀이 확정한 원형 패턴이 비율이 전혀 다른 띠·펜·명찰·큰 화면에서도 한 행사로 읽히게</dd></div>
       <div><dt>결과</dt><dd>노트 · 펜 · 랜야드 · 명찰 · 디지털 사이니지</dd></div>
     </dl>
 
@@ -740,6 +758,16 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <div><dt>핵심 결정</dt><dd>기부처와 품목을 분명히, 많이 낼수록 커지는 보상, 부모 세대를 위한 픽셀 그래픽</dd></div>
       <div><dt>결과</dt><dd>카드뉴스 8장</dd></div>
     </dl>
+    <div class="gal" style="--cols:1fr 1fr">
+      <img src="w/emart-1.jpg" width="960" height="960" alt="1/8 장난감의 두 번째 생일, 토이킹덤 기사단 모집" loading="lazy">
+      <img src="w/emart-2.jpg" width="960" height="960" alt="2/8 아이가 자랄수록 장난감은 쌓인다" loading="lazy">
+      <img src="w/emart-3.jpg" width="960" height="960" alt="3/8 낡은 장난감이 선물로 변신합니다" loading="lazy">
+      <img src="w/emart-4.jpg" width="960" height="960" alt="4/8 기부 가능한 장난감과 어려운 장난감" loading="lazy">
+      <img src="w/emart-5.jpg" width="960" height="960" alt="5/8 장난감의 여행이 시작됩니다" loading="lazy">
+      <img src="w/emart-6.jpg" width="960" height="960" alt="6/8 이렇게 참여하세요" loading="lazy">
+      <img src="w/emart-7.jpg" width="960" height="960" alt="7/8 기부하면 드리는 선물" loading="lazy">
+      <img src="w/emart-8.jpg" width="960" height="960" alt="8/8 장난감에게 두 번째 생일을 선물하세요" loading="lazy">
+    </div>
     <div class="proj-body">
       <div>
         <p class="lead">원래 있던 중고 장난감 기부 캠페인을 분석하면서 시작했습니다.</p>
@@ -1291,13 +1319,12 @@ void main(){
       WORKS.forEach(function(w){ ART[w].classList.toggle("on", w === k); });
       reel.setAttribute("data-at", k);
       reel.scrollTop = 0;
-      ART[k].querySelectorAll("iframe[data-src]").forEach(function(f){ f.src = f.getAttribute("data-src"); f.removeAttribute("data-src"); });
       ART[k].querySelectorAll(".tease").forEach(function(t){ t.classList.remove("lift"); });
       if (k === "hanhin") rail.enter(); else rail.leave();
       films(k);
       mark(k);
       if (quiet) return;
-      if (k === "hanhin") rail.focus(); else ART[k].querySelector("h2").focus({ preventScroll:true });
+      ART[k].querySelector("h2").focus({ preventScroll:true });
     }
     if (swap && !reduce){
       reel.classList.add("swap");
@@ -1416,6 +1443,17 @@ void main(){
       setTimeout(function(){ location.hash = nx; }, reduce ? 0 : 380);
     });
     ART[k].querySelector(".proj").appendChild(a);
+  });
+  /* the cover stands on its own; Instagram loads only when asked for */
+  document.querySelectorAll(".ig-open").forEach(function(b){
+    b.addEventListener("click", function(){
+      var f = document.createElement("iframe");
+      f.src = b.getAttribute("data-embed");
+      f.title = b.getAttribute("data-title");
+      f.setAttribute("scrolling", "no");
+      b.parentNode.replaceChildren(f);
+      f.focus();
+    });
   });
   function menu(open){
     wmenu.hidden = !open;
