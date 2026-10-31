@@ -238,6 +238,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 
 /* the work in four lines, read before the pictures: what was asked, whose hands, what was decided, what came of it */
 .brief{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:0 clamp(16px,2.4vw,32px); margin:clamp(28px,5vh,48px) 0 0; }
+.course{ margin:18px 0 0; padding-left:12px; border-left:2px solid var(--ink); max-width:62ch; font-size:13px; color:var(--ink2); }
 .brief div{ border-top:1px solid rgba(17,19,21,.18); padding-top:12px; }
 .brief dt{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); }
 .brief dd{ margin:8px 0 0; font-size:14px; line-height:1.6; color:var(--ink); word-break:keep-all; }
@@ -325,8 +326,8 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <a class="irow" href="#speaker"><span class="k">03</span><b>빗물 스피커</b><span class="k">제품 컨셉</span><span class="k yr">2026</span></a>
       <a class="irow" href="#bag"><span class="k">04</span><b>트위드 백</b><span class="k">패션 소품</span><span class="k yr">2025</span></a>
       <a class="irow" href="#cardnews"><span class="k">05</span><b>엔터테크 카드뉴스</b><span class="k">실무 &middot; SBA</span><span class="k yr">2026</span></a>
-      <a class="irow" href="#ediya"><span class="k">06</span><b>이디야</b><span class="k">팀 &middot; 캠페인</span><span class="k yr">2026</span></a>
-      <a class="irow" href="#emart"><span class="k">07</span><b>이마트</b><span class="k">팀 &middot; 카드뉴스</span><span class="k yr">2026</span></a>
+      <a class="irow" href="#ediya"><span class="k">06</span><b>이디야</b><span class="k">교육 과제 &middot; 캠페인</span><span class="k yr">2026</span></a>
+      <a class="irow" href="#emart"><span class="k">07</span><b>이마트</b><span class="k">교육 과제 &middot; 카드뉴스</span><span class="k yr">2026</span></a>
     </nav>
     <!-- contact opens in the same place as the works: a short thing, it needs no page -->
     <div class="panel" id="contact-panel" role="region" aria-label="연락">
@@ -612,9 +613,10 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <div class="proj-head"><span class="mono">Campaign &mdash; 캠페인 · 캐릭터</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
     <h2 tabindex="-1">이디야, 14일의 컬러를 찾아라</h2>
     <p class="en">Ediya &mdash; Color Hunt</p>
+    <p class="course">서울 매력일자리 교육과정에서 팀 과제로 기획한 제안입니다. 이디야의 의뢰를 받거나 실제로 집행된 캠페인이 아닙니다.</p>
     <dl class="brief">
       <div><dt>문제</dt><dd>매출 감소, 젊은 층이 찾지 않는 브랜드</dd></div>
-      <div><dt>내 역할</dt><dd>팀 프로젝트 · 캐릭터 초기 디자인, 배너, 랜딩페이지</dd></div>
+      <div><dt>내 역할</dt><dd>교육과정 팀 과제 · 캐릭터 초기 디자인, 배너, 랜딩페이지</dd></div>
       <div><dt>핵심 결정</dt><dd>14일 동안 매일 다른 컬러를 AR로 찾기, 익숙한 토끼에 이디야 블루</dd></div>
       <div><dt>결과</dt><dd>랜딩페이지 · 카드뉴스 · 포스터</dd></div>
     </dl>
@@ -636,7 +638,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <div class="facts">
         <div class="fact"><span>연도</span><b>2026.05</b></div>
         <div class="fact"><span>분류</span><b>캠페인 · 캐릭터</b></div>
-        <div class="fact"><span>형태</span><b>팀 프로젝트 (교육과정)</b></div>
+        <div class="fact"><span>형태</span><b>교육과정 팀 과제 (실제 집행 아님)</b></div>
         <div class="fact"><span>담당</span><b>캐릭터 초기 디자인 · 배너 · 랜딩페이지</b></div>
         <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
       </div>
@@ -659,9 +661,10 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <div class="proj-head"><span class="mono">Card news &mdash; 카드뉴스 8장</span><span class="mono">팀 프로젝트 &middot; 서울 매력일자리 교육과정</span></div>
     <h2 tabindex="-1">이마트, 장난감의 두 번째 생일</h2>
     <p class="en">E-mart &mdash; Toy Donation</p>
+    <p class="course">서울 매력일자리 교육과정에서 팀 과제로 기획한 제안입니다. 이마트의 의뢰를 받거나 실제로 집행된 캠페인이 아닙니다.</p>
     <dl class="brief">
       <div><dt>문제</dt><dd>어디에, 무엇을 기부할 수 있는지 모르는 캠페인</dd></div>
-      <div><dt>내 역할</dt><dd>팀 프로젝트 · 최종 카드뉴스 디자인</dd></div>
+      <div><dt>내 역할</dt><dd>교육과정 팀 과제 · 최종 카드뉴스 디자인</dd></div>
       <div><dt>핵심 결정</dt><dd>기부처와 품목을 분명히, 많이 낼수록 커지는 보상, 부모 세대를 위한 픽셀 그래픽</dd></div>
       <div><dt>결과</dt><dd>카드뉴스 8장</dd></div>
     </dl>
@@ -674,7 +677,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <div class="facts">
         <div class="fact"><span>연도</span><b>2026.05</b></div>
         <div class="fact"><span>분류</span><b>캠페인 · 카드뉴스</b></div>
-        <div class="fact"><span>형태</span><b>팀 프로젝트 (교육과정)</b></div>
+        <div class="fact"><span>형태</span><b>교육과정 팀 과제 (실제 집행 아님)</b></div>
         <div class="fact"><span>담당</span><b>최종 카드뉴스 디자인</b></div>
         <div class="fact"><span>도구</span><b>Figma · Gemini · GPT · Claude</b></div>
       </div>
