@@ -302,6 +302,16 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .gal .wide{ grid-column:1 / -1; height:auto; }
 .gal.tall img{ aspect-ratio:9 / 16; object-position:top; }
 @media (max-width:720px){ .gal{ grid-template-columns:1fr 1fr !important; } }
+.gal-h{ display:flex; justify-content:space-between; gap:16px; margin:72px 0 0; padding-top:12px; border-top:1px solid var(--ink);
+        font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink2); }
+.gal-h span + span{ color:var(--ink3); }
+.gal-h + .gal{ margin-top:18px; }
+.gal.fit{ align-items:center; }
+.gal.fit img{ height:auto; }
+@media (max-width:720px){ .hero-fit{ height:auto; min-height:0; } .hero-fit img{ height:auto; } .hero-fit .hero-cap{ display:none; } }
+.why{ list-style:none; margin:24px 0 0; padding:0; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px 32px; max-width:900px; font-size:14px; color:var(--ink2); }
+.why b{ display:block; margin-bottom:4px; font-family:var(--mono); font-size:11px; font-weight:400; letter-spacing:.12em; color:var(--ink); }
+@media (max-width:720px){ .why{ grid-template-columns:1fr; } }
 </style>
 
 <canvas id="paper" aria-label="흰 종이 위에 먹 방울이 떨어져 번지다 멈춘다. 누르면 한 방울이 떨어진다"></canvas>
@@ -326,8 +336,9 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
       <a class="irow" href="#speaker"><span class="k">03</span><b>빗물 스피커</b><span class="k">제품 컨셉</span><span class="k yr">2026</span></a>
       <a class="irow" href="#bag"><span class="k">04</span><b>트위드 백</b><span class="k">패션 소품</span><span class="k yr">2025</span></a>
       <a class="irow" href="#cardnews"><span class="k">05</span><b>엔터테크 카드뉴스</b><span class="k">실무 &middot; SBA</span><span class="k yr">2026</span></a>
-      <a class="irow" href="#ediya"><span class="k">06</span><b>이디야</b><span class="k">교육 과제 &middot; 캠페인</span><span class="k yr">2026</span></a>
-      <a class="irow" href="#emart"><span class="k">07</span><b>이마트</b><span class="k">교육 과제 &middot; 카드뉴스</span><span class="k yr">2026</span></a>
+      <a class="irow" href="#beauty"><span class="k">06</span><b>Beauty Seoul 2026</b><span class="k">기업연계 &middot; 행사 아이덴티티</span><span class="k yr">2026</span></a>
+      <a class="irow" href="#ediya"><span class="k">07</span><b>이디야</b><span class="k">교육 과제 &middot; 캠페인</span><span class="k yr">2026</span></a>
+      <a class="irow" href="#emart"><span class="k">08</span><b>이마트</b><span class="k">교육 과제 &middot; 카드뉴스</span><span class="k yr">2026</span></a>
     </nav>
     <!-- contact opens in the same place as the works: a short thing, it needs no page -->
     <div class="panel" id="contact-panel" role="region" aria-label="연락">
@@ -392,7 +403,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     <a class="mono" href="#">&larr; 처음으로</a>
     <span class="wnav">
       <a class="mono wstep" id="wprev" href="#" aria-label="이전 작업">&larr;</a>
-      <button type="button" class="mono wnow" id="wnow" aria-expanded="false" aria-controls="wmenu"><span id="wnum">01 / 07</span> <span id="wname">HANHIN</span> <span aria-hidden="true">&#9662;</span></button>
+      <button type="button" class="mono wnow" id="wnow" aria-expanded="false" aria-controls="wmenu"><span id="wnum">01 / 08</span> <span id="wname">HANHIN</span> <span aria-hidden="true">&#9662;</span></button>
       <a class="mono wstep" id="wnext" href="#" aria-label="다음 작업">&rarr;</a>
     </span>
   </div></div>
@@ -605,6 +616,67 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </div>
   </article>
 
+  <article class="work" id="w-beauty" data-work="beauty" aria-label="Beauty Seoul 2026 행사 아이덴티티">
+  <div class="hero hero-fit">
+    <img src="w/beauty-signage.jpg" width="1571" height="1080" alt="DDP 1관 디지털 사이니지에 띄운 Beauty Seoul 2026 행사 화면">
+    <p class="hero-cap"><span class="mono">06 / 2026 &mdash; Beauty Seoul 2026</span><span class="mono">Scroll &darr;</span></p>
+  </div>
+  <div class="proj">
+    <div class="proj-head"><span class="mono">Event identity &mdash; 행사 아이덴티티 · 애플리케이션</span><span class="mono">기업연계 &middot; 지엘컴 &middot; 3인 팀</span></div>
+    <h2 tabindex="-1">Beauty Seoul 2026, 겹겹이 맞물리는 에너지</h2>
+    <p class="en">Wontech &mdash; Beauty Seoul 2026</p>
+    <p class="course">서울 매력일자리 교육과정의 기업연계 프로젝트입니다. 지엘컴 담당자와 화상 미팅으로 피드백을 주고받으며 원텍의 행사 아이덴티티를 만들었습니다.</p>
+    <dl class="brief">
+      <div><dt>문제</dt><dd>원텍 행사 「Beauty Seoul 2026」의 아이덴티티</dd></div>
+      <div><dt>내 역할</dt><dd>리서치·키비주얼 스케치는 팀과 함께, 애플리케이션 디자인 단독 (기여도 95%)</dd></div>
+      <div><dt>핵심 결정</dt><dd>원텍 기기의 팔각형 실루엣을 유닛으로, 에너지가 층층이 쌓이는 원리를 겹으로</dd></div>
+      <div><dt>결과</dt><dd>노트 · 펜 · 랜야드 · 명찰 · 디지털 사이니지</dd></div>
+    </dl>
+
+    <p class="gal-h"><span>내 키비주얼 스케치</span><span>팀 투표 전</span></p>
+    <div class="gal" style="--cols:1fr 1fr">
+      <img src="w/beauty-sketch-1.jpg" width="1000" height="1414" alt="주황 팔각형을 여러 겹 쌓아 꽃처럼 피어나는 키비주얼 스케치" loading="lazy">
+      <img src="w/beauty-sketch-2.jpg" width="1000" height="1413" alt="중심에서 퍼지는 팔각형 겹과 흰 십자 채널을 넣은 두 번째 스케치" loading="lazy">
+    </div>
+    <ul class="why">
+      <li><b>팔각형</b>원텍 기기 캡의 실루엣에서 그대로 가져온 도형</li>
+      <li><b>여러 겹</b>올리지오·RF의 "에너지가 심부까지 층층이 쌓인다"는 원리</li>
+      <li><b>꽃</b>원텍 비전 "건강에서 발현되는 아름다움", 20·30대 여성까지 넓어진 타겟</li>
+      <li><b>수정</b>완전 대칭이면 만화경으로 읽힌다는 피드백 &rarr; 흰 십자 채널로 격자 논리를 더함</li>
+    </ul>
+
+    <p class="gal-h"><span>팀 키비주얼 · 로고</span><span>스케치 투표 후 함께 확정</span></p>
+    <div class="gal fit" style="--cols:1fr 1fr">
+      <img src="w/beauty-kv-logic.jpg" width="1400" height="815" alt="RF는 확산·응집, HIFU는 수렴·집속을 나타내는 두 원형 유닛" loading="lazy">
+      <img src="w/beauty-kv.jpg" width="1200" height="852" alt="주황·청록 원형 유닛이 격자 위에서 맞물린 확정 키비주얼 패턴" loading="lazy">
+      <img class="wide" src="w/beauty-logo.jpg" width="1600" height="616" alt="Beauty Seoul 2026 타이틀 로고, 남색과 주황 바탕" loading="lazy">
+    </div>
+
+    <p class="gal-h"><span>내 애플리케이션</span><span>디자인 · 목업 단독</span></p>
+    <div class="gal" style="--cols:1fr 1fr">
+      <img class="wide" src="w/beauty-lanyard.jpg" width="1600" height="1069" alt="패턴과 로고가 반복되는 랜야드" loading="lazy">
+      <img src="w/beauty-badge.jpg" width="1595" height="1080" alt="PRESS 명찰과 주황 명찰이 달린 랜야드 두 줄" loading="lazy">
+      <img src="w/beauty-pen.jpg" width="1600" height="1079" alt="남색 펜 몸통의 Beauty Seoul 로고" loading="lazy">
+      <img class="wide" src="w/beauty-note.jpg" width="1600" height="1075" alt="키비주얼 패턴을 입힌 노트 두 권과 펜" loading="lazy">
+    </div>
+
+    <div class="proj-body">
+      <div>
+        <p class="lead">원텍 브랜드와 키비주얼 레퍼런스를 팀원들과 함께 리서치하는 것에서 시작했습니다.</p>
+        <p>키비주얼은 각자 스케치를 만든 뒤 투표로 정했습니다. 제 스케치는 원텍 기기 캡의 팔각형을 유닛으로 삼아, 에너지가 층층이 쌓이는 원리를 겹으로, 브랜드 비전인 아름다움을 꽃의 형태로 옮긴 안이었습니다.</p>
+        <p>키비주얼이 정해진 뒤에는 애플리케이션을 맡았습니다. 랜야드·명찰·노트·펜·디지털 사이니지를 디자인하고 목업으로 구현했습니다. 긴 띠, 좁은 펜 몸통, 큰 화면처럼 비율이 전혀 다른 면 위에서도 같은 패턴과 로고가 한 행사로 읽히도록 맞추는 일이었습니다.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>기간</span><b>2026.07.03 – 07.14</b></div>
+        <div class="fact"><span>분류</span><b>행사 아이덴티티 · 애플리케이션</b></div>
+        <div class="fact"><span>형태</span><b>교육과정 기업연계 프로젝트 (지엘컴)</b></div>
+        <div class="fact"><span>팀</span><b>3인 · 애플리케이션 기여도 95%</b></div>
+        <div class="fact"><span>도구</span><b>Figma</b></div>
+      </div>
+    </div>
+  </div>
+  </article>
+
   <article class="work" id="w-ediya" data-work="ediya" aria-label="이디야 컬러 이벤트">
   <div class="hero hero-band">
     <img src="w/ediya-banner.jpg" width="1600" height="759" alt="'이디야 컬러를 찾아라' 이벤트 배너, 파란 토끼 캐릭터">
@@ -686,7 +758,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   </article>
 
   <footer class="proj reel-end">
-    <div class="proj-head"><span class="mono">End &mdash; 끝까지 봐주셔서 감사합니다</span><span class="mono">07 / 07</span></div>
+    <div class="proj-head"><span class="mono">End &mdash; 끝까지 봐주셔서 감사합니다</span><span class="mono">08 / 08</span></div>
     <a class="mail" href="mailto:leehanhin3030@gmail.com">leehanhin3030@gmail.com</a>
     <p class="cnote">메일로 연락 주세요.</p>
     <button class="copy" type="button" data-copy="leehanhin3030@gmail.com">주소 복사</button>
@@ -1009,7 +1081,8 @@ void main(){
   var VIEWS = { about:document.getElementById("v-about"), reel:document.getElementById("v-reel") };
   var reel = VIEWS.reel;
   /* the works are places on one long sheet, not pages: each address opens the sheet at that work */
-  var WORKS = ["hanhin", "relic", "speaker", "bag", "cardnews", "ediya", "emart"], ART = {}, NAMES = {};
+  var WORKS = ["hanhin", "relic", "speaker", "bag", "cardnews", "beauty", "ediya", "emart"], ART = {}, NAMES = {};
+  var TOTAL = String(WORKS.length).padStart(2, "0");
   var panel = document.getElementById("works-panel");
   WORKS.forEach(function(k){
     ART[k] = document.getElementById("w-" + k);
@@ -1020,7 +1093,7 @@ void main(){
     contact: { panel:document.getElementById("contact-panel"), toggle:document.getElementById("contact-toggle") }
   };
   var TITLES = { "":"이한힌 — 포트폴리오", "works":"작업 — 이한힌", "contact":"연락 — 이한힌", "about":"소개 — 이한힌", "hanhin":"HANHIN — 이한힌", "relic":"슈퍼카도 언젠가는 유물이 된다 — 이한힌",
-    "speaker":"빗물 스피커 — 이한힌", "bag":"트위드 백 — 이한힌", "cardnews":"엔터테크 카드뉴스 — 이한힌", "ediya":"이디야 — 이한힌", "emart":"이마트 — 이한힌" };
+    "speaker":"빗물 스피커 — 이한힌", "bag":"트위드 백 — 이한힌", "cardnews":"엔터테크 카드뉴스 — 이한힌", "beauty":"Beauty Seoul 2026 — 이한힌", "ediya":"이디야 — 이한힌", "emart":"이마트 — 이한힌" };
   var flood = window.paperFlood || { pour:function(){}, dry:function(){} };
   var current = null, poured = false;
 
@@ -1323,7 +1396,7 @@ void main(){
 
   /* each work ends with the next one under a wash of ink; a slit of it shows through */
   var SLIT = { relic:["w/relic-rust.jpg", "50% 45%"], speaker:["w/speaker-2.jpg", "50% 50%"], bag:["w/bag-3.jpg", "50% 42%"],
-               ediya:["w/ediya-banner.jpg", "50% 50%"], emart:["w/emart-1.jpg", "50% 40%"] };
+               beauty:["w/beauty-signage.jpg", "50% 55%"], ediya:["w/ediya-banner.jpg", "50% 50%"], emart:["w/emart-1.jpg", "50% 40%"] };
   WORKS.forEach(function(k, i){
     var nx = WORKS[i + 1];
     if (!nx) return;
@@ -1331,7 +1404,7 @@ void main(){
     var a = document.createElement("a");
     a.className = "tease";
     a.href = "#" + nx;
-    a.innerHTML = '<span class="row2"><span class="k">Next &mdash; ' + String(i + 2).padStart(2, "0") + ' / 07</span><span class="k">' + kind + '</span></span>' +
+    a.innerHTML = '<span class="row2"><span class="k">Next &mdash; ' + String(i + 2).padStart(2, "0") + ' / ' + TOTAL + '</span><span class="k">' + kind + '</span></span>' +
       '<span class="slit" aria-hidden="true">' + (SLIT[nx] ? '<img src="' + SLIT[nx][0] + '" alt="" loading="lazy" style="object-position:' + SLIT[nx][1] + '">'
                                                          : '<span class="slit-type">' + NAMES[nx] + '</span>') + '</span>' +
       '<b>' + NAMES[nx] + '</b>';
@@ -1355,7 +1428,7 @@ void main(){
 
   function mark(k){
     var i = WORKS.indexOf(k);
-    wnum.textContent = String(i + 1).padStart(2, "0") + " / 07";
+    wnum.textContent = String(i + 1).padStart(2, "0") + " / " + TOTAL;
     wname.textContent = NAMES[k];
     wmenu.querySelectorAll("a").forEach(function(a, j){ a.setAttribute("aria-current", j === i ? "true" : "false"); });
     [[wprev, WORKS[i - 1]], [wnext, WORKS[i + 1]]].forEach(function(p){
