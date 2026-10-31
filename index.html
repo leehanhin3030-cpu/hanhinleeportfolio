@@ -804,7 +804,11 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 attribute vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }
 </script>
 <script id="fs" type="x-shader/x-fragment">
+#ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
+#else
+precision mediump float;
+#endif
 #define MAXD 32
 uniform vec2 uRes;
 uniform float uTime;
@@ -858,7 +862,9 @@ void main(){
     /* the ripple when it lands: a faint ring outward, gone in well under a second */
     if (m.w > 0.5 && m.w < 1.5 && age < 0.9){
       float rr = 0.012 + age * 0.34 * d.z * 4.0;
-      ring += exp(-pow((r - rr) / 0.0045, 2.0)) * exp(-age * 4.5) * 0.5;
+      /* squared by hand: pow() of a negative base is undefined, and phone GPUs turn it into NaN (a grey screen) */
+      float dr = (r - rr) / 0.0045;
+      ring += exp(-dr * dr) * exp(-age * 4.5) * 0.5;
     }
 
     /* bloom: fast at first, slower, then it stops. A flood (kind < 0) is the same bloom, hurried */
@@ -878,7 +884,8 @@ void main(){
       float body = smoothstep(1.0, mix(0.9, 0.985, fl), x);
       float fill = 0.84 + 0.08 * smoothstep(0.9, 0.0, x);                /* a shade denser inward, no dot */
       float gather = smoothstep(0.35, 0.65, fbm(w * 1.1 + m.x * 0.7));    /* ink pools on some of the edge, not all */
-      float rim  = exp(-pow((x - 0.95) / 0.045, 2.0)) * 0.30 * grow * gather;
+      float dx = (x - 0.95) / 0.045;
+      float rim  = exp(-dx * dx) * 0.30 * grow * gather;
       float halo = exp(-max(x - 0.95, 0.0) * mix(6.0, 40.0, fl)) * (1.0 - body) * grow    /* the wet front, thinning as it travels */
                  * (0.045 + 0.075 * fibre);
       a = body * fill + (rim + halo) * (1.0 - buried);
@@ -912,7 +919,7 @@ void main(){
   float b2 = bridge * bridge;
   dens += b2 * b2 * b2;
 
-  float ink = min(1.0 - exp(-pow(dens, 1.0 / 6.0) * 3.0), 0.97);   /* deep sumi: a drop reads near black */
+  float ink = min(1.0 - exp(-pow(max(dens, 1e-12), 1.0 / 6.0) * 3.0), 0.97);   /* deep sumi: a drop reads near black */
   float warm = inkSum > 0.0 ? warmSum / inkSum : 0.5;
   vec3 paper = vec3(0.973, 0.973, 0.961);
   vec3 sumi = mix(vec3(0.070, 0.076, 0.086), vec3(0.094, 0.084, 0.074), warm);
