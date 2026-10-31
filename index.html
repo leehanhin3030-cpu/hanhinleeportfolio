@@ -867,10 +867,11 @@ void main(){
     if (!running){ running = true; requestAnimationFrame(loop); }
   }
 
-  /* the name is kept dry: a press on or near it drops nothing */
-  var nameBox = document.querySelector(".name");
+  /* the name is kept dry: a press on the two letters drops nothing. Only the letters: the lines under them
+     cover much of a phone's screen, and keeping all of that dry made presses there seem not to work */
+  var nameBox = document.querySelector(".name h1");
   function onName(x, y){
-    var r = nameBox.getBoundingClientRect(), m = 40;
+    var r = nameBox.getBoundingClientRect(), m = 12;
     return x > r.left - m && x < r.right + m && y > r.top - m && y < r.bottom + m;
   }
 
@@ -905,9 +906,18 @@ void main(){
     var size = a > 1 ? 0.66 : 0.5, r = 0.1 * size * window.innerHeight;
     var cx = h.right + window.innerHeight * 0.16, cy = h.top + h.height * 0.7;
     /* no room to the right (a narrow phone): it sits just above the end of the name instead */
-    if (cx + r > window.innerWidth - 16){ cx = h.right - r * 0.8; cy = h.top - r * 1.5; }
+    var narrow = cx + r > window.innerWidth - 16;
+    if (narrow){ cx = h.right - r * 0.8; cy = h.top - r * 1.5; }
     var p = toP(cx, cy);
     drop(p[0], p[1], size);
+    /* and a second, smaller one a beat later, further out from the name, so the two read as a pair;
+       above the name on a phone it steps up and away rather than down into the letters */
+    setTimeout(function(){
+      var r2 = r * 0.55, x2 = cx + r * 1.9, y2 = narrow ? cy - r * 1.2 : cy + r * 1.1;
+      if (x2 + r2 > window.innerWidth - 16) x2 = cx - r * 1.9;
+      var q = toP(x2, y2);
+      drop(q[0], q[1], size * 0.55);
+    }, reduce ? 0 : 700);
   }, reduce ? 0 : 500);
 
   /* for the rooms: one drop big enough to drown the sheet, on a canvas lifted above the cover.
