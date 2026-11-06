@@ -106,7 +106,7 @@ html{ -webkit-tap-highlight-color:transparent; }
 .panel.open > :nth-child(2){ transition-delay:.06s; } .panel.open > :nth-child(3){ transition-delay:.12s; }
 .panel.open > :nth-child(4){ transition-delay:.18s; } .panel.open > :nth-child(5){ transition-delay:.24s; }
 .panel .ihead{ display:flex; justify-content:space-between; padding:0 0 10px; border-bottom:1px solid rgba(17,19,21,.2); }
-.panel .k{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); }
+.panel .k, .home-list .k{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink3); }
 .irow{ display:grid; grid-template-columns:64px minmax(0,1fr) auto 44px; align-items:baseline; gap:18px;
   padding:12px 0; border-bottom:1px solid rgba(17,19,21,.1); color:var(--ink); text-decoration:none; }
 .irow b{ display:inline-block; font-weight:200; font-size:clamp(22px, 2.2vw, 34px); letter-spacing:-.03em; line-height:1.1; transition:transform .35s cubic-bezier(.2,.7,.2,1); }
@@ -391,6 +391,52 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .why{ list-style:none; margin:24px 0 0; padding:0; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px 32px; max-width:900px; font-size:14px; color:var(--ink2); }
 .why b{ display:block; margin-bottom:4px; font-family:var(--mono); font-size:11px; font-weight:400; letter-spacing:.12em; color:var(--ink); }
 @media (max-width:720px){ .why{ grid-template-columns:1fr; } }
+
+/* below the first sheet: scroll on and the paper carries a short look at the work, three of them large, then the rest by name.
+   The first screen of it is clear, so the ink and the name stay where they were; a press there still drops ink */
+.home{ position:fixed; inset:0; z-index:1; overflow-y:auto; overscroll-behavior:contain; transition:opacity .45s ease; }
+.home.away{ opacity:0; visibility:hidden; transition:opacity .45s ease, visibility 0s .45s; }
+.ui{ z-index:2; }
+.home-gap{ position:relative; height:100svh; cursor:pointer; -webkit-user-select:none; user-select:none; }
+.home-cue{ position:absolute; right:var(--gr); bottom:calc(26px + env(safe-area-inset-bottom, 0px)); color:var(--ink3); pointer-events:none; }
+.home-in{ background:var(--paper); }
+.home-sec{ max-width:1180px; margin:0 auto; padding:clamp(72px,14vh,160px) var(--gr) 0 var(--gl); }
+.home-h{ display:flex; justify-content:space-between; gap:24px; padding-bottom:10px; border-bottom:1px solid rgba(17,19,21,.2); }
+.home-h .mono{ color:var(--ink3); }
+.home-say{ margin:clamp(28px,5vh,48px) 0 0; max-width:24ch; font-weight:200; font-size:clamp(28px, 3.8vw, 58px); line-height:1.25; letter-spacing:-.03em; word-break:keep-all; }
+.home-more{ display:inline-block; margin-top:28px; border-bottom:1px solid rgba(17,19,21,.3); color:var(--ink2); text-decoration:none; transition:color .2s, border-color .2s; }
+.home-more:hover, .home-more:focus-visible{ color:var(--ink); border-color:var(--ink); }
+.feat{ display:block; margin-top:clamp(36px,7vh,80px); color:var(--ink); text-decoration:none; }
+.feat-img{ position:relative; height:min(76svh, 760px); overflow:hidden; border-radius:14px; background:#202124; }
+.feat-img > img{ display:block; width:100%; height:100%; object-fit:cover; transition:transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.feat:hover .feat-img > img, .feat:focus-visible .feat-img > img{ transform:scale(1.03); }
+.feat-img.pair{ display:flex; align-items:center; justify-content:center; gap:clamp(10px,1.6vw,22px); padding:clamp(20px,5vh,56px); }
+.feat-img .blur{ position:absolute; inset:-60px; background:var(--bg) center / cover; filter:blur(48px) saturate(1.15) brightness(.92); }
+.feat-img.pair > img{ position:relative; width:auto; height:auto; max-width:calc(50% - 11px); max-height:100%; object-fit:contain; box-shadow:0 18px 50px rgba(0,0,0,.28); }
+.feat-cap{ display:grid; grid-template-columns:64px minmax(0,1fr) auto; align-items:baseline; gap:6px 18px; padding-top:18px; }
+.feat-cap .mono{ color:var(--ink3); }
+.feat-cap b{ font-weight:200; font-size:clamp(26px, 3.2vw, 48px); letter-spacing:-.03em; line-height:1.1; }
+.feat-cap p{ grid-column:2 / -1; margin:0; color:var(--ink2); }
+.feat-cap .go{ transition:transform .35s cubic-bezier(.2,.7,.2,1); }
+.feat:hover .go, .feat:focus-visible .go{ transform:translateX(8px); }
+.feat:focus-visible{ outline:2px solid var(--ink); outline-offset:6px; }
+.home-list{ margin-top:18px; }
+.home-contact{ padding-bottom:clamp(64px,12vh,140px); }
+.home-contact .cbody{ padding-top:clamp(28px,5vh,48px); }
+.home-end{ display:flex; justify-content:space-between; gap:24px; margin-top:clamp(64px,12vh,120px); padding-top:14px; border-top:1px solid rgba(17,19,21,.12); }
+.home-end .mono{ color:var(--ink3); }
+/* scrolled down, the name steps aside and the top line gets a strip of paper to sit on */
+.mid{ transition:opacity .35s ease; }
+.ui.down .mid{ opacity:0; visibility:hidden; transition:opacity .35s ease, visibility 0s .35s; }
+.ui::before{ content:""; position:fixed; left:0; right:0; top:0; height:calc(64px + env(safe-area-inset-top, 0px)); pointer-events:none;
+  background:linear-gradient(var(--paper) 55%, rgba(248,248,245,0)); opacity:0; transition:opacity .3s ease; }
+.ui.down::before{ opacity:1; }
+.ui > .top{ position:relative; }
+@media (max-width:720px){
+  .feat-img{ height:min(62svh, 560px); }
+  .feat-cap{ grid-template-columns:40px minmax(0,1fr) auto; gap:4px 12px; }
+  .home-end{ flex-direction:column; gap:6px; }
+}
 </style>
 
 <canvas id="paper" aria-label="흰 종이 위에 먹 방울이 떨어져 번지다 멈춘다. 누르면 한 방울이 떨어진다"></canvas>
@@ -430,6 +476,52 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
     </div>
   </div>
 </div>
+
+<main class="home" id="home" aria-label="작업 미리 보기">
+  <div class="home-gap" id="home-gap" aria-hidden="true"><span class="mono home-cue">Scroll &darr;</span></div>
+  <div class="home-in">
+    <section class="home-sec" aria-labelledby="home-about">
+      <div class="home-h"><span class="mono" id="home-about">About &mdash; 소개</span><span class="mono">Portfolio 2022&ndash;2026</span></div>
+      <p class="home-say">브랜드·제품·패션·캠페인을 다루는 디자이너 이한힌입니다.</p>
+      <a class="mono home-more" href="#about">더 알아보기 &rarr;</a>
+    </section>
+
+    <section class="home-sec" aria-labelledby="home-sel">
+      <div class="home-h"><span class="mono" id="home-sel">Selected &mdash; 대표작</span><span class="mono">03</span></div>
+      <a class="feat" href="#hanhin">
+        <div class="feat-img"><img src="w/hanhin-car.jpg" width="1600" height="893" alt="" loading="lazy"></div>
+        <div class="feat-cap"><span class="mono">01</span><b>HANHIN</b><span class="mono go">보기 &rarr;</span>
+          <p>브랜드 아이덴티티 · 개인 작업 &mdash; 로고부터 브랜드북·가이드라인까지 혼자 만든 모빌리티 브랜드</p></div>
+      </a>
+      <a class="feat" href="#cardnews">
+        <div class="feat-img pair" style="--bg:url(w/cardnews-2.jpg)"><span class="blur" aria-hidden="true"></span>
+          <img src="w/cardnews-2.jpg" width="1080" height="1351" alt="" loading="lazy"><img src="w/cardnews-3.jpg" width="1080" height="1351" alt="" loading="lazy"></div>
+        <div class="feat-cap"><span class="mono">05</span><b>엔터테크, 서울 2026 카드뉴스</b><span class="mono go">보기 &rarr;</span>
+          <p>실무 · 서울경제진흥원(SBA) &mdash; 7편 중 2편 디자인, 도달 약 9,500 · 참여 약 1,360명</p></div>
+      </a>
+      <a class="feat" href="#beauty">
+        <div class="feat-img"><img src="w/beauty-signage.jpg" width="1571" height="1080" alt="" loading="lazy"></div>
+        <div class="feat-cap"><span class="mono">06</span><b>Beauty Seoul 2026</b><span class="mono go">보기 &rarr;</span>
+          <p>기업연계 · 지엘컴 &mdash; 팀이 정한 원형 패턴을 랜야드·명찰·펜·사이니지로 전개 (애플리케이션 단독)</p></div>
+      </a>
+    </section>
+
+    <section class="home-sec" aria-labelledby="home-all">
+      <div class="home-h"><span class="mono" id="home-all">All works &mdash; 전체 작업</span><span class="mono">08</span></div>
+      <nav class="home-list" id="home-list" aria-labelledby="home-all"></nav>
+    </section>
+
+    <section class="home-sec home-contact" aria-labelledby="home-mail">
+      <div class="home-h"><span class="mono" id="home-mail">Contact &mdash; 연락</span><span class="mono">Email</span></div>
+      <div class="cbody">
+        <a class="mail" href="mailto:leehanhin3030@gmail.com">leehanhin3030@gmail.com</a>
+        <p class="cnote">메일로 연락 주세요.</p>
+        <button class="copy" type="button" data-copy="leehanhin3030@gmail.com">주소 복사</button>
+      </div>
+      <div class="home-end"><span class="mono">이한힌 &middot; Han Hin Lee</span><span class="mono">&copy; 2026</span></div>
+    </section>
+  </div>
+</main>
 
 <div class="cover" id="cover"></div>
 
@@ -1290,14 +1382,21 @@ void main(){
   }
 
   /* the visitor's hand: a press is a drop. Moving does nothing. Only on the first sheet */
-  cv.addEventListener("pointerdown", function(e){
+  function press(e){
     /* with the works open, a press on the bare paper puts them away instead */
     if (location.hash === "#works" || location.hash === "#contact"){ location.hash = ""; return; }
     if (location.hash.length > 1 || onName(e.clientX, e.clientY)) return;
     var p = toP(e.clientX, e.clientY);
     drop(p[0], p[1], 0.8 + Math.random() * 0.5);
     hint.classList.add("off");
-  });
+  }
+  cv.addEventListener("pointerdown", press);
+  /* the scrolling sheet lies over the paper; its clear first screen hands presses down. A mouse drops at once,
+     a finger only on a tap, so scrolling a phone does not rain ink */
+  var gap = document.getElementById("home-gap");
+  var byMouse = true;
+  gap.addEventListener("pointerdown", function(e){ byMouse = e.pointerType === "mouse"; if (byMouse) press(e); });
+  gap.addEventListener("click", function(e){ if (!byMouse) press(e); });
 
   /* the hint is a button too, for a keyboard: it drops one where the paper is open */
   function spot(){
@@ -1366,7 +1465,7 @@ void main(){
   var reduce = mq.matches;
   if (mq.addEventListener) mq.addEventListener("change", function(e){ reduce = e.matches; });
   var coarse = window.matchMedia("(pointer: coarse)").matches;
-  var ui = document.querySelector(".ui"), cover = document.getElementById("cover");
+  var ui = document.querySelector(".ui"), cover = document.getElementById("cover"), home = document.getElementById("home");
   var VIEWS = { about:document.getElementById("v-about"), reel:document.getElementById("v-reel") };
   var reel = VIEWS.reel;
   /* the works are places on one long sheet, not pages: each address opens the sheet at that work */
@@ -1612,6 +1711,10 @@ void main(){
     var sheet = name === "" || !!PANELS[name];
     document.title = TITLES[name];
     ui.classList.toggle("away", !sheet);
+    home.classList.toggle("away", !sheet);
+    home.inert = !sheet;
+    /* a panel opens on the first screen, so the sheet goes back up to it */
+    if (PANELS[name] && home.scrollTop) home.scrollTo({ top:0, behavior:reduce ? "auto" : "smooth" });
     cover.classList.toggle("on", !sheet);
     Object.keys(PANELS).forEach(function(k){
       var p = PANELS[k];
@@ -1752,6 +1855,15 @@ void main(){
     if (poured && nameOf(location.hash) !== "hanhin" && current === nameOf(location.hash)){ poured = false; flood.dry(); }
     go(nameOf(location.hash));
   });
+  /* the list under the first sheet is the same list as the Works panel, without the flood */
+  var homeList = document.getElementById("home-list");
+  panel.querySelectorAll("a.irow").forEach(function(a){
+    var c = a.cloneNode(true);
+    c.removeAttribute("data-room");
+    homeList.appendChild(c);
+  });
+  home.addEventListener("scroll", function(){ ui.classList.toggle("down", home.scrollTop > window.innerHeight * 0.3); }, { passive:true });
+
   /* a deep link arrives straight in the room, no flood */
   go(nameOf(location.hash));
 })();
