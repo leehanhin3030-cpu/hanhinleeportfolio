@@ -429,19 +429,24 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   .home-end{ flex-direction:column; gap:6px; }
 }
 
-/* the belt: every page's top line sits on its own band, a shade off the paper with a hairline under it,
+/* the belt: every page's top line sits on its own band of ink, light type on it,
    so the menu never reads as part of the work beneath */
-:root{ --belt:#ECEBE6; --belt-h:calc(54px + env(safe-area-inset-top, 0px)); }
-.ui::before{ content:""; position:fixed; left:0; right:0; top:0; height:var(--belt-h); pointer-events:none;
-  background:var(--belt); border-bottom:1px solid rgba(17,19,21,.12); }
+:root{ --belt:var(--ink); --belt-ink:#EEF0F1; --belt-ink2:rgba(238,240,241,.62); --belt-h:calc(54px + env(safe-area-inset-top, 0px)); }
+.ui::before{ content:""; position:fixed; left:0; right:0; top:0; height:var(--belt-h); pointer-events:none; background:var(--belt); }
+.ui > .top .mono{ color:var(--belt-ink); }
+.top a{ color:var(--belt-ink2); }
+.top a:hover, .top nav a[aria-expanded="true"]{ color:var(--belt-ink); }
+.top a:focus-visible{ outline-color:var(--belt-ink); }
+.sheet > .vtop, .sheet > .vtop .mono, .sheet > .vtop a{ color:var(--belt-ink); }
+.sheet > .vtop a:hover{ color:#fff; }
 .ui{ padding-top:env(safe-area-inset-top, 0px); }
 .ui > .top{ position:relative; min-height:54px; align-items:center; flex-wrap:nowrap; }
 @media (max-width:360px){ .ui > .top > p{ display:none; } }
 .sheet > .vtop{ position:sticky; top:0; z-index:3; min-height:var(--belt-h); align-items:center;
-  padding:env(safe-area-inset-top, 0px) var(--gr) 0 var(--gl); background:var(--belt); border-bottom:1px solid rgba(17,19,21,.12); }
+  padding:env(safe-area-inset-top, 0px) var(--gr) 0 var(--gl); background:var(--belt); }
 .wbar{ mix-blend-mode:normal; }
 .wbar-in{ align-items:center; min-height:var(--belt-h); padding:env(safe-area-inset-top, 0px) var(--gr) 0 var(--gl);
-  color:var(--ink); background:var(--belt); border-bottom:1px solid rgba(17,19,21,.12); }
+  color:var(--belt-ink); background:var(--belt); }
 .wmenu{ top:calc(var(--belt-h) + 8px); }
 </style>
 
