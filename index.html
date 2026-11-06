@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- the name's face, cut down to the two syllables it sets (about 3KB) -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@180&text=%ED%95%9C%ED%9E%8C&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: one screen of white paper, wet. Ink drops land, bloom, and stop.
    Type is ink on paper, small and to the left. Nothing moves unless a drop is falling. */
@@ -192,11 +192,11 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 /* the write-up goes back to paper */
 .proj{ max-width:1180px; margin:0 auto; padding:clamp(64px,11vh,140px) var(--gr) clamp(56px,9vh,110px) var(--gl); }
 .proj-head{ display:flex; justify-content:space-between; gap:24px; border-top:1px solid rgba(17,19,21,.18); padding-top:14px; margin-bottom:48px; }
-.proj h2{ margin:0; font-size:clamp(44px,7vw,104px); font-weight:200; letter-spacing:-.04em; line-height:1; }
+.proj h2{ margin:0; font-size:clamp(44px,7vw,104px); font-weight:700; letter-spacing:-.035em; line-height:1.05; }
 .proj .en{ margin:14px 0 0; font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink3); }
 .proj-body{ display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:clamp(32px,5vw,72px); margin-top:56px; }
 .proj-body p{ margin:0 0 22px; max-width:62ch; color:var(--ink2); }
-.proj-body p.lead{ color:var(--ink); font-size:17px; }
+.proj-body p.lead{ color:var(--ink); font-size:17px; font-weight:500; }
 .facts{ display:flex; flex-direction:column; }
 .fact{ display:flex; justify-content:space-between; gap:24px; border-top:1px solid rgba(17,19,21,.12); padding:13px 0; font-size:13px; color:var(--ink3); }
 .fact b{ font-weight:400; color:var(--ink); font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
@@ -224,7 +224,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .act-h .mono{ padding-top:.6em; color:inherit; opacity:.6; white-space:nowrap; }
 .act-row{ display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(28px,5vw,80px); align-items:end; margin-top:clamp(36px,6vh,64px); }
 .act-row p{ margin:0 0 18px; max-width:46ch; color:inherit; opacity:.78; }
-.act-row p.lead{ opacity:1; font-size:17px; }
+.act-row p.lead{ opacity:1; font-size:17px; font-weight:500; }
 .act img{ display:block; width:100%; height:auto; border-radius:14px; }
 .act-pair{ display:grid; grid-template-columns:1fr 1.5fr; gap:clamp(10px,1.6vw,20px); margin-top:clamp(10px,1.6vw,20px); align-items:start; }
 .act-paper{ color:var(--ink); }
@@ -318,7 +318,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .hero-diptych{ display:grid; grid-template-columns:1fr 1fr; }
 .hero-split{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); background:var(--paper); }
 .hero-side{ display:flex; flex-direction:column; justify-content:center; padding:0 var(--gr) 0 clamp(32px,6vw,96px);
-  font-weight:200; font-size:clamp(56px, 8vw, 132px); letter-spacing:-.05em; line-height:.95; color:var(--ink); }
+  font-weight:700; font-size:clamp(56px, 8vw, 132px); letter-spacing:-.04em; line-height:.95; color:var(--ink); }
 .hero-side span + span{ padding-left:.6em; color:var(--ink3); }
 /* every first screen fills the window and runs out into the paper below, as HANHIN's stage does, so the eye keeps going down */
 .hero::after{ content:""; position:absolute; left:0; right:0; bottom:0; z-index:1; height:clamp(90px, 18vh, 200px); pointer-events:none;
@@ -355,7 +355,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .tease:hover .slit img, .tease:focus-visible .slit img{ transform:scale(1.01); }
 .tease.lift .slit::after{ opacity:0; transform:scale(1.25); }
 .tease.lift .slit img{ filter:none; transform:none; }
-.tease b{ display:block; font-weight:200; font-size:clamp(34px, 4.6vw, 72px); letter-spacing:-.04em; line-height:1.05; word-break:keep-all; }
+.tease b{ display:block; font-weight:700; font-size:clamp(34px, 4.6vw, 72px); letter-spacing:-.04em; line-height:1.05; word-break:keep-all; }
 .tease:focus-visible{ outline:2px solid var(--ink); outline-offset:6px; }
 /* about: the tools, three quiet columns under the write-up */
 .skills{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:clamp(24px,4vw,56px); margin-top:clamp(48px,8vh,88px); border-top:1px solid rgba(17,19,21,.18); padding-top:16px; }
@@ -403,7 +403,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .home-sec{ max-width:1180px; margin:0 auto; padding:clamp(72px,14vh,160px) var(--gr) 0 var(--gl); }
 .home-h{ display:flex; justify-content:space-between; gap:24px; padding-bottom:10px; border-bottom:1px solid rgba(17,19,21,.2); }
 .home-h .mono{ color:var(--ink3); }
-.home-say{ margin:clamp(28px,5vh,48px) 0 0; max-width:24ch; font-weight:200; font-size:clamp(28px, 3.8vw, 58px); line-height:1.25; letter-spacing:-.03em; word-break:keep-all; }
+.home-say{ margin:clamp(28px,5vh,48px) 0 0; max-width:24ch; font-weight:700; font-size:clamp(28px, 3.8vw, 58px); line-height:1.25; letter-spacing:-.03em; word-break:keep-all; }
 .home-more{ display:inline-block; margin-top:28px; border-bottom:1px solid rgba(17,19,21,.3); color:var(--ink2); text-decoration:none; transition:color .2s, border-color .2s; }
 .home-more:hover, .home-more:focus-visible{ color:var(--ink); border-color:var(--ink); }
 .feat{ display:block; color:var(--ink); text-decoration:none; }
@@ -493,7 +493,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   <div class="home-in">
     <section class="home-sec" aria-labelledby="home-about">
       <div class="home-h"><span class="mono" id="home-about">About &mdash; 소개</span><span class="mono">Portfolio 2022&ndash;2026</span></div>
-      <p class="home-say">브랜드·제품·패션·캠페인을 다루는 디자이너 이한힌입니다.</p>
+      <p class="home-say">조용히, 끝까지 그리는 디자이너.</p>
       <a class="mono home-more" href="#about">더 알아보기 &rarr;</a>
     </section>
 
