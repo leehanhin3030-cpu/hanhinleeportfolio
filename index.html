@@ -455,7 +455,7 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
   color:var(--belt-ink); background:var(--belt); }
 .wmenu{ top:calc(var(--belt-h) + 8px); }
 
-/* the brand book, read in place: a spread at a time on wide screens, a page at a time on phones */
+/* the brand book, read in place, always open as spreads */
 .book{ margin:clamp(28px,5vh,56px) auto 0; outline:none; --ar:1.414; max-width:min(100%, calc((100vh - var(--belt-h, 54px) - 120px) * var(--ar))); }
 .book-h{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; margin-bottom:14px; }
 .book-h .mono{ color:var(--ink3); }
@@ -470,12 +470,6 @@ a.row:hover .nm, a.row:focus-visible .nm{ transform:translateX(10px); }
 .book-btn{ font:inherit; font-family:var(--mono); font-size:12px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink); background:none; border:0; border-bottom:1px solid currentColor; padding:6px 0; cursor:pointer; }
 .book-btn:disabled{ opacity:.25; cursor:default; }
 .book-btn:focus-visible, .book:focus-visible .book-stage{ outline:2px solid var(--ink); outline-offset:3px; }
-@media (max-width:720px){
-  .book{ --ar:.707; }
-  .book-stage{ aspect-ratio:210 / 297; }
-  .book-spread{ grid-template-columns:1fr; }
-  .book-spread::after{ display:none; }
-}
 @media (prefers-reduced-motion:reduce){ .book-spread{ transition:none; } }
 </style>
 
@@ -1934,18 +1928,17 @@ void main(){
 </script>
 
 <script>
-/* brand book viewer: spreads like the printed book (cover alone on the right, back alone on the left), single pages on phones */
+/* brand book viewer: spreads like the printed book (cover alone on the right, back alone on the left) */
 (function(){
   var root = document.getElementById("book"); if (!root) return;
   var N = 38, stage = document.getElementById("book-stage"), sp = document.getElementById("book-spread");
   var img = sp.querySelectorAll("img"), num = document.getElementById("book-num");
   var prev = document.getElementById("book-prev"), next = document.getElementById("book-next");
-  var narrow = window.matchMedia("(max-width:720px)"), list = [], at = 0, busy = false;
+  var list = [], at = 0, busy = false;
   function src(p){ return "w/book/p" + (p < 10 ? "0" : "") + p + ".jpg"; }
   function two(p){ return (p < 10 ? "0" : "") + p; }
   function build(){
-    list = [];
-    if (narrow.matches){ for (var p = 1; p <= N; p++) list.push([p]); return; }
+    list = [];   /* always as spreads: the pages were laid out to be seen open */
     list.push([0, 1]);
     for (var p = 2; p < N; p += 2) list.push([p, p + 1 <= N ? p + 1 : 0]);
     if (N % 2 === 0) list.push([N, 0]);
@@ -1973,11 +1966,6 @@ void main(){
     setTimeout(function(){ at = to; paint(); sp.classList.remove("out"); busy = false; },
       window.matchMedia("(prefers-reduced-motion:reduce)").matches ? 0 : 200);
   }
-  function relayout(){
-    var page = pagesOf(at)[0] || 1; build();
-    for (var i = 0; i < list.length; i++) if (list[i].indexOf(page) > -1){ at = i; break; }
-    paint();
-  }
   prev.addEventListener("click", function(){ go(-1); });
   next.addEventListener("click", function(){ go(1); });
   stage.addEventListener("click", function(e){
@@ -1996,7 +1984,6 @@ void main(){
     var dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
     if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){ moved = true; go(dx < 0 ? 1 : -1); setTimeout(function(){ moved = false; }, 0); }
   });
-  (narrow.addEventListener ? narrow.addEventListener("change", relayout) : narrow.addListener(relayout));
   build(); paint();
 })();
 </script>
